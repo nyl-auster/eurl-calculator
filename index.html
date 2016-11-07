@@ -10,6 +10,10 @@
 
     <!-- Bootstrap core CSS -->
     <link href="bower_components/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
+
+    <script src="app-compiled.js"></script>
+
+
 </head>
 
 <body ng-app="calculatorApp">
@@ -21,12 +25,15 @@
         <p class="lead">Use this document as a way to quickly start any new project.<br> All you get is this text and a mostly barebones HTML document.</p>
     </div>
 
+    <ui-view></ui-view>
+
 </div><!-- /.container -->
 
 <!-- Bootstrap core JavaScript
 ================================================== -->
 <!-- Placed at the end of the document so the pages load faster -->
 <script>document.write('<script src="bower_components/jquery/dist/jquery.min.js"><\/script>')</script>
+
 <script src="bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
 
 </body>

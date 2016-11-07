@@ -1,0 +1,22 @@
+{
+  "name": "eurl-calculator",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/nyl-auster/eurl-calculator.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/nyl-auster/eurl-calculator/issues"
+  },
+  "homepage": "https://github.com/nyl-auster/eurl-calculator#readme",
+  "devDependencies": {
+    "webpack": "^1.13.3"
+  }
+}
