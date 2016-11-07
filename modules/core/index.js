@@ -1,7 +1,7 @@
 /**
  * Création du module eligibilityApp
  */
-var module = angular.module('coreApp', [
+var module = angular.module('core', [
   'ui.router'
 ]);
 

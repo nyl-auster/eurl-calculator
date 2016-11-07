@@ -1,7 +1,7 @@
 /**
  * Création du module
  */
-var module = angular.module('calculatorApp', ['coreApp']);
+angular.module('calculator', ['core']);
 
 // inclusion des fichiers du modules
 require('./controllers/indexController.js');

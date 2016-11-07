@@ -36447,7 +36447,7 @@
 	/**
 	 * Création du module eligibilityApp
 	 */
-	var module = angular.module('coreApp', [
+	var module = angular.module('core', [
 	  'ui.router'
 	]);
 
@@ -36464,7 +36464,7 @@
 	/**
 	 * Création du module
 	 */
-	var module = angular.module('calculatorApp', ['coreApp']);
+	angular.module('calculator', ['core']);
 
 	// inclusion des fichiers du modules
 	__webpack_require__(5);
@@ -36475,9 +36475,9 @@
 /* 5 */
 /***/ function(module, exports) {
 
-	var module = angular.module('calculatorApp');
+	
+	angular.module('calculator').controller('indexController', ['$scope', function ($scope) {
 
-	module.controller('indexController', ['$scope', function ($scope) {
 
 	}]);
 
@@ -36492,9 +36492,8 @@
 	/**
 	 * Config. On déclare notamment nos routes ici.
 	 */
-	var module = angular.module('calculatorApp');
 
-	module.config(['$stateProvider', '$urlRouterProvider', function ($stateProvider, $urlRouterProvider) {
+	angular.module('calculator').config(['$stateProvider', '$urlRouterProvider', function ($stateProvider, $urlRouterProvider) {
 
 	  // en cas de route non trouvée, rediriger sur la page d'accueil
 	  $urlRouterProvider.otherwise('/');
