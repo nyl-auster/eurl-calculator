@@ -38903,7 +38903,7 @@
 
 	// ajout des fichiers du module calculator
 	__webpack_require__(20);
-	__webpack_require__(21);
+	__webpack_require__(22);
 
 
 /***/ },
@@ -38917,6 +38917,9 @@
 
 	// fichiers requis par notre module
 	__webpack_require__(19);
+	__webpack_require__(23);
+
+
 
 
 
@@ -38943,6 +38946,7 @@
 
 
 
+
 /***/ },
 /* 20 */
 /***/ function(module, exports) {
@@ -38951,12 +38955,12 @@
 	 * Config. On déclare notamment nos routes ici.
 	 */
 
-	angular.module('calculator').config(['$stateProvider', '$urlRouterProvider', function ($stateProvider, $urlRouterProvider) {
+	angular.module('calculator').config(['$stateProvider', '$urlRouterProvider', 'coreSettings', function ($stateProvider, $urlRouterProvider, coreSettings) {
 
 	  $stateProvider.state('calculator', {
 	    url: '/',
-	    templateUrl: "src/calculator/views/index.html",
-	    controller:'indexController'
+	    templateUrl: coreSettings.modulesPath + "/calculator/views/index.html",
+	    controller:'calculatorController'
 	  });
 
 	}]);
@@ -38966,17 +38970,32 @@
 
 
 /***/ },
-/* 21 */
+/* 21 */,
+/* 22 */
 /***/ function(module, exports) {
 
 	
-	angular.module('calculator').controller('indexController', ['$scope', function ($scope) {
+	angular.module('calculator').controller('calculatorController', ['$scope', function ($scope) {
 
 
 	}]);
 
 
 
+
+
+/***/ },
+/* 23 */
+/***/ function(module, exports) {
+
+	/**
+	 * Configuration de notre application.
+	 */
+	angular.module('core').constant('coreSettings', {
+	  // le chemin vers le dossier de notre application angular
+	  // pour ne pas le remarquer à chaque fois qu'on veut inclure un template par exemple.
+	  modulesPath: "modules"
+	});
 
 
 /***/ }

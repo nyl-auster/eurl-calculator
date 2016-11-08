@@ -9,4 +9,4 @@ angular.module('calculator', ['core']);
 
 // ajout des fichiers du module calculator
 require('./states');
-require('./controllers/indexController');
+require('./controllers/calculatorController');
