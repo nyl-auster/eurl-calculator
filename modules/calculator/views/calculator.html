@@ -1,5 +1,23 @@
-<table class="table">
-<td>
+<form name="calculatorForm" class="form">
 
-</td>
+    <div class="form-group">
+        <label for="remuneration">Rémunération</label>
+        <input type="text" class="form-control" id="remuneration" placeholder="Rémunération" ng-model="form.remuneration">
+    </div>
+
+    <div class="form-group">
+        <label for="chiffre_affaire">Rémunération</label>
+        <input type="text" class="form-control" id="chiffre_affaire" placeholder="Chiffre d'affaire" ng-model="form.chiffreAffaire">
+    </div>
+
+</form>
+
+{{form}}
+
+<table class="table-responsive table-striped">
+    <th>
+        <td>Nom</td>
+        <td>Montant</td>
+        <td>Détails</td>
+    </th>
 </table>

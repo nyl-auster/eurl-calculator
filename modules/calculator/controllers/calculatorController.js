@@ -1,10 +1,16 @@
+angular.module('calculator').controller('calculatorController', ['$scope',  'calculatorConfig', 'calculatorService', function ($scope, calculatorConfig, calculatorService) {
+
+  var calculator = calculatorService;
+  var parametres = calculatorConfig;
+
+  $scope.form = {
+    remuneration: 0,
+    chiffreAffaire: 0
+  };
 
 
-angular.module('calculator').controller('calculatorController', ['$scope',  'parametresCalculCharges2016', function ($scope, parametresCalculCharges2016) {
-
-
-  var parametres = parametresCalculCharges2016;
   console.log(parametres);
+  console.log(calculator);
 
 }]);
 

@@ -1,5 +1,5 @@
 /**
- * Configuration des charges pour l'année 2016
+ * Configuration 2016 du calculateur
  *
  * SOURCES :
  * https://www.urssaf.fr/portail/home/taux-et-baremes/taux-de-cotisations/les-professions-liberales/bases-de-calcul-et-taux-des-coti.html#FilAriane
@@ -8,7 +8,7 @@
  * http://service.cipav-retraite.fr/cipav/article-11-votre-protection-sociale-99.htm
  * http://www.cnavpl.fr/les-chiffres-cles/principaux-parametres-du-regime-de-base/principaux-parametres-variables-du-regime-de-base/
  */
-angular.module('calculator').service('parametresCalculCharges2016', function(){
+angular.module('calculator').service('calculatorConfig', function(){
 
   var parametres = {
     general:{},
@@ -23,6 +23,19 @@ angular.module('calculator').service('parametresCalculCharges2016', function(){
     normale:20,
     intermediaire:10,
     reduite:5.5
+  };
+
+  // données concernant les organismes
+  parametres.organismes = {
+    urssaf: {
+      label: "URSSAF"
+    },
+    rsi: {
+      label: 'RSI'
+    },
+    cipav: {
+      label: 'CIPAV'
+    }
   };
 
   // paramètres pour le calcul des cotisations sociales
@@ -42,7 +55,6 @@ angular.module('calculator').service('parametresCalculCharges2016', function(){
   parametres.charges.allocationsFamiliales = {
     organisme:'urssaf',
     label:'Allocations familiales',
-    type_tranche: 'tranche_exclusive',
     commentaire:'Pour les revenus compris entre 42 478 € et 54 062 €, taux progressif : entre 2,15 % et 5,25 %',
     type_tranches: 'tranche_exclusive',
     tranches: [
