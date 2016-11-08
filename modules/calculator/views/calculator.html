@@ -3,7 +3,7 @@
     <div class="form-group">
         <label for="remuneration">Rémunération</label>
         <input
-                ng-change="rafraichirResultats()"
+                ng-change="calculerResultats()"
                 ng-model="form.remuneration"
                 type="text" class="form-control"
                 id="remuneration"
@@ -12,9 +12,9 @@
     </div>
 
     <div class="form-group">
-        <label for="chiffre_affaire">Rémunération</label>
+        <label for="chiffre_affaire">Chiffre d'affaire</label>
         <input
-                ng-change="rafraichirResultats()"
+                ng-change="calculerResultats()"
                 ng-model="form.chiffreAffaire"
                 type="text"
                 class="form-control"
@@ -37,9 +37,14 @@
     </thead>
     <tbody>
     <tr>
-        <td>Assurance Vieillesse Complémentaire</td>
+        <td>{{assuranceVieillesseComplementaire.charge.label}}</td>
         <td>{{assuranceVieillesseComplementaire.montant}}</td>
         <td>{{assuranceVieillesseComplementaire.tranches}}</td>
+    </tr>
+    <tr>
+        <td>{{impotSurLesSocietes.charge.label}}</td>
+        <td>{{impotSurLesSocietes.montant}}</td>
+        <td>{{impotSurLesSocietes.tranches}}</td>
     </tr>
     </tbody>
 </table>

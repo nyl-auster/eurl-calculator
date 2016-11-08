@@ -8,8 +8,15 @@ angular.module('calculator').controller('calculatorController', ['$scope',  'cal
     chiffreAffaire: 0
   };
 
-  $scope.rafraichirResultats = function() {
+  calculerResultats();
+
+  function calculerResultats() {
     $scope.assuranceVieillesseComplementaire = calculette.assuranceVieillesseComplementaire($scope.form.remuneration);
+    $scope.impotSurLesSocietes = calculette.impotSurLesSocietes($scope.form.chiffreAffaire);
+  }
+
+  $scope.calculerResultats = function() {
+    calculerResultats();
   }
 
 

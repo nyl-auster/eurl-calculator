@@ -4,11 +4,13 @@
  * SOURCES :
  * https://www.urssaf.fr/portail/home/taux-et-baremes/taux-de-montants/les-professions-liberales/bases-de-calcul-et-taux-des-coti.html#FilAriane
  * http://www.rsi.fr/baremes/charges.html
- * http://service.cipav-retraite.fr/cipav/rubrique-104-montant-des-charges.htm
- * http://service.cipav-retraite.fr/cipav/article-11-votre-protection-sociale-99.htm
+ * http://service.cipav-retraite.fr/cipav/rubriquemax04-montant-des-charges.htm
+ * http://service.cipav-retraite.fr/cipav/articlemax1-votre-protection-sociale-99.htm
  * http://www.cnavpl.fr/les-chiffres-cles/principaux-parametres-du-regime-de-base/principaux-parametres-variables-du-regime-de-base/
  */
 angular.module('calculator').service('calculatorConfig', function(){
+
+  const max = 999999999999999999999;
 
   var parametres = {
     general:{},
@@ -47,7 +49,7 @@ angular.module('calculator').service('calculatorConfig', function(){
     tranches: [
       {
         taux: 6.50,
-        plafond: -1
+        plafond: max
       }
     ]
   };
@@ -60,19 +62,19 @@ angular.module('calculator').service('calculatorConfig', function(){
     tranches: [
       {
         taux: 2.15,
-        plafond: -1
+        plafond: max
       },
       // en fait, le taux est progressif entre 2,15 % et 5,25 %
       // pour les revenus compris entre 42 478 € et 54 062 €. On tire l'estimation vers le haut.
       {
         taux: 5.25,
-        plafond: -1
+        plafond: max
       }
     ]
   };
 
   // Retraite de base CNAVPL
-  // http://service.cipav-retraite.fr/cipav/article-33-recapitulatif-des-options-de-montant-104.htm
+  // http://service.cipav-retraite.fr/cipav/article-33-recapitulatif-des-options-de-montantmax04.htm
   parametres.charges.assuranceVieillesseBase = {
     label: 'Retraite de base',
     description: "Retraite de base CNAVPL",
@@ -108,17 +110,17 @@ angular.module('calculator').service('calculatorConfig', function(){
     tranches:[
       {
         plafond: 38120,
-        taux: 15
+        taux: 0.15
       },
       {
-        plafond: -1,
-        taux: 33.33
+        plafond: max,
+        taux: 0.3333
       }
     ]
   };
 
   // Assurance vieillesse complémentaire (obligatoire)
-  // http://service.cipav-retraite.fr/cipav/article-33-recapitulatif-des-options-de-montant-104.htm
+  // http://service.cipav-retraite.fr/cipav/article-33-recapitulatif-des-options-de-montantmax04.htm
   parametres.charges.assuranceVieillesseComplementaire = {
     label : 'Retraite complémentaire',
     type : "tranche_exclusive",
@@ -167,7 +169,7 @@ angular.module('calculator').service('calculatorConfig', function(){
       },
       {
         nom : 'H',
-        plafond : -1,
+        plafond : max,
         montant : 15570,
         points_retraite : 468
       }
