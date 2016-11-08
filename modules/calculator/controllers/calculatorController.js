@@ -1,6 +1,6 @@
 angular.module('calculator').controller('calculatorController', ['$scope',  'calculatorConfig', 'calculatorService', function ($scope, calculatorConfig, calculatorService) {
 
-  var calculator = calculatorService;
+  var calculette = calculatorService;
   var parametres = calculatorConfig;
 
   $scope.form = {
@@ -8,9 +8,10 @@ angular.module('calculator').controller('calculatorController', ['$scope',  'cal
     chiffreAffaire: 0
   };
 
+  $scope.rafraichirResultats = function() {
+    $scope.assuranceVieillesseComplementaire = calculette.assuranceVieillesseComplementaire($scope.form.remuneration);
+  }
 
-  console.log(parametres);
-  console.log(calculator);
 
 }]);
 

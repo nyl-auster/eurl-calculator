@@ -2,7 +2,7 @@
  * Configuration 2016 du calculateur
  *
  * SOURCES :
- * https://www.urssaf.fr/portail/home/taux-et-baremes/taux-de-cotisations/les-professions-liberales/bases-de-calcul-et-taux-des-coti.html#FilAriane
+ * https://www.urssaf.fr/portail/home/taux-et-baremes/taux-de-montants/les-professions-liberales/bases-de-calcul-et-taux-des-coti.html#FilAriane
  * http://www.rsi.fr/baremes/charges.html
  * http://service.cipav-retraite.fr/cipav/rubrique-104-montant-des-charges.htm
  * http://service.cipav-retraite.fr/cipav/article-11-votre-protection-sociale-99.htm
@@ -16,7 +16,7 @@ angular.module('calculator').service('calculatorConfig', function(){
     organismes:{}
   };
 
-  // paramètres généraux pour le calcul des cotisations et charges
+  // paramètres généraux pour le calcul des montants et charges
   parametres.plafond_securite_sociale = 38616;
   parametres.plafond_securite_sociale_precedent = 38040;
   parametres.tva = {
@@ -38,7 +38,7 @@ angular.module('calculator').service('calculatorConfig', function(){
     }
   };
 
-  // paramètres pour le calcul des cotisations sociales
+  // paramètres pour le calcul des montants sociales
   parametres.charges.maladiesMaternite = {
     organisme:'urssaf',
     label:'Maladie maternité',
@@ -47,7 +47,7 @@ angular.module('calculator').service('calculatorConfig', function(){
     tranches: [
       {
         taux: 6.50,
-        plafond: 999999
+        plafond: -1
       }
     ]
   };
@@ -60,19 +60,19 @@ angular.module('calculator').service('calculatorConfig', function(){
     tranches: [
       {
         taux: 2.15,
-        plafond: 999999
+        plafond: -1
       },
       // en fait, le taux est progressif entre 2,15 % et 5,25 %
       // pour les revenus compris entre 42 478 € et 54 062 €. On tire l'estimation vers le haut.
       {
         taux: 5.25,
-        plafond: 999999
+        plafond: -1
       }
     ]
   };
 
   // Retraite de base CNAVPL
-  // http://service.cipav-retraite.fr/cipav/article-33-recapitulatif-des-options-de-cotisation-104.htm
+  // http://service.cipav-retraite.fr/cipav/article-33-recapitulatif-des-options-de-montant-104.htm
   parametres.charges.assuranceVieillesseBase = {
     label: 'Retraite de base',
     description: "Retraite de base CNAVPL",
@@ -82,10 +82,10 @@ angular.module('calculator').service('calculatorConfig', function(){
       total: 190
     },
     tranches: [
-      // sous 4441, cotisation forfaitaire
+      // sous 4441, montant forfaitaire
       {
         plafond:  4441,
-        cotisation: 448
+        montant: 448
       },
       {
         plafond:  'PASS',
@@ -111,14 +111,14 @@ angular.module('calculator').service('calculatorConfig', function(){
         taux: 15
       },
       {
-        plafond: 999999,
+        plafond: -1,
         taux: 33.33
       }
     ]
   };
 
   // Assurance vieillesse complémentaire (obligatoire)
-  // http://service.cipav-retraite.fr/cipav/article-33-recapitulatif-des-options-de-cotisation-104.htm
+  // http://service.cipav-retraite.fr/cipav/article-33-recapitulatif-des-options-de-montant-104.htm
   parametres.charges.assuranceVieillesseComplementaire = {
     label : 'Retraite complémentaire',
     type : "tranche_exclusive",
@@ -126,50 +126,50 @@ angular.module('calculator').service('calculatorConfig', function(){
       {
         nom : 'A',
         plafond : 26420,
-        cotisation : 1198,
-        points : 36
+        montant : 1198,
+        points_retraite : 36
       },
       {
         nom : 'B',
         plafond : 48890,
-        cotisation : 2395,
-        points : 72
+        montant : 2395,
+        points_retraite : 72
       },
       {
         nom : 'C',
         plafond : 57500,
-        cotisation : 3593,
-        points : 108
+        montant : 3593,
+        points_retraite : 108
       },
       {
         nom : 'D',
         plafond : 66000,
-        cotisation : 5989,
-        points : 180
+        montant : 5989,
+        points_retraite : 180
       },
       {
         nom : 'E',
         plafond : 82260,
-        cotisation : 8394,
-        points :  252
+        montant : 8394,
+        points_retraite :  252
       },
       {
         nom : 'F',
         plafond : 102560,
-        cotisation : 13175,
-        points : 396
+        montant : 13175,
+        points_retraite : 396
       },
       {
         nom : 'G',
         plafond : 122560,
-        cotisation : 14373,
-        points : 432
+        montant : 14373,
+        points_retraite : 432
       },
       {
         nom : 'H',
-        plafond : 999999,
-        cotisation : 15570,
-        points : 468
+        plafond : -1,
+        montant : 15570,
+        points_retraite : 468
       }
     ]
   };
@@ -178,15 +178,15 @@ angular.module('calculator').service('calculatorConfig', function(){
     classes:{
       a:{
         nom: 'A',
-        cotisation: 76
+        montant: 76
       },
       b:{
         nom: 'B',
-        cotisation: 228
+        montant: 228
       },
       c:{
         nom: 'C',
-        cotisation: 380
+        montant: 380
       }
     }
   };
@@ -198,11 +198,11 @@ angular.module('calculator').service('calculatorConfig', function(){
     tranches: [
       {
         plafond : 5632,
-        'taux' : 100
+        taux : 100
       },
       {
         plafond : 11264,
-        'taux' : 0.75
+        taux : 0.75
       },
       {
         plafond :  16897,
@@ -210,7 +210,7 @@ angular.module('calculator').service('calculatorConfig', function(){
       },
       {
         plafond : 22529,
-        'taux' : 0.25
+        taux : 0.25
       }
     ]
   };

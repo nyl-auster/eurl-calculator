@@ -38976,7 +38976,7 @@
 
 	angular.module('calculator').controller('calculatorController', ['$scope',  'calculatorConfig', 'calculatorService', function ($scope, calculatorConfig, calculatorService) {
 
-	  var calculator = calculatorService;
+	  var calculette = calculatorService;
 	  var parametres = calculatorConfig;
 
 	  $scope.form = {
@@ -38984,9 +38984,10 @@
 	    chiffreAffaire: 0
 	  };
 
+	  $scope.rafraichirResultats = function() {
+	    $scope.assuranceVieillesseComplementaire = calculette.assuranceVieillesseComplementaire($scope.form.remuneration);
+	  }
 
-	  console.log(parametres);
-	  console.log(calculator);
 
 	}]);
 
@@ -39004,13 +39005,71 @@
 
 	/**
 	 * Calculs des charges en fonction des paramètres
+	 *
+	 * Toutes cotisations contient une clef "tranches"
+	 * qui est tableau d'objet de la forme suivante :
+	 * [
+	 *   {
+	 *     taux: 2.15,
+	 *     plafond: 999999,
+	 *     montant: null,
+	 *   },
+	 *   {
+	 *     plafond: 999999,
+	 *     montant: 2876
+	 *   }
+	 * ]
 	 */
 	angular.module('calculator').service('calculatorService',['calculatorConfig', function(calculatorConfig){
 
+	  var parametres = calculatorConfig;
+
 	  var service = {};
 
-	  service.calculerTrancheExclusive = function(baseDeCalcul) {
+	  // formater un resultat pour tous les calculs
+	  service.result = function() {
+	    return {
+	      montant:0,
+	      tranches:[]
+	    }
+	  };
 
+	  /**
+	   * Calcul la tranche qui correspond à baseDeCalcul en fonction du tableau "tranches".
+	   * Pour les tranches exclusives, seule une tranche est conservé pour le calcul, les
+	   * tranches précédentes ou suivantes n'entrent en rien dans le calcul du montant
+	   * de la cotisation
+	   *
+	   * @param baseDeCalcul float | int :
+	   * @param tranches array :
+	   */
+	  service.calculerTrancheExclusive = function(baseCalcul, tranches) {
+
+	    // on recherche la tranche qui correspond à notre baseCalcul
+	    var trancheActive = null;
+	    var result = new service.result();
+
+	    tranches.forEach(function(tranche) {
+	      if (!trancheActive && tranche.plafond != -1 && baseCalcul < tranche.plafond) {
+	        trancheActive = tranche;
+	      }
+	    });
+
+	    if (trancheActive) {
+	      result.montant = trancheActive.montant;
+	      result.tranches= [trancheActive];
+	    }
+
+	    return result;
+	  };
+
+
+	  /**
+	   * Urssaf - maladie et maternité
+	   * Calculer les cotisations pour maladies et maternié
+	   */
+	  service.assuranceVieillesseComplementaire = function(baseCalcul) {
+	    return service.calculerTrancheExclusive(baseCalcul, parametres.charges.assuranceVieillesseComplementaire.tranches);
 	  };
 
 	  return service;
@@ -39043,7 +39102,7 @@
 	 * Configuration 2016 du calculateur
 	 *
 	 * SOURCES :
-	 * https://www.urssaf.fr/portail/home/taux-et-baremes/taux-de-cotisations/les-professions-liberales/bases-de-calcul-et-taux-des-coti.html#FilAriane
+	 * https://www.urssaf.fr/portail/home/taux-et-baremes/taux-de-montants/les-professions-liberales/bases-de-calcul-et-taux-des-coti.html#FilAriane
 	 * http://www.rsi.fr/baremes/charges.html
 	 * http://service.cipav-retraite.fr/cipav/rubrique-104-montant-des-charges.htm
 	 * http://service.cipav-retraite.fr/cipav/article-11-votre-protection-sociale-99.htm
@@ -39057,7 +39116,7 @@
 	    organismes:{}
 	  };
 
-	  // paramètres généraux pour le calcul des cotisations et charges
+	  // paramètres généraux pour le calcul des montants et charges
 	  parametres.plafond_securite_sociale = 38616;
 	  parametres.plafond_securite_sociale_precedent = 38040;
 	  parametres.tva = {
@@ -39079,7 +39138,7 @@
 	    }
 	  };
 
-	  // paramètres pour le calcul des cotisations sociales
+	  // paramètres pour le calcul des montants sociales
 	  parametres.charges.maladiesMaternite = {
 	    organisme:'urssaf',
 	    label:'Maladie maternité',
@@ -39088,7 +39147,7 @@
 	    tranches: [
 	      {
 	        taux: 6.50,
-	        plafond: 999999
+	        plafond: -1
 	      }
 	    ]
 	  };
@@ -39101,19 +39160,19 @@
 	    tranches: [
 	      {
 	        taux: 2.15,
-	        plafond: 999999
+	        plafond: -1
 	      },
 	      // en fait, le taux est progressif entre 2,15 % et 5,25 %
 	      // pour les revenus compris entre 42 478 € et 54 062 €. On tire l'estimation vers le haut.
 	      {
 	        taux: 5.25,
-	        plafond: 999999
+	        plafond: -1
 	      }
 	    ]
 	  };
 
 	  // Retraite de base CNAVPL
-	  // http://service.cipav-retraite.fr/cipav/article-33-recapitulatif-des-options-de-cotisation-104.htm
+	  // http://service.cipav-retraite.fr/cipav/article-33-recapitulatif-des-options-de-montant-104.htm
 	  parametres.charges.assuranceVieillesseBase = {
 	    label: 'Retraite de base',
 	    description: "Retraite de base CNAVPL",
@@ -39123,10 +39182,10 @@
 	      total: 190
 	    },
 	    tranches: [
-	      // sous 4441, cotisation forfaitaire
+	      // sous 4441, montant forfaitaire
 	      {
 	        plafond:  4441,
-	        cotisation: 448
+	        montant: 448
 	      },
 	      {
 	        plafond:  'PASS',
@@ -39152,14 +39211,14 @@
 	        taux: 15
 	      },
 	      {
-	        plafond: 999999,
+	        plafond: -1,
 	        taux: 33.33
 	      }
 	    ]
 	  };
 
 	  // Assurance vieillesse complémentaire (obligatoire)
-	  // http://service.cipav-retraite.fr/cipav/article-33-recapitulatif-des-options-de-cotisation-104.htm
+	  // http://service.cipav-retraite.fr/cipav/article-33-recapitulatif-des-options-de-montant-104.htm
 	  parametres.charges.assuranceVieillesseComplementaire = {
 	    label : 'Retraite complémentaire',
 	    type : "tranche_exclusive",
@@ -39167,50 +39226,50 @@
 	      {
 	        nom : 'A',
 	        plafond : 26420,
-	        cotisation : 1198,
-	        points : 36
+	        montant : 1198,
+	        points_retraite : 36
 	      },
 	      {
 	        nom : 'B',
 	        plafond : 48890,
-	        cotisation : 2395,
-	        points : 72
+	        montant : 2395,
+	        points_retraite : 72
 	      },
 	      {
 	        nom : 'C',
 	        plafond : 57500,
-	        cotisation : 3593,
-	        points : 108
+	        montant : 3593,
+	        points_retraite : 108
 	      },
 	      {
 	        nom : 'D',
 	        plafond : 66000,
-	        cotisation : 5989,
-	        points : 180
+	        montant : 5989,
+	        points_retraite : 180
 	      },
 	      {
 	        nom : 'E',
 	        plafond : 82260,
-	        cotisation : 8394,
-	        points :  252
+	        montant : 8394,
+	        points_retraite :  252
 	      },
 	      {
 	        nom : 'F',
 	        plafond : 102560,
-	        cotisation : 13175,
-	        points : 396
+	        montant : 13175,
+	        points_retraite : 396
 	      },
 	      {
 	        nom : 'G',
 	        plafond : 122560,
-	        cotisation : 14373,
-	        points : 432
+	        montant : 14373,
+	        points_retraite : 432
 	      },
 	      {
 	        nom : 'H',
-	        plafond : 999999,
-	        cotisation : 15570,
-	        points : 468
+	        plafond : -1,
+	        montant : 15570,
+	        points_retraite : 468
 	      }
 	    ]
 	  };
@@ -39219,15 +39278,15 @@
 	    classes:{
 	      a:{
 	        nom: 'A',
-	        cotisation: 76
+	        montant: 76
 	      },
 	      b:{
 	        nom: 'B',
-	        cotisation: 228
+	        montant: 228
 	      },
 	      c:{
 	        nom: 'C',
-	        cotisation: 380
+	        montant: 380
 	      }
 	    }
 	  };
@@ -39239,11 +39298,11 @@
 	    tranches: [
 	      {
 	        plafond : 5632,
-	        'taux' : 100
+	        taux : 100
 	      },
 	      {
 	        plafond : 11264,
-	        'taux' : 0.75
+	        taux : 0.75
 	      },
 	      {
 	        plafond :  16897,
@@ -39251,7 +39310,7 @@
 	      },
 	      {
 	        plafond : 22529,
-	        'taux' : 0.25
+	        taux : 0.25
 	      }
 	    ]
 	  };

@@ -2,22 +2,44 @@
 
     <div class="form-group">
         <label for="remuneration">Rémunération</label>
-        <input type="text" class="form-control" id="remuneration" placeholder="Rémunération" ng-model="form.remuneration">
+        <input
+                ng-change="rafraichirResultats()"
+                ng-model="form.remuneration"
+                type="text" class="form-control"
+                id="remuneration"
+                placeholder="Rémunération"
+                >
     </div>
 
     <div class="form-group">
         <label for="chiffre_affaire">Rémunération</label>
-        <input type="text" class="form-control" id="chiffre_affaire" placeholder="Chiffre d'affaire" ng-model="form.chiffreAffaire">
+        <input
+                ng-change="rafraichirResultats()"
+                ng-model="form.chiffreAffaire"
+                type="text"
+                class="form-control"
+                id="chiffre_affaire"
+                placeholder="Chiffre d'affaire"
+                >
     </div>
 
 </form>
 
 {{form}}
 
-<table class="table-responsive table-striped">
-    <th>
-        <td>Nom</td>
-        <td>Montant</td>
-        <td>Détails</td>
-    </th>
+<table class="table table-responsive table-striped">
+    <thead>
+    <tr>
+        <th>Nom</th>
+        <th>Montant</th>
+        <th>Détails</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr>
+        <td>Assurance Vieillesse Complémentaire</td>
+        <td>{{assuranceVieillesseComplementaire.montant}}</td>
+        <td>{{assuranceVieillesseComplementaire.tranches}}</td>
+    </tr>
+    </tbody>
 </table>
