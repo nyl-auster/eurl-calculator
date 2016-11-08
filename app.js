@@ -1,7 +1,8 @@
 
 // modules contributeurs angular
-require('./bower_components/angular/angular.js');
-require('./bower_components/angular-ui-router/release/angular-ui-router.js');
+require('angular');
+require('angular-ui-router');
+require('bootstrap');
 
 // modules de notre application
 require('./modules/core/index.js');
