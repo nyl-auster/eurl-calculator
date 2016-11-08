@@ -4,12 +4,9 @@
 
 angular.module('calculator').config(['$stateProvider', '$urlRouterProvider', function ($stateProvider, $urlRouterProvider) {
 
-  // en cas de route non trouvée, rediriger sur la page d'accueil
-  $urlRouterProvider.otherwise('/');
-
-  $stateProvider.state('index', {
+  $stateProvider.state('calculator', {
     url: '/',
-    templateUrl: "modules/calculator/views/index.html",
+    templateUrl: "src/calculator/views/index.html",
     controller:'indexController'
   });
 
