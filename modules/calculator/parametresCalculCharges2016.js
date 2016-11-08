@@ -3,16 +3,16 @@
  *
  * SOURCES :
  * https://www.urssaf.fr/portail/home/taux-et-baremes/taux-de-cotisations/les-professions-liberales/bases-de-calcul-et-taux-des-coti.html#FilAriane
- * http://www.rsi.fr/baremes/cotisations.html
- * http://service.cipav-retraite.fr/cipav/rubrique-104-montant-des-cotisations.htm
+ * http://www.rsi.fr/baremes/charges.html
+ * http://service.cipav-retraite.fr/cipav/rubrique-104-montant-des-charges.htm
  * http://service.cipav-retraite.fr/cipav/article-11-votre-protection-sociale-99.htm
  * http://www.cnavpl.fr/les-chiffres-cles/principaux-parametres-du-regime-de-base/principaux-parametres-variables-du-regime-de-base/
  */
-angular.module('calculator').provider('parametresCalculCharges2016', function(){
+angular.module('calculator').service('parametresCalculCharges2016', function(){
 
   var parametres = {
     general:{},
-    cotisations:{},
+    charges:{},
     organismes:{}
   };
 
@@ -26,7 +26,7 @@ angular.module('calculator').provider('parametresCalculCharges2016', function(){
   };
 
   // paramètres pour le calcul des cotisations sociales
-  parametres.cotisations.maladiesMaternite = {
+  parametres.charges.maladiesMaternite = {
     organisme:'urssaf',
     label:'Maladie maternité',
     commentaire:'Pour les revenus compris entre 42 478 € et 54 062 €, taux progressif : entre 2,15 % et 5,25 %',
@@ -39,7 +39,7 @@ angular.module('calculator').provider('parametresCalculCharges2016', function(){
     ]
   };
 
-  parametres.cotisations.allocationsFamiliales = {
+  parametres.charges.allocationsFamiliales = {
     organisme:'urssaf',
     label:'Allocations familiales',
     type_tranche: 'tranche_exclusive',
@@ -61,7 +61,7 @@ angular.module('calculator').provider('parametresCalculCharges2016', function(){
 
   // Retraite de base CNAVPL
   // http://service.cipav-retraite.fr/cipav/article-33-recapitulatif-des-options-de-cotisation-104.htm
-  parametres.cotisations.assuranceVieillesseBase = {
+  parametres.charges.assuranceVieillesseBase = {
     label: 'Retraite de base',
     description: "Retraite de base CNAVPL",
     revenusNonConnus: 3324 + 6137,
@@ -86,11 +86,11 @@ angular.module('calculator').provider('parametresCalculCharges2016', function(){
     ]
   };
 
-  parametres.cotisations.prevoyance = {
+  parametres.charges.prevoyance = {
     commentaire: "76, 228, ou 380 euros suivant la classe choisie"
   };
 
-  parametres.cotisations.impotSurLesSocietes = {
+  parametres.charges.impotSurLesSocietes = {
     label: 'Impot sur les sociétés',
     type_tranches: 'tranches_cumulatives',
     tranches:[
@@ -107,7 +107,7 @@ angular.module('calculator').provider('parametresCalculCharges2016', function(){
 
   // Assurance vieillesse complémentaire (obligatoire)
   // http://service.cipav-retraite.fr/cipav/article-33-recapitulatif-des-options-de-cotisation-104.htm
-  parametres.cotisations.assuranceVieillesseComplementaire = {
+  parametres.charges.assuranceVieillesseComplementaire = {
     label : 'Retraite complémentaire',
     type : "tranche_exclusive",
     tranches : [
@@ -162,7 +162,7 @@ angular.module('calculator').provider('parametresCalculCharges2016', function(){
     ]
   };
 
-  parametres.cotisations.invaliditeDeces = {
+  parametres.charges.invaliditeDeces = {
     classes:{
       a:{
         nom: 'A',
@@ -180,7 +180,7 @@ angular.module('calculator').provider('parametresCalculCharges2016', function(){
   };
 
   // Réduction assurance vieillesse complémentaire
-  parametres.cotisations.AssuranceVieillesseComplementaireReduction = {
+  parametres.charges.AssuranceVieillesseComplementaireReduction = {
     label: "Réduction assurance vieillesse complémentaire",
     type: "tranche_exclusive",
     tranches: [
@@ -204,8 +204,8 @@ angular.module('calculator').provider('parametresCalculCharges2016', function(){
   };
 
   // les professions libérales ne cotisent pas pour les indemnités journalières
-  // source : http://www.rsi.fr/baremes/cotisations.html
-  parametres.cotisations.indemnitesJournalieres = {};
+  // source : http://www.rsi.fr/baremes/charges.html
+  parametres.charges.indemnitesJournalieres = {};
 
   return parametres;
 
