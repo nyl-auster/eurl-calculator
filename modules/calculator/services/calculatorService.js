@@ -147,6 +147,13 @@ angular.module('calculator').service('calculatorService',['calculatorConfig', fu
   };
 
   /**
+   * Calcul des cotisations maladie et maternité - URSSAF
+   */
+  service.allocationsFamiliales = function(baseCalcul) {
+    return service.calculerTrancheExclusive(baseCalcul, parametres.charges.allocationsFamiliales);
+  };
+
+  /**
    * Calcul de l'impot sur les bénéfices - Impots
    */
   service.impotSurLesSocietes = function(baseCalcul) {

@@ -1,7 +1,6 @@
 angular.module('calculator').controller('calculatorController', ['$scope',  'calculatorConfig', 'calculatorService', function ($scope, calculatorConfig, calculatorService) {
 
   var calculette = calculatorService;
-  var parametres = calculatorConfig;
 
   $scope.form = {
     remuneration: 0,
@@ -13,6 +12,7 @@ angular.module('calculator').controller('calculatorController', ['$scope',  'cal
   function calculerResultats() {
     $scope.assuranceVieillesseComplementaire = calculette.assuranceVieillesseComplementaire($scope.form.remuneration);
     $scope.impotSurLesSocietes = calculette.impotSurLesSocietes($scope.form.chiffreAffaire);
+    $scope.allocationsFamiliales = calculette.allocationsFamiliales($scope.form.chiffreAffaire);
   }
 
   $scope.calculerResultats = function() {

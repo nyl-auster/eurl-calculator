@@ -1,0 +1,18 @@
+<td>{{result.charge.label}}</td>
+<td>{{result.montant}}</td>
+<td>
+    <table class="table table-responsive">
+        <tr>
+            <th>Tranche</th>
+            <th>montant</th>
+            <th>plafond</th>
+            <th>taux</th>
+        </tr>
+        <tr ng-repeat="tranche in result.tranches">
+            <td>{{$index + 1}}</td>
+            <td>{{tranche.montant }}</td>
+            <td>{{tranche.plafond }}</td>
+            <td>{{tranche.taux }}</td>
+        </tr>
+    </table>
+</td>

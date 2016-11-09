@@ -1,5 +1,6 @@
 <form name="calculatorForm" class="form">
 
+    <!-- Rémunération -->
     <div class="form-group">
         <label for="remuneration">Rémunération</label>
         <input
@@ -11,6 +12,7 @@
                 >
     </div>
 
+    <!-- Chiffres d'affaires -->
     <div class="form-group">
         <label for="chiffre_affaire">Chiffre d'affaire</label>
         <input
@@ -23,56 +25,46 @@
                 >
     </div>
 
+    <!-- frais -->
+    <div class="form-group">
+        <label for="frais">Frais</label>
+        <input
+                ng-change="calculerResultats()"
+                ng-model="form.frais"
+                type="text"
+                class="form-control"
+                id="frais"
+                placeholder="Frais"
+                >
+    </div>
+
+    <!-- CFE -->
+    <div class="form-group">
+        <label for="frais">CFE</label>
+        <input
+                ng-change="calculerResultats()"
+                ng-model="form.cfe"
+                type="text"
+                class="form-control"
+                id="form.cfe"
+                placeholder="CFE"
+                >
+    </div>
+
 </form>
 
-<table class="table table-responsive table-striped">
-    <thead>
+
+<table class="table table-responsive">
+
     <tr>
         <th>Nom</th>
         <th>Montant</th>
         <th>Détails</th>
     </tr>
-    </thead>
-    <tbody>
-    <tr>
-        <td>{{assuranceVieillesseComplementaire.charge.label}}</td>
-        <td>{{assuranceVieillesseComplementaire.montant}}</td>
-        <td>
-            <table class="table">
-                <tr>
-                    <th>Tranche</th>
-                    <th>montant</th>
-                    <th>plafond</th>
-                    <th>taux</th>
-                </tr>
-                <tr ng-repeat="tranche in assuranceVieillesseComplementaire.tranches">
-                    <td>{{$index + 1}}</td>
-                    <td>{{tranche.montant }}</td>
-                    <td>{{tranche.plafond }}</td>
-                    <td>{{tranche.taux }}</td>
-                </tr>
-            </table>
-        </td>
-    </tr>
-    <tr>
-        <td>{{impotSurLesSocietes.charge.label}}</td>
-        <td>{{impotSurLesSocietes.montant}}</td>
-        <td>
-            <table class="table">
-                <tr>
-                    <th>Tranche</th>
-                    <th>montant</th>
-                    <th>plafond</th>
-                    <th>taux</th>
-                </tr>
-                <tr ng-repeat="tranche in impotSurLesSocietes.tranches">
-                    <td>{{$index + 1}}</td>
-                    <td>{{tranche.montant }}</td>
-                    <td>{{tranche.plafond }}</td>
-                    <td>{{tranche.taux }}</td>
-                </tr>
-            </table>
-        </td>
-    </tr>
-    </tbody>
+
+    <tr calculator-table-line result="assuranceVieillesseComplementaire"></tr>
+    <tr calculator-table-line result="impotSurLesSocietes"></tr>
+    <tr calculator-table-line result="allocationsFamiliales"></tr>
+
+
 </table>

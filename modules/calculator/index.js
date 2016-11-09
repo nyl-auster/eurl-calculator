@@ -8,3 +8,4 @@ require('./config/calculatorConfig');
 require('./services/calculatorService');
 require('./states');
 require('./controllers/calculatorController');
+require('./directives/calculatorTableLine/calculatorTableLine');
