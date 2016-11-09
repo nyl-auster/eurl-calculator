@@ -166,6 +166,13 @@ angular.module('calculator').service('calculatorService',['calculatorConfig', fu
   };
 
   /**
+   * Calcul des cotisations pour la formation professionnelle
+   */
+  service.formationProfessionnelle = function(baseCalcul) {
+    return service.calculerTrancheExclusive(baseCalcul, parametres.charges.formationProfessionnelle);
+  };
+
+  /**
    * Calcul des cotisations maladie et maternité - URSSAF
    */
   service.allocationsFamiliales = function(baseCalcul) {

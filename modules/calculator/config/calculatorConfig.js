@@ -86,7 +86,7 @@ angular.module('calculator').service('calculatorConfig', function(){
   parametres.charges.formationProfessionnelle = {
     organisme: 'URSSAF',
     label: 'Formation professionnelle',
-    commentaire: "Base de calcul : Sur la base de 38 616 . Cotisation à verser en 2016. Si votre conjoint a opté pour le statut de conjoint collaborateur, le taux est de 0,34 %",
+    commentaire: "Base de calcul : Sur la base de " + parametres.plafond_securite_sociale + " €  . Cotisation à verser en 2016. Si votre conjoint a opté pour le statut de conjoint collaborateur, le taux est de 0,34 %",
     type_tranches: 'exclusive',
     tranches: [
       {

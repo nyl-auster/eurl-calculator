@@ -10,7 +10,9 @@ angular.module('calculator').controller('calculatorController', ['$scope',  'cal
   calculerResultats();
 
   function calculerResultats() {
+    //@FIXME vérifier les bases de calcul
     $scope.assuranceVieillesseComplementaire = calculette.assuranceVieillesseComplementaire($scope.form.remuneration);
+    $scope.formationProfessionnelle = calculette.formationProfessionnelle($scope.form.remuneration);
     $scope.allocationsFamiliales = calculette.allocationsFamiliales($scope.form.remuneration);
     $scope.impotSurLesSocietes = calculette.impotSurLesSocietes($scope.form.chiffreAffaire);
   }

@@ -39187,7 +39187,7 @@
 	  parametres.charges.formationProfessionnelle = {
 	    organisme: 'URSSAF',
 	    label: 'Formation professionnelle',
-	    commentaire: "Base de calcul : Sur la base de 38 616 . Cotisation à verser en 2016. Si votre conjoint a opté pour le statut de conjoint collaborateur, le taux est de 0,34 %",
+	    commentaire: "Base de calcul : Sur la base de " + parametres.plafond_securite_sociale + " €  . Cotisation à verser en 2016. Si votre conjoint a opté pour le statut de conjoint collaborateur, le taux est de 0,34 %",
 	    type_tranches: 'exclusive',
 	    tranches: [
 	      {
@@ -39528,6 +39528,13 @@
 	  };
 	
 	  /**
+	   * Calcul des cotisations pour la formation professionnelle
+	   */
+	  service.formationProfessionnelle = function(baseCalcul) {
+	    return service.calculerTrancheExclusive(baseCalcul, parametres.charges.formationProfessionnelle);
+	  };
+	
+	  /**
 	   * Calcul des cotisations maladie et maternité - URSSAF
 	   */
 	  service.allocationsFamiliales = function(baseCalcul) {
@@ -39584,7 +39591,9 @@
 	  calculerResultats();
 	
 	  function calculerResultats() {
+	    //@FIXME vérifier les bases de calcul
 	    $scope.assuranceVieillesseComplementaire = calculette.assuranceVieillesseComplementaire($scope.form.remuneration);
+	    $scope.formationProfessionnelle = calculette.formationProfessionnelle($scope.form.remuneration);
 	    $scope.allocationsFamiliales = calculette.allocationsFamiliales($scope.form.remuneration);
 	    $scope.impotSurLesSocietes = calculette.impotSurLesSocietes($scope.form.chiffreAffaire);
 	  }
@@ -39611,14 +39620,8 @@
 	      result: '='
 	    },
 	    templateUrl : coreConfig.modulesPath + '/calculator/directives/calculatorTableLine/calculatorTableLine.html',
-	    controller:['$scope', 'calculatorConfig', function($scope, calculatorConfig){
-	      console.log($scope.result);
-	      // remplacer la valeur plafond max par une valeur de type vide au moment de l'affichage
-	      $scope.result.tranches.forEach(function(tranche){
-	        if (tranche.plafond == calculatorConfig.plafondMax ) {
-	          tranche.plafond = ' - ';
-	        }
-	      });
+	    controller:['$scope', 'calculatorConfig', function($scope, calculatorConfig) {
+	      
 	    }]
 	  };
 	}]);
