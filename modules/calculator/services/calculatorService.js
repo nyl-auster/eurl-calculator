@@ -47,12 +47,31 @@ angular.module('calculator').service('calculatorService',['calculatorConfig', fu
   };
 
   /**
+   * Calculer le montant d'une tranche. Une tranche est un objet contenant les clefs suivantes :
+   * - montant : peut être déjà rempli pour les montants forfaitaires
+   * - taux : le taux à appliquer sur la base de calcul pour calculer le montant
+   */
+  service.calculerMontantTranche = function(tranche, baseCalcul) {
+    var montant = null;
+    // on a pas de montant déjà défini mais on a un taux qui permet le calcul
+    if (typeof tranche.montant == 'undefined' && tranche.taux) {
+      montant = baseCalcul * tranche.taux;
+    }
+    // sinon on garde juste le montant de la tranche
+    else {
+      montant = tranche.montant;
+    }
+    console.log(montant);
+    return montant;
+  };
+
+  /**
    * Calcul la tranche qui correspond à baseDeCalcul en fonction du tableau "tranches".
    * Pour les tranches exclusives, seule une tranche est conservé pour le calcul, les
    * tranches précédentes ou suivantes n'entrent en rien dans le calcul du montant
    * de la cotisation
    *
-   * @param baseDeCalcul float | int :
+   * @param baseCalcul float | int :
    * @param charge array : tableau d'objet "charges"
    */
   service.calculerTrancheExclusive = function(baseCalcul, charge) {
@@ -68,7 +87,7 @@ angular.module('calculator').service('calculatorService',['calculatorConfig', fu
     });
 
     if (trancheActive) {
-      result.montant = trancheActive.montant;
+      result.montant = service.calculerMontantTranche(trancheActive, baseCalcul);
       result.tranches= [trancheActive];
     }
 
@@ -79,7 +98,7 @@ angular.module('calculator').service('calculatorService',['calculatorConfig', fu
    * Calcul des charges à tranches cumulatives, tels que l'impot sur les bénéfices :
    * - 15% pour pour les 38120 premiers euros, puis 33,33% sur le reste des bénéfices
    *
-   * @param baseDeCalcul float | int :
+   * @param baseCalcul float | int :
    * @param charge array : tableau d'objet "charges"
    */
   service.calculerTranchesCumulatives = function(baseCalcul, charge) {
@@ -102,7 +121,7 @@ angular.module('calculator').service('calculatorService',['calculatorConfig', fu
       if (baseCalcul >= tranche.plafond)
       {
         // ... on calcule le montant dû pour la tranche courante
-        tranche.montant = (tranche.intervalle * tranche.taux);
+        tranche.montant = service.calculerMontantTranche(tranche, tranche.intervalle);
         tranche.baseCalcul = tranche.intervalle;
         // on ajoute le montant de la cotisation de cette tranche au total.
         montant += tranche.montant;
@@ -117,7 +136,7 @@ angular.module('calculator').service('calculatorService',['calculatorConfig', fu
         if (depassement_plancher > 0)
         {
           tranche.baseCalcul = depassement_plancher;
-          montant += tranche.montant = depassement_plancher * tranche.taux;
+          montant += tranche.montant = service.calculerMontantTranche(tranche, depassement_plancher);
           tranches.push(tranche);
         }
         // si le depassement du plancher est négatif, c'est qu'on est passé dans les tranches supérieurs
@@ -157,6 +176,7 @@ angular.module('calculator').service('calculatorService',['calculatorConfig', fu
    * Calcul de l'impot sur les bénéfices - Impots
    */
   service.impotSurLesSocietes = function(baseCalcul) {
+    console.log("====");
     return service.calculerTranchesCumulatives(baseCalcul, parametres.charges.impotSurLesSocietes);
   };
 

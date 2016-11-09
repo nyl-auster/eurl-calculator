@@ -61,13 +61,13 @@ angular.module('calculator').service('calculatorConfig', function(){
     type_tranches: 'tranche_exclusive',
     tranches: [
       {
-        taux: 2.15,
-        plafond: max
+        taux: 0.0215,
+        plafond: 42478
       },
       // en fait, le taux est progressif entre 2,15 % et 5,25 %
       // pour les revenus compris entre 42 478 € et 54 062 €. On tire l'estimation vers le haut.
       {
-        taux: 5.25,
+        taux: 0.0525,
         plafond: max
       }
     ]

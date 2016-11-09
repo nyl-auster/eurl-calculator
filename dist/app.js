@@ -52,10 +52,11 @@
 	__webpack_require__(1);
 	__webpack_require__(14);
 	__webpack_require__(16);
+	__webpack_require__(17);
 	
 	// modules custom de notre application
-	__webpack_require__(17);
-	__webpack_require__(20);
+	__webpack_require__(18);
+	__webpack_require__(21);
 
 
 /***/ },
@@ -38893,6 +38894,137 @@
 
 /***/ },
 /* 17 */
+/***/ function(module, exports) {
+
+	'use strict';
+	angular.module("ngLocale", [], ["$provide", function($provide) {
+	var PLURAL_CATEGORY = {ZERO: "zero", ONE: "one", TWO: "two", FEW: "few", MANY: "many", OTHER: "other"};
+	$provide.value("$locale", {
+	  "DATETIME_FORMATS": {
+	    "AMPMS": [
+	      "AM",
+	      "PM"
+	    ],
+	    "DAY": [
+	      "dimanche",
+	      "lundi",
+	      "mardi",
+	      "mercredi",
+	      "jeudi",
+	      "vendredi",
+	      "samedi"
+	    ],
+	    "ERANAMES": [
+	      "avant J\u00e9sus-Christ",
+	      "apr\u00e8s J\u00e9sus-Christ"
+	    ],
+	    "ERAS": [
+	      "av. J.-C.",
+	      "ap. J.-C."
+	    ],
+	    "FIRSTDAYOFWEEK": 0,
+	    "MONTH": [
+	      "janvier",
+	      "f\u00e9vrier",
+	      "mars",
+	      "avril",
+	      "mai",
+	      "juin",
+	      "juillet",
+	      "ao\u00fbt",
+	      "septembre",
+	      "octobre",
+	      "novembre",
+	      "d\u00e9cembre"
+	    ],
+	    "SHORTDAY": [
+	      "dim.",
+	      "lun.",
+	      "mar.",
+	      "mer.",
+	      "jeu.",
+	      "ven.",
+	      "sam."
+	    ],
+	    "SHORTMONTH": [
+	      "janv.",
+	      "f\u00e9vr.",
+	      "mars",
+	      "avr.",
+	      "mai",
+	      "juin",
+	      "juil.",
+	      "ao\u00fbt",
+	      "sept.",
+	      "oct.",
+	      "nov.",
+	      "d\u00e9c."
+	    ],
+	    "STANDALONEMONTH": [
+	      "Janvier",
+	      "F\u00e9vrier",
+	      "Mars",
+	      "Avril",
+	      "Mai",
+	      "Juin",
+	      "Juillet",
+	      "Ao\u00fbt",
+	      "Septembre",
+	      "Octobre",
+	      "Novembre",
+	      "D\u00e9cembre"
+	    ],
+	    "WEEKENDRANGE": [
+	      5,
+	      6
+	    ],
+	    "fullDate": "EEEE d MMMM y",
+	    "longDate": "d MMMM y",
+	    "medium": "d MMM y HH:mm:ss",
+	    "mediumDate": "d MMM y",
+	    "mediumTime": "HH:mm:ss",
+	    "short": "dd/MM/y HH:mm",
+	    "shortDate": "dd/MM/y",
+	    "shortTime": "HH:mm"
+	  },
+	  "NUMBER_FORMATS": {
+	    "CURRENCY_SYM": "\u20ac",
+	    "DECIMAL_SEP": ",",
+	    "GROUP_SEP": "\u00a0",
+	    "PATTERNS": [
+	      {
+	        "gSize": 3,
+	        "lgSize": 3,
+	        "maxFrac": 3,
+	        "minFrac": 0,
+	        "minInt": 1,
+	        "negPre": "-",
+	        "negSuf": "",
+	        "posPre": "",
+	        "posSuf": ""
+	      },
+	      {
+	        "gSize": 3,
+	        "lgSize": 3,
+	        "maxFrac": 2,
+	        "minFrac": 2,
+	        "minInt": 1,
+	        "negPre": "-",
+	        "negSuf": "\u00a0\u00a4",
+	        "posPre": "",
+	        "posSuf": "\u00a0\u00a4"
+	      }
+	    ]
+	  },
+	  "id": "fr",
+	  "localeID": "fr",
+	  "pluralCat": function(n, opt_precision) {  var i = n | 0;  if (i == 0 || i == 1) {    return PLURAL_CATEGORY.ONE;  }  return PLURAL_CATEGORY.OTHER;}
+	});
+	}]);
+
+
+/***/ },
+/* 18 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/**
@@ -38901,8 +39033,8 @@
 	var module = angular.module('core', ['ui.router']);
 	
 	// fichiers requis par notre module
-	__webpack_require__(18);
 	__webpack_require__(19);
+	__webpack_require__(20);
 	
 	
 	
@@ -38913,7 +39045,7 @@
 
 
 /***/ },
-/* 18 */
+/* 19 */
 /***/ function(module, exports) {
 
 	/**
@@ -38933,7 +39065,7 @@
 
 
 /***/ },
-/* 19 */
+/* 20 */
 /***/ function(module, exports) {
 
 	/**
@@ -38947,7 +39079,7 @@
 
 
 /***/ },
-/* 20 */
+/* 21 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/**
@@ -38956,15 +39088,15 @@
 	angular.module('calculator', ['core']);
 	
 	// ajout des fichiers du module calculator
-	__webpack_require__(21);
 	__webpack_require__(22);
 	__webpack_require__(23);
 	__webpack_require__(24);
 	__webpack_require__(25);
+	__webpack_require__(26);
 
 
 /***/ },
-/* 21 */
+/* 22 */
 /***/ function(module, exports) {
 
 	/**
@@ -39030,13 +39162,13 @@
 	    type_tranches: 'tranche_exclusive',
 	    tranches: [
 	      {
-	        taux: 2.15,
-	        plafond: max
+	        taux: 0.0215,
+	        plafond: 42478
 	      },
 	      // en fait, le taux est progressif entre 2,15 % et 5,25 %
 	      // pour les revenus compris entre 42 478 € et 54 062 €. On tire l'estimation vers le haut.
 	      {
-	        taux: 5.25,
+	        taux: 0.0525,
 	        plafond: max
 	      }
 	    ]
@@ -39197,7 +39329,7 @@
 
 
 /***/ },
-/* 22 */
+/* 23 */
 /***/ function(module, exports) {
 
 	/**
@@ -39249,12 +39381,31 @@
 	  };
 	
 	  /**
+	   * Calculer le montant d'une tranche. Une tranche est un objet contenant les clefs suivantes :
+	   * - montant : peut être déjà rempli pour les montants forfaitaires
+	   * - taux : le taux à appliquer sur la base de calcul pour calculer le montant
+	   */
+	  service.calculerMontantTranche = function(tranche, baseCalcul) {
+	    var montant = null;
+	    // on a pas de montant déjà défini mais on a un taux qui permet le calcul
+	    if (typeof tranche.montant == 'undefined' && tranche.taux) {
+	      montant = baseCalcul * tranche.taux;
+	    }
+	    // sinon on garde juste le montant de la tranche
+	    else {
+	      montant = tranche.montant;
+	    }
+	    console.log(montant);
+	    return montant;
+	  };
+	
+	  /**
 	   * Calcul la tranche qui correspond à baseDeCalcul en fonction du tableau "tranches".
 	   * Pour les tranches exclusives, seule une tranche est conservé pour le calcul, les
 	   * tranches précédentes ou suivantes n'entrent en rien dans le calcul du montant
 	   * de la cotisation
 	   *
-	   * @param baseDeCalcul float | int :
+	   * @param baseCalcul float | int :
 	   * @param charge array : tableau d'objet "charges"
 	   */
 	  service.calculerTrancheExclusive = function(baseCalcul, charge) {
@@ -39270,7 +39421,7 @@
 	    });
 	
 	    if (trancheActive) {
-	      result.montant = trancheActive.montant;
+	      result.montant = service.calculerMontantTranche(trancheActive, baseCalcul);
 	      result.tranches= [trancheActive];
 	    }
 	
@@ -39281,7 +39432,7 @@
 	   * Calcul des charges à tranches cumulatives, tels que l'impot sur les bénéfices :
 	   * - 15% pour pour les 38120 premiers euros, puis 33,33% sur le reste des bénéfices
 	   *
-	   * @param baseDeCalcul float | int :
+	   * @param baseCalcul float | int :
 	   * @param charge array : tableau d'objet "charges"
 	   */
 	  service.calculerTranchesCumulatives = function(baseCalcul, charge) {
@@ -39304,7 +39455,7 @@
 	      if (baseCalcul >= tranche.plafond)
 	      {
 	        // ... on calcule le montant dû pour la tranche courante
-	        tranche.montant = (tranche.intervalle * tranche.taux);
+	        tranche.montant = service.calculerMontantTranche(tranche, tranche.intervalle);
 	        tranche.baseCalcul = tranche.intervalle;
 	        // on ajoute le montant de la cotisation de cette tranche au total.
 	        montant += tranche.montant;
@@ -39319,7 +39470,7 @@
 	        if (depassement_plancher > 0)
 	        {
 	          tranche.baseCalcul = depassement_plancher;
-	          montant += tranche.montant = depassement_plancher * tranche.taux;
+	          montant += tranche.montant = service.calculerMontantTranche(tranche, depassement_plancher);
 	          tranches.push(tranche);
 	        }
 	        // si le depassement du plancher est négatif, c'est qu'on est passé dans les tranches supérieurs
@@ -39359,6 +39510,7 @@
 	   * Calcul de l'impot sur les bénéfices - Impots
 	   */
 	  service.impotSurLesSocietes = function(baseCalcul) {
+	    console.log("====");
 	    return service.calculerTranchesCumulatives(baseCalcul, parametres.charges.impotSurLesSocietes);
 	  };
 	
@@ -39369,7 +39521,7 @@
 
 
 /***/ },
-/* 23 */
+/* 24 */
 /***/ function(module, exports) {
 
 	/**
@@ -39390,7 +39542,7 @@
 
 
 /***/ },
-/* 24 */
+/* 25 */
 /***/ function(module, exports) {
 
 	angular.module('calculator').controller('calculatorController', ['$scope',  'calculatorConfig', 'calculatorService', function ($scope, calculatorConfig, calculatorService) {
@@ -39406,8 +39558,8 @@
 	
 	  function calculerResultats() {
 	    $scope.assuranceVieillesseComplementaire = calculette.assuranceVieillesseComplementaire($scope.form.remuneration);
+	    $scope.allocationsFamiliales = calculette.allocationsFamiliales($scope.form.remuneration);
 	    $scope.impotSurLesSocietes = calculette.impotSurLesSocietes($scope.form.chiffreAffaire);
-	    $scope.allocationsFamiliales = calculette.allocationsFamiliales($scope.form.chiffreAffaire);
 	  }
 	
 	  $scope.calculerResultats = function() {
@@ -39422,7 +39574,7 @@
 
 
 /***/ },
-/* 25 */
+/* 26 */
 /***/ function(module, exports) {
 
 	angular.module('calculator').directive('calculatorTableLine', ['coreConfig', function(coreConfig){
