@@ -62,6 +62,8 @@ angular.module('calculator').service('calculatorService',['calculatorConfig', fu
     else {
       montant = (baseCalcul * tranche.taux) / 100;
     }
+    // on ajoute ou met à jour le montant à notre objet tranche
+    tranche.montant = montant;
     return montant;
   };
 

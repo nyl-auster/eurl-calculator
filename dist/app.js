@@ -39199,10 +39199,11 @@
 	
 	  // CIPAV - Retraite de base CNAVPL
 	  // http://service.cipav-retraite.fr/cipav/article-33-recapitulatif-des-options-de-montantmax04.htm
+	  // Voir le simulateur ici pour des exemples concrets : http://www.guide-tns.fr/simulateurs/chargesprofessionnelliberal.html
 	  parametres.charges.assuranceVieillesseBase = {
 	    label: 'Retraite de base',
 	    organisme: 'CIPAV',
-	    type_tranches: 'exclusive',
+	    type_tranches: 'batarde',
 	    description: "Retraite de base CNAVPL",
 	    commentaire: "En cas de revenus non connus : 3 178 € (maximum de la tranche 1) ; 3 611 € (maximum de la tranche 2)",
 	    tranches: [
@@ -39211,6 +39212,9 @@
 	        plafond:  4441,
 	        montant_forfaitaire: 448
 	      },
+	      // d'abord on devra calcul le pourcentage sur cette tranche dans la limite du plafond,
+	      // puis on y ajoutera la seconde tranche en reprenant la base de calcul en entier.
+	      // WTF ?
 	      {
 	        plafond: parametres.plafond_securite_sociale,
 	        taux: 8.23
@@ -39420,6 +39424,8 @@
 	    else {
 	      montant = (baseCalcul * tranche.taux) / 100;
 	    }
+	    // on ajoute ou met à jour le montant à notre objet tranche
+	    tranche.montant = montant;
 	    return montant;
 	  };
 	
@@ -39606,6 +39612,7 @@
 	    },
 	    templateUrl : coreConfig.modulesPath + '/calculator/directives/calculatorTableLine/calculatorTableLine.html',
 	    controller:['$scope', 'calculatorConfig', function($scope, calculatorConfig){
+	      console.log($scope.result);
 	      // remplacer la valeur plafond max par une valeur de type vide au moment de l'affichage
 	      $scope.result.tranches.forEach(function(tranche){
 	        if (tranche.plafond == calculatorConfig.plafondMax ) {
