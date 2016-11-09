@@ -53,13 +53,14 @@ angular.module('calculator').service('calculatorService',['calculatorConfig', fu
    */
   service.calculerMontantTranche = function(tranche, baseCalcul) {
     var montant = null;
-    // on a pas de montant déjà défini mais on a un taux qui permet le calcul
-    if (typeof tranche.taux !== 'undefined') {
-      montant = baseCalcul * tranche.taux;
+
+    // si un montant forfaitaire est prédéfini pour cette tranche
+    if (typeof tranche.montant_forfaitaire !== 'undefined') {
+      montant = tranche.montant_forfaitaire;
     }
-    // sinon on garde juste le montant de la tranche
+    // sinon on calcule le montant de la tranche en fonction du taux indiqué
     else {
-      montant = tranche.montant;
+      montant = (baseCalcul * tranche.taux) / 100;
     }
     return montant;
   };
@@ -102,51 +103,49 @@ angular.module('calculator').service('calculatorService',['calculatorConfig', fu
    */
   service.calculerTranchesCumulatives = function(baseCalcul, charge) {
 
-    // on recherche la tranche qui correspond à notre baseCalcul
+    // contiendra la liste des tranches qui seront appliquée
+    // à notre base de calcul
     var tranches = [];
+
     var result = new service.result(charge);
+
+    // montant total, toute tranches cumulées
     var montant = 0;
     var plancher = 0;
 
     charge.tranches.forEach(function(tranche, index) {
 
+      // on calcule le "planger" de la tranche, qui est soit égal
+      // au plafond précédent, soit à zéro si c'est la première tranche.
       if (typeof tranches[index - 1] !== 'undefined') {
         plancher = tranches[index - 1].plafond;
       }
 
+      // on calcule la différence entre le plafond et le plancher
       tranche.intervalle = tranche.plafond - plancher;
 
-      // si la somme est supérieure au plafond de la tranche courante ...
+      // si la somme est supérieure ou égale au plafond de la tranche courante ...
       if (baseCalcul >= tranche.plafond)
       {
         // ... on calcule le montant dû pour la tranche courante
         tranche.montant = service.calculerMontantTranche(tranche, tranche.intervalle);
-        tranche.baseCalcul = tranche.intervalle;
         // on ajoute le montant de la cotisation de cette tranche au total.
         montant += tranche.montant;
+        // ajout à la liste des tranches qui s'applique à notre cas.
         tranches.push(tranche);
       }
 
-      // mais si la somme est inférieure au plafond courant, c'est que nous sommes à la dernière tranche qui nous intéresse pour le calcul
+      // mais si la somme est inférieure au plafond courant, c'est que nous sommes à la dernière tranche
       else
       {
         // on calcule le montant pour cette derniere tranche
         var depassement_plancher = baseCalcul - plancher;
         if (depassement_plancher > 0)
         {
-          tranche.baseCalcul = depassement_plancher;
           montant += tranche.montant = service.calculerMontantTranche(tranche, depassement_plancher);
+          // ajout à la liste des tranches qui s'appliquent à notre cas.
           tranches.push(tranche);
         }
-        // si le depassement du plancher est négatif, c'est qu'on est passé dans les tranches supérieurs
-        // à la derniere "imposable". On indique tout de même une cotisation de zéro pour information.
-        else
-        {
-          tranche.montant = 0;
-          tranche.baseCalcul = 0;
-          tranches.push(tranche);
-        }
-
       }
 
     });
@@ -175,7 +174,6 @@ angular.module('calculator').service('calculatorService',['calculatorConfig', fu
    * Calcul de l'impot sur les bénéfices - Impots
    */
   service.impotSurLesSocietes = function(baseCalcul) {
-    console.log("====");
     return service.calculerTranchesCumulatives(baseCalcul, parametres.charges.impotSurLesSocietes);
   };
 

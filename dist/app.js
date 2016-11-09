@@ -39103,7 +39103,7 @@
 	 * Configuration 2016 du calculateur
 	 *
 	 * SOURCES :
-	 * https://www.urssaf.fr/portail/home/taux-et-baremes/taux-de-montants/les-professions-liberales/bases-de-calcul-et-taux-des-coti.html#FilAriane
+	 * https://www.urssaf.fr/portail/home/taux-et-baremes/taux-de-cotisations/les-professions-liberales/bases-de-calcul-et-taux-des-coti.html
 	 * http://www.rsi.fr/baremes/charges.html
 	 * http://service.cipav-retraite.fr/cipav/rubriquemax04-montant-des-charges.htm
 	 * http://service.cipav-retraite.fr/cipav/articlemax1-votre-protection-sociale-99.htm
@@ -39125,9 +39125,9 @@
 	  parametres.plafond_securite_sociale = 38616;
 	  parametres.plafond_securite_sociale_precedent = 38040;
 	  parametres.tva = {
-	    normale:20,
-	    intermediaire:10,
-	    reduite:5.5
+	    normale: 20,
+	    intermediaire: 10,
+	    reduite: 5.5
 	  };
 	
 	  // données concernant les organismes
@@ -39143,11 +39143,11 @@
 	    }
 	  };
 	
-	  // paramètres pour le calcul des montants sociales
+	  // URSSAF : MALADIE-MATERNITE
 	  parametres.charges.maladiesMaternite = {
 	    organisme:'urssaf',
-	    label:'Maladie maternité',
-	    commentaire:'Pour les revenus compris entre 42 478 € et 54 062 €, taux progressif : entre 2,15 % et 5,25 %',
+	    label:'Maladie-maternité',
+	    commentaire:'Base de calcul : totalité des revenus professionnels',
 	    type_tranches: 'tranche_exclusive',
 	    tranches: [
 	      {
@@ -39157,29 +39157,59 @@
 	    ]
 	  };
 	
+	  // URSSAF : ALLOCATIONS FAMILIALES
 	  parametres.charges.allocationsFamiliales = {
 	    organisme:'urssaf',
 	    label:'Allocations familiales',
-	    commentaire:'Pour les revenus compris entre 42 478 € et 54 062 €, taux progressif : entre 2,15 % et 5,25 %',
+	    commentaire:"Pour les revenus compris entre 42 478 € et 54 062 €, taux progressif : entre 2,15 % et 5,25 %. Faute de détails, le calculateur passe à 5.25 dès qu'on dépasse 42 478 €",
 	    type_tranches: 'tranche_exclusive',
 	    tranches: [
 	      {
-	        taux: 0.0215,
+	        taux: 2.15,
 	        plafond: 42478
 	      },
 	      // en fait, le taux est progressif entre 2,15 % et 5,25 %
 	      // pour les revenus compris entre 42 478 € et 54 062 €. On tire l'estimation vers le haut.
 	      {
-	        taux: 0.0525,
+	        taux: 5.25,
 	        plafond: max
 	      }
 	    ]
 	  };
 	
-	  // Retraite de base CNAVPL
+	  // URSSAF : CGS-CRDS
+	  parametres.charges.cgsCrds = {
+	    organisme:'urssaf',
+	    label:'CGS-CRDS',
+	    commentaire:"Base de calcul : 	Totalité du revenu de l’activité non salariée + cotisations sociales obligatoires",
+	    type_tranches: 'exclusive',
+	    tranches: [
+	      {
+	        taux: 8,
+	        plafond: max
+	      }
+	    ]
+	  };
+	
+	  // URSSAF : FORMATION PROFESSIONNELLE
+	  parametres.charges.formationProfessionnelle = {
+	    organisme: 'urssaf',
+	    label: 'Formation professionnelle',
+	    commentaire: "Base de calcul : Sur la base de 38 616 . Cotisation à verser en 2016. Si votre conjoint a opté pour le statut de conjoint collaborateur, le taux est de 0,34 %",
+	    type_tranches: 'exclusive',
+	    tranches: [
+	      {
+	        taux: 0.25,
+	        plafond: max
+	      }
+	    ]
+	  };
+	
+	  // CIPAV - Retraite de base CNAVPL
 	  // http://service.cipav-retraite.fr/cipav/article-33-recapitulatif-des-options-de-montantmax04.htm
 	  parametres.charges.assuranceVieillesseBase = {
 	    label: 'Retraite de base',
+	    type_tranches: 'exclusive',
 	    description: "Retraite de base CNAVPL",
 	    revenusNonConnus: 3324 + 6137,
 	    forfait: {
@@ -39190,16 +39220,16 @@
 	      // sous 4441, montant forfaitaire
 	      {
 	        plafond:  4441,
-	        montant: 448
+	        montant_forfaitaire: 448
 	      },
 	      {
-	        plafond:  'PASS',
+	        plafond: parametres.plafond_securite_sociale,
 	        taux: 8.23
 	      },
 	      {
 	        plafond: 193080,
 	        taux: 1.87
-	      },
+	      }
 	    ]
 	  };
 	
@@ -39209,15 +39239,15 @@
 	
 	  parametres.charges.impotSurLesSocietes = {
 	    label: 'Impot sur les sociétés',
-	    type_tranches: 'tranches_cumulatives',
+	    type_tranches: 'cumulatives',
 	    tranches:[
 	      {
 	        plafond: 38120,
-	        taux: 0.15
+	        taux: 15
 	      },
 	      {
 	        plafond: max,
-	        taux: 0.3333
+	        taux: 33.33
 	      }
 	    ]
 	  };
@@ -39226,54 +39256,54 @@
 	  // http://service.cipav-retraite.fr/cipav/article-33-recapitulatif-des-options-de-montantmax04.htm
 	  parametres.charges.assuranceVieillesseComplementaire = {
 	    label : 'Retraite complémentaire',
-	    type : "tranche_exclusive",
+	    type : "exclusive",
 	    tranches : [
 	      {
 	        nom : 'A',
 	        plafond : 26420,
-	        montant : 1198,
+	        montant_forfaitaire : 1198,
 	        points_retraite : 36
 	      },
 	      {
 	        nom : 'B',
 	        plafond : 48890,
-	        montant : 2395,
+	        montant_forfaitaire : 2395,
 	        points_retraite : 72
 	      },
 	      {
 	        nom : 'C',
 	        plafond : 57500,
-	        montant : 3593,
+	        montant_forfaitaire : 3593,
 	        points_retraite : 108
 	      },
 	      {
 	        nom : 'D',
 	        plafond : 66000,
-	        montant : 5989,
+	        montant_forfaitaire : 5989,
 	        points_retraite : 180
 	      },
 	      {
 	        nom : 'E',
 	        plafond : 82260,
-	        montant : 8394,
+	        montant_forfaitaire : 8394,
 	        points_retraite :  252
 	      },
 	      {
 	        nom : 'F',
 	        plafond : 102560,
-	        montant : 13175,
+	        montant_forfaitaire : 13175,
 	        points_retraite : 396
 	      },
 	      {
 	        nom : 'G',
 	        plafond : 122560,
-	        montant : 14373,
+	        montant_forfaitaire : 14373,
 	        points_retraite : 432
 	      },
 	      {
 	        nom : 'H',
 	        plafond : max,
-	        montant : 15570,
+	        montant_forfaitaire : 15570,
 	        points_retraite : 468
 	      }
 	    ]
@@ -39283,15 +39313,15 @@
 	    classes:{
 	      a:{
 	        nom: 'A',
-	        montant: 76
+	        montant_forfaitaire: 76
 	      },
 	      b:{
 	        nom: 'B',
-	        montant: 228
+	        montant_forfaitaire: 228
 	      },
 	      c:{
 	        nom: 'C',
-	        montant: 380
+	        montant_forfaitaire: 380
 	      }
 	    }
 	  };
@@ -39299,7 +39329,7 @@
 	  // Réduction assurance vieillesse complémentaire
 	  parametres.charges.AssuranceVieillesseComplementaireReduction = {
 	    label: "Réduction assurance vieillesse complémentaire",
-	    type: "tranche_exclusive",
+	    type: "exclusive",
 	    tranches: [
 	      {
 	        plafond : 5632,
@@ -39389,13 +39419,14 @@
 	   */
 	  service.calculerMontantTranche = function(tranche, baseCalcul) {
 	    var montant = null;
-	    // on a pas de montant déjà défini mais on a un taux qui permet le calcul
-	    if (typeof tranche.taux !== 'undefined') {
-	      montant = baseCalcul * tranche.taux;
+	
+	    // si un montant forfaitaire est prédéfini pour cette tranche
+	    if (typeof tranche.montant_forfaitaire !== 'undefined') {
+	      montant = tranche.montant_forfaitaire;
 	    }
-	    // sinon on garde juste le montant de la tranche
+	    // sinon on calcule le montant de la tranche en fonction du taux indiqué
 	    else {
-	      montant = tranche.montant;
+	      montant = (baseCalcul * tranche.taux) / 100;
 	    }
 	    return montant;
 	  };
@@ -39438,51 +39469,49 @@
 	   */
 	  service.calculerTranchesCumulatives = function(baseCalcul, charge) {
 	
-	    // on recherche la tranche qui correspond à notre baseCalcul
+	    // contiendra la liste des tranches qui seront appliquée
+	    // à notre base de calcul
 	    var tranches = [];
+	
 	    var result = new service.result(charge);
+	
+	    // montant total, toute tranches cumulées
 	    var montant = 0;
 	    var plancher = 0;
 	
 	    charge.tranches.forEach(function(tranche, index) {
 	
+	      // on calcule le "planger" de la tranche, qui est soit égal
+	      // au plafond précédent, soit à zéro si c'est la première tranche.
 	      if (typeof tranches[index - 1] !== 'undefined') {
 	        plancher = tranches[index - 1].plafond;
 	      }
 	
+	      // on calcule la différence entre le plafond et le plancher
 	      tranche.intervalle = tranche.plafond - plancher;
 	
-	      // si la somme est supérieure au plafond de la tranche courante ...
+	      // si la somme est supérieure ou égale au plafond de la tranche courante ...
 	      if (baseCalcul >= tranche.plafond)
 	      {
 	        // ... on calcule le montant dû pour la tranche courante
 	        tranche.montant = service.calculerMontantTranche(tranche, tranche.intervalle);
-	        tranche.baseCalcul = tranche.intervalle;
 	        // on ajoute le montant de la cotisation de cette tranche au total.
 	        montant += tranche.montant;
+	        // ajout à la liste des tranches qui s'applique à notre cas.
 	        tranches.push(tranche);
 	      }
 	
-	      // mais si la somme est inférieure au plafond courant, c'est que nous sommes à la dernière tranche qui nous intéresse pour le calcul
+	      // mais si la somme est inférieure au plafond courant, c'est que nous sommes à la dernière tranche
 	      else
 	      {
 	        // on calcule le montant pour cette derniere tranche
 	        var depassement_plancher = baseCalcul - plancher;
 	        if (depassement_plancher > 0)
 	        {
-	          tranche.baseCalcul = depassement_plancher;
 	          montant += tranche.montant = service.calculerMontantTranche(tranche, depassement_plancher);
+	          // ajout à la liste des tranches qui s'appliquent à notre cas.
 	          tranches.push(tranche);
 	        }
-	        // si le depassement du plancher est négatif, c'est qu'on est passé dans les tranches supérieurs
-	        // à la derniere "imposable". On indique tout de même une cotisation de zéro pour information.
-	        else
-	        {
-	          tranche.montant = 0;
-	          tranche.baseCalcul = 0;
-	          tranches.push(tranche);
-	        }
-	
 	      }
 	
 	    });
@@ -39511,7 +39540,6 @@
 	   * Calcul de l'impot sur les bénéfices - Impots
 	   */
 	  service.impotSurLesSocietes = function(baseCalcul) {
-	    console.log("====");
 	    return service.calculerTranchesCumulatives(baseCalcul, parametres.charges.impotSurLesSocietes);
 	  };
 	

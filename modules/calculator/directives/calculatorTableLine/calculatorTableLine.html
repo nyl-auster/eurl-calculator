@@ -10,7 +10,7 @@
         <tr ng-repeat="tranche in result.tranches">
             <td>{{tranche.montant | currency}}</td>
             <td>{{tranche.plafond }}</td>
-            <td>{{tranche.taux }}</td>
+            <td>{{tranche.taux}}<span ng-hide="!tranche.taux">%</span></td>
         </tr>
     </table>
 </td>

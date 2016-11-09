@@ -1,8 +1,9 @@
-<form name="calculatorForm" class="form">
+<div class="jumbotron">
+<form name="calculatorForm" class="form-inline">
 
     <!-- Rémunération -->
     <div class="form-group">
-        <label for="remuneration">Rémunération</label>
+        <label for="remuneration"> Rémunération</label><br/>
         <input
                 ng-change="calculerResultats()"
                 ng-model="form.remuneration"
@@ -14,7 +15,7 @@
 
     <!-- Chiffres d'affaires -->
     <div class="form-group">
-        <label for="chiffre_affaire">Chiffre d'affaire</label>
+        <label for="chiffre_affaire"> Chiffre d'affaire</label><br/>
         <input
                 ng-change="calculerResultats()"
                 ng-model="form.chiffreAffaire"
@@ -27,7 +28,7 @@
 
     <!-- frais -->
     <div class="form-group">
-        <label for="frais">Frais</label>
+        <label for="frais"> Frais</label><br/>
         <input
                 ng-change="calculerResultats()"
                 ng-model="form.frais"
@@ -40,7 +41,7 @@
 
     <!-- CFE -->
     <div class="form-group">
-        <label for="frais">CFE</label>
+        <label for="frais"> CFE</label><br/>
         <input
                 ng-change="calculerResultats()"
                 ng-model="form.cfe"
@@ -52,6 +53,7 @@
     </div>
 
 </form>
+</div>
 
 
 <table class="table table-responsive">
@@ -62,9 +64,10 @@
         <th>Détails</th>
     </tr>
 
+    <tr calculator-table-line result="allocationsFamiliales"></tr>
+    <!--
     <tr calculator-table-line result="assuranceVieillesseComplementaire"></tr>
     <tr calculator-table-line result="impotSurLesSocietes"></tr>
-    <tr calculator-table-line result="allocationsFamiliales"></tr>
-
+    -->
 
 </table>
