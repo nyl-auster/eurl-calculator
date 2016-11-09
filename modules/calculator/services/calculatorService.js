@@ -54,14 +54,13 @@ angular.module('calculator').service('calculatorService',['calculatorConfig', fu
   service.calculerMontantTranche = function(tranche, baseCalcul) {
     var montant = null;
     // on a pas de montant déjà défini mais on a un taux qui permet le calcul
-    if (typeof tranche.montant == 'undefined' && tranche.taux) {
+    if (typeof tranche.taux !== 'undefined') {
       montant = baseCalcul * tranche.taux;
     }
     // sinon on garde juste le montant de la tranche
     else {
       montant = tranche.montant;
     }
-    console.log(montant);
     return montant;
   };
 
