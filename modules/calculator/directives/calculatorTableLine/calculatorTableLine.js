@@ -6,7 +6,7 @@ angular.module('calculator').directive('calculatorTableLine', ['coreConfig', fun
     },
     templateUrl : coreConfig.modulesPath + '/calculator/directives/calculatorTableLine/calculatorTableLine.html',
     controller:['$scope', 'calculatorConfig', function($scope, calculatorConfig) {
-      
+
     }]
   };
 }]);

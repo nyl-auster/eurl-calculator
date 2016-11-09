@@ -1,7 +1,8 @@
 <td>{{result.charge.label}}</td>
 <td>{{result.montant | currency}}</td>
 <td>
-    <table class="table table-responsive">
+    <a href="" ng-init="showDetails = false" ng-click="showDetails=!showDetails">Montrer les détails</a>
+    <table ng-show="showDetails" class="table table-responsive">
         <tr>
             <th>montant</th>
             <th>plafond</th>
