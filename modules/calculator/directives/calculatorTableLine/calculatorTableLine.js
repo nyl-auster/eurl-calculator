@@ -4,6 +4,14 @@ angular.module('calculator').directive('calculatorTableLine', ['coreConfig', fun
     scope: {
       result: '='
     },
-    templateUrl : coreConfig.modulesPath + '/calculator/directives/calculatorTableLine/calculatorTableLine.html'
+    templateUrl : coreConfig.modulesPath + '/calculator/directives/calculatorTableLine/calculatorTableLine.html',
+    controller:['$scope', 'calculatorConfig', function($scope, calculatorConfig){
+      // remplacer la valeur plafond max par une valeur de type vide au moment de l'affichage
+      $scope.result.tranches.forEach(function(tranche){
+        if (tranche.plafond == calculatorConfig.plafondMax ) {
+          tranche.plafond = ' - ';
+        }
+      });
+    }]
   };
 }]);

@@ -39119,6 +39119,8 @@
 	    organismes:{}
 	  };
 	
+	  parametres.plafondMax = max;
+	
 	  // paramètres généraux pour le calcul des montants et charges
 	  parametres.plafond_securite_sociale = 38616;
 	  parametres.plafond_securite_sociale_precedent = 38040;
@@ -39582,7 +39584,15 @@
 	    scope: {
 	      result: '='
 	    },
-	    templateUrl : coreConfig.modulesPath + '/calculator/directives/calculatorTableLine/calculatorTableLine.html'
+	    templateUrl : coreConfig.modulesPath + '/calculator/directives/calculatorTableLine/calculatorTableLine.html',
+	    controller:['$scope', 'calculatorConfig', function($scope, calculatorConfig){
+	      // remplacer la valeur plafond max par une valeur de type vide au moment de l'affichage
+	      $scope.result.tranches.forEach(function(tranche){
+	        if (tranche.plafond == calculatorConfig.plafondMax ) {
+	          tranche.plafond = ' - ';
+	        }
+	      });
+	    }]
 	  };
 	}]);
 

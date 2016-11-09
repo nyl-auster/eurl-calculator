@@ -18,6 +18,8 @@ angular.module('calculator').service('calculatorConfig', function(){
     organismes:{}
   };
 
+  parametres.plafondMax = max;
+
   // paramètres généraux pour le calcul des montants et charges
   parametres.plafond_securite_sociale = 38616;
   parametres.plafond_securite_sociale_precedent = 38040;
