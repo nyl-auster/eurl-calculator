@@ -37,6 +37,7 @@ angular.module('calculator').service('calculatorConfig', function(){
   // URSSAF : MALADIE-MATERNITE
   parametres.charges.maladiesMaternite = {
     organisme:'URSSAF',
+    type_tranches: 'tranche_exclusive',
     label:'Maladie-maternité',
     commentaire:'Base de calcul : totalité des revenus professionnels',
     type_tranches: 'tranche_exclusive',

@@ -180,6 +180,26 @@ angular.module('calculator').service('calculatorService',['calculatorConfig', fu
   };
 
   /**
+   * Calcul des cotisations maladie et maternité - CIPAV
+   * @FIXME calcul chelou, à vérifier
+   */
+  service.assuranceVieillesseBase = function(baseCalcul) {
+    var assuranceVieillesseBase = angular.copy(parametres.charges.assuranceVieillesseBase);
+    if (baseCalcul > assuranceVieillesseBase.tranches[0].plafond) {
+      delete assuranceVieillesseBase.tranches[0];
+    }
+    var result = service.calculerTranchesCumulatives(baseCalcul, assuranceVieillesseBase);
+    return result;
+  };
+
+  /**
+   * Calcul des cotisations maladie et maternité - URSSAF
+   */
+  service.maladiesMaternite = function(baseCalcul) {
+    return service.calculerTrancheExclusive(baseCalcul, parametres.charges.maladiesMaternite);
+  };
+
+  /**
    * Calcul de l'impot sur les bénéfices - Impots
    */
   service.impotSurLesSocietes = function(baseCalcul) {

@@ -55,6 +55,7 @@
 </form>
 </div>
 
+        {{total | currency}}
 
 <table class="table table-responsive">
 
@@ -64,10 +65,14 @@
         <th>Détails</th>
     </tr>
 
+    <!-- URSSAF -->
     <tr calculator-table-line result="allocationsFamiliales"></tr>
     <tr calculator-table-line result="formationProfessionnelle"></tr>
-    <!--
+    <tr calculator-table-line result="maladiesMaternite"></tr>
+    <!-- CIPAV -->
+    <tr calculator-table-line result="assuranceVieillesseBase"></tr>
     <tr calculator-table-line result="assuranceVieillesseComplementaire"></tr>
+    <!--
     <tr calculator-table-line result="impotSurLesSocietes"></tr>
     -->
 

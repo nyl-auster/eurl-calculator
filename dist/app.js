@@ -39138,6 +39138,7 @@
 	  // URSSAF : MALADIE-MATERNITE
 	  parametres.charges.maladiesMaternite = {
 	    organisme:'URSSAF',
+	    type_tranches: 'tranche_exclusive',
 	    label:'Maladie-maternité',
 	    commentaire:'Base de calcul : totalité des revenus professionnels',
 	    type_tranches: 'tranche_exclusive',
@@ -39542,6 +39543,26 @@
 	  };
 	
 	  /**
+	   * Calcul des cotisations maladie et maternité - CIPAV
+	   * @FIXME calcul chelou, à vérifier
+	   */
+	  service.assuranceVieillesseBase = function(baseCalcul) {
+	    var assuranceVieillesseBase = angular.copy(parametres.charges.assuranceVieillesseBase);
+	    if (baseCalcul > assuranceVieillesseBase.tranches[0].plafond) {
+	      delete assuranceVieillesseBase.tranches[0];
+	    }
+	    var result = service.calculerTranchesCumulatives(baseCalcul, assuranceVieillesseBase);
+	    return result;
+	  };
+	
+	  /**
+	   * Calcul des cotisations maladie et maternité - URSSAF
+	   */
+	  service.maladiesMaternite = function(baseCalcul) {
+	    return service.calculerTrancheExclusive(baseCalcul, parametres.charges.maladiesMaternite);
+	  };
+	
+	  /**
 	   * Calcul de l'impot sur les bénéfices - Impots
 	   */
 	  service.impotSurLesSocietes = function(baseCalcul) {
@@ -39592,10 +39613,19 @@
 	
 	  function calculerResultats() {
 	    //@FIXME vérifier les bases de calcul
+	    $scope.assuranceVieillesseBase = calculette.assuranceVieillesseBase($scope.form.remuneration);
 	    $scope.assuranceVieillesseComplementaire = calculette.assuranceVieillesseComplementaire($scope.form.remuneration);
 	    $scope.formationProfessionnelle = calculette.formationProfessionnelle($scope.form.remuneration);
 	    $scope.allocationsFamiliales = calculette.allocationsFamiliales($scope.form.remuneration);
+	    $scope.maladiesMaternite = calculette.maladiesMaternite($scope.form.remuneration);
+	
 	    $scope.impotSurLesSocietes = calculette.impotSurLesSocietes($scope.form.chiffreAffaire);
+	
+	    $scope.total = $scope.assuranceVieillesseComplementaire.montant
+	      + $scope.formationProfessionnelle.montant
+	      + $scope.allocationsFamiliales.montant
+	      + $scope.maladiesMaternite.montant;
+	
 	  }
 	
 	  $scope.calculerResultats = function() {
