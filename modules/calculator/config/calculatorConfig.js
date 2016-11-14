@@ -1,17 +1,58 @@
 /**
  * Configuration 2016 du calculateur
  *
- * SOURCES :
- * https://www.urssaf.fr/portail/home/taux-et-baremes/taux-de-cotisations/les-professions-liberales/bases-de-calcul-et-taux-des-coti.html
- * http://www.rsi.fr/baremes/charges.html
- * http://service.cipav-retraite.fr/cipav/rubriquemax04-montant-des-charges.htm
- * http://service.cipav-retraite.fr/cipav/articlemax1-votre-protection-sociale-99.htm
- * http://www.cnavpl.fr/les-chiffres-cles/principaux-parametres-du-regime-de-base/principaux-parametres-variables-du-regime-de-base/
+ * Le configuration définit des objets "charges" qui seront consomés par
+ * le service "calculatorService", et qui contiennent les propriétés suivantes :
+ * {
  *
+ *   // à quel organisme faut-il reverser la charge
+ *   organisme: 'urssaf',
+ *
+ *   // label de la charge dans les résultats
+ *   label: 'Allocations familiales',
+ *
+ *   // remarque supplémentaire concernant le calcul de la charge
+ *   commentaire: 'Pour les revenus compris entre 42 478 € et 54 062 €, taux progressif : entre 2,15 % et 5,25 %',
+ *
+ *   // Chaque charge contient une à plusieurs tranches. Le type de tranche
+ *   // indique comment une tranche doit être calculée : en cumulant les cotisations
+ *   // pour chaque tranche existante, on sélectionnant uniquement une des tranches etc...
+ *   // il existe les types suivants :
+ *   - tranche_exclusive : une seule tranche sera choisie pour effectuer le calcul
+ *   - tranches_cumulatives : le montant de chaque tranque se cumule pour créer un total
+ *   type_tranches: 'tranche_exclusive',
+ *
+ *   // un tableau des tranches est obligatoire, même si une seule tranche semble exister.
+ *   tranches: [
+ *     {
+ *       taux: 0.0215, // le taux à appliquer. 0.0215 pour un pourcentage de 2,15%
+ *       plafond: 32000 // le plafond au delà duquel on passe à la tranche suivante
+ *     }
+ *   ]
+ * };
+ *
+ * Pour une EURL à l'IS profession libérales, les cotisations sont à versées
+ * à 3 organismes différents :
+ *
+ *
+ * URSSAF :
+ * - allocations familiale
+ *
+ * RSI Professions Libérales :
+ * - assurance maladie
+ *
+ * CIPAV :
+ * - invalidité décès
+ *
+ * SOURCES pour le calcul des cotisations:
+ * http://www.cnavpl.fr/les-chiffres-cles/principaux-parametres-du-regime-de-base/principaux-parametres-variables-du-regime-de-base/
+ * * https://www.urssaf.fr/portail/home/taux-et-baremes/taux-de-cotisations/les-professions-liberales/bases-de-calcul-et-taux-des-coti.html
  * https://www.rsi.fr/cotisations/professions-liberales/presentation-des-cotisations.html
  * Le RSI gère uniquement votre protection santé maladie-maternité.
  * la retraite et l'invalidité décès sont assurées par la CNAVPL ou la CNBF
  * les cotisations d'allocations familiales, les contributions sociales (CSG/CRDS) et les contributions à la formation professionnelle sont à verser à l'Urssaf
+
+
  */
 angular.module('calculator').service('calculatorConfig', function(){
 

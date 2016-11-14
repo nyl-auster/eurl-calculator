@@ -1,5 +1,5 @@
 /**
- * Config. On déclare notamment nos routes ici.
+ * Déclaration des status pour le module ui-router
  */
 
 angular.module('core').config(['$stateProvider', '$urlRouterProvider', function ($stateProvider, $urlRouterProvider) {
@@ -8,7 +8,3 @@ angular.module('core').config(['$stateProvider', '$urlRouterProvider', function 
   $urlRouterProvider.otherwise('/');
 
 }]);
-
-
-
-

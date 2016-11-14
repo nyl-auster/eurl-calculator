@@ -1,35 +1,7 @@
 /**
  * Calculs des charges en fonction des paramètres
  *
- * Tout objet charge contient est de la forme suivante :
- * {
- *
- *   // clef pour regrouper les charges par organisme à la présentation
- *   organisme: 'urssaf',
- *
- *   // label à afficher
- *   label: 'Allocations familiales',
- *
- *   // un commentaire à afficher
- *   commentaire: 'Pour les revenus compris entre 42 478 € et 54 062 €, taux progressif : entre 2,15 % et 5,25 %',
- *
- *   // le type de calcul à appliquer sur les tranches
- *   type_tranches: 'tranche_exclusive',
- *
- *   // un tableau tranches est obligatoire, même si une seule tranche semble exister.
- *   tranches: [
- *     {
- *       taux: 2.15,
- *       plafond: -1
- *     },
- *     // en fait, le taux est progressif entre 2,15 % et 5,25 %
- *     // pour les revenus compris entre 42 478 € et 54 062 €. On tire l'estimation vers le haut.
- *     {
- *       taux: 5.25,
- *       plafond: -1
- *     }
- *   ]
- * };
+
  */
 angular.module('calculator').service('calculatorService',['calculatorConfig', function(calculatorConfig){
 
