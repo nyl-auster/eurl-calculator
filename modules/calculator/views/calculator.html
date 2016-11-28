@@ -1,17 +1,6 @@
 <div class="jumbotron">
     <form name="calculatorForm" class="form-inline">
 
-        <!-- Rémunération -->
-        <div class="form-group">
-            <label for="remuneration"> Rémunération </label><br/>
-            <input
-            ng-change="calculerResultats()"
-            ng-model="form.remuneration"
-            type="text" class="form-control"
-            placeholder="Rémunération"
-            >
-        </div>
-
         <!-- Chiffres d'affaires -->
         <div class="form-group">
             <label for="chiffre_affaire"> Chiffre d'affaire </label><br/>
@@ -24,15 +13,14 @@
             >
         </div>
 
-        <!-- Chiffres d'affaires -->
+        <!-- Rémunération -->
         <div class="form-group">
-            <label for="TVA"> TVA </label><br/>
+            <label for="remuneration"> Rémunération </label><br/>
             <input
             ng-change="calculerResultats()"
-            ng-model="form.tva"
-            type="text"
-            class="form-control"
-            placeholder="TVA"
+            ng-model="form.remuneration"
+            type="text" class="form-control"
+            placeholder="Rémunération"
             >
         </div>
 
@@ -65,7 +53,7 @@
 </div>
 
 <div>
-    Bénéfice: {{benefice}}
+    Bénéfice: {{benefice | currency}}
 </div>
 
 <table class="table table-responsive">

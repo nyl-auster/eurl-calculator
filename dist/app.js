@@ -39676,6 +39676,7 @@
 	  }
 	
 	  function calculerTotalCharges() {
+	    $scope.totalCharges = 0;
 	    $scope.charges.forEach(function(charge){
 	      $scope.totalCharges += parseFloat(charge.montant);
 	    });
@@ -39683,18 +39684,16 @@
 	
 	  function calculerCharges() {
 	
-	    var charges = [];
+	    $scope.charges = [];
 	
 	    //@FIXME vérifier les bases de calcul
-	    charges.push(calculette.assuranceVieillesseBase($scope.form.remuneration));
-	    charges.push(calculette.allocationsFamiliales($scope.form.remuneration));
-	    charges.push(calculette.assuranceVieillesseComplementaire($scope.form.remuneration));
-	    charges.push(calculette.formationProfessionnelle($scope.form.remuneration));
-	    charges.push(calculette.allocationsFamiliales($scope.form.remuneration));
-	    charges.push(calculette.maladiesMaternite($scope.form.remuneration));
-	    charges.push(calculette.impotSurLesSocietes($scope.form.chiffreAffaireHt));
-	
-	    $scope.charges = charges;
+	    $scope.charges.push(calculette.assuranceVieillesseBase($scope.form.remuneration));
+	    $scope.charges.push(calculette.allocationsFamiliales($scope.form.remuneration));
+	    $scope.charges.push(calculette.assuranceVieillesseComplementaire($scope.form.remuneration));
+	    $scope.charges.push(calculette.formationProfessionnelle($scope.form.remuneration));
+	    $scope.charges.push(calculette.allocationsFamiliales($scope.form.remuneration));
+	    $scope.charges.push(calculette.maladiesMaternite($scope.form.remuneration));
+	    $scope.charges.push(calculette.impotSurLesSocietes($scope.form.chiffreAffaireHt));
 	
 	  }
 	
