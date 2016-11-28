@@ -92,6 +92,12 @@
                         Montant
                     </th>
                     <th>
+                        Base de calcul
+                    </th>
+                    <th>
+                        plafond
+                    </th>
+                    <th>
                         Taux
                     </th>
                 </tr>
@@ -102,6 +108,12 @@
                     </td>
                     <td>
                         {{tranche.montant | currency}}
+                    </td>
+                    <td>
+                        {{tranche.baseCalcul | currency}}
+                    </td>
+                    <td>
+                        {{tranche.plafond | currency}}
                     </td>
                     <td>
                         {{tranche.taux}}

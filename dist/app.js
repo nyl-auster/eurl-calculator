@@ -39463,6 +39463,7 @@
 	    }
 	    // on ajoute ou met à jour le montant à notre objet tranche
 	    tranche.montant = montant;
+	    tranche.baseCalcul = baseCalcul;
 	    return montant;
 	  };
 	
@@ -39694,6 +39695,8 @@
 	    $scope.charges.push(calculette.allocationsFamiliales($scope.form.remuneration));
 	    $scope.charges.push(calculette.maladiesMaternite($scope.form.remuneration));
 	    $scope.charges.push(calculette.impotSurLesSocietes($scope.form.chiffreAffaireHt));
+	
+	    console.log($scope.charges);
 	
 	  }
 	

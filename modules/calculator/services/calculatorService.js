@@ -63,6 +63,7 @@
     }
     // on ajoute ou met à jour le montant à notre objet tranche
     tranche.montant = montant;
+    tranche.baseCalcul = baseCalcul;
     return montant;
   };
 

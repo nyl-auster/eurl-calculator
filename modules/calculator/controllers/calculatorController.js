@@ -57,6 +57,8 @@ angular.module('calculator').controller('calculatorController', ['$scope',  'cal
     $scope.charges.push(calculette.maladiesMaternite($scope.form.remuneration));
     $scope.charges.push(calculette.impotSurLesSocietes($scope.form.chiffreAffaireHt));
 
+    console.log($scope.charges);
+
   }
 
   function calculerResultats() {
