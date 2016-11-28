@@ -65,24 +65,25 @@
 </div>
 
 <div>
-Bénéfice: {{benefice}}
+    Bénéfice: {{benefice}}
 </div>
 
-<table class="table table-responsive" ng-init="showDetails = false">
-
-    <tr>
-        <th>Nom</th>
-        <th>
-            Détails
-            <a ng-show="!showDetails" href="" ng-click="showDetails=!showDetails">
-                Montrer les détails
-            </a>
-            <a ng-show="showDetails" href="" ng-click="showDetails=!showDetails">
-                Masquer les détails
-            </a>
-        </th>
-        <th>Montant</th>
-    </tr>
+<table class="table table-responsive">
+    <thead>
+        <tr>
+            <th>Nom</th>
+            <th>
+                Détails
+                <a ng-show="!showDetails" href="" ng-click="showDetails=!showDetails">
+                    Montrer les détails
+                </a>
+                <a ng-show="showDetails" href="" ng-click="showDetails=!showDetails">
+                    Masquer les détails
+                </a>
+            </th>
+            <th>Montant</th>
+        </tr>
+    </thead>
 
     <tr>
         <td>TVA 20%</td>
@@ -91,19 +92,48 @@ Bénéfice: {{benefice}}
     </tr>
     <tr ng-repeat="charge in charges">
         <td>{{charge.charge.label}}</td>
-        <td></td>
+
+        <td>
+
+            <table class="table table-sm" ng-show="showDetails">
+                <tr>
+                    <th>
+                        Tranche
+                    </th>
+                    <th>
+                        Montant
+                    </th>
+                    <th>
+                        Taux
+                    </th>
+                </tr>
+                <tr ng-repeat="tranche in charge.tranches">
+
+                    <td>
+                        {{$index + 1}}
+                    </td>
+                    <td>
+                        {{tranche.montant | currency}}
+                    </td>
+                    <td>
+                        {{tranche.taux}}
+                    </td>
+                </tr>
+            </table>
+
+        </td>
         <td>{{charge.montant | currency }}</td>
     </tr>
 
     <tr>
-    <td><strong>CFE</strong></td>
+        <td><strong>CFE</strong></td>
         <td></td>
         <td>{{form.cfe | currency }}</td>
     </tr>
 
 
     <tr>
-    <td><strong>Total A Provisionner</strong></td>
+        <td><strong>Total A Provisionner</strong></td>
         <td></td>
         <td>{{totalAProvisionner | currency }}</td>
     </tr>

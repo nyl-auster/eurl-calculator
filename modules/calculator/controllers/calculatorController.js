@@ -12,6 +12,7 @@ angular.module('calculator').controller('calculatorController', ['$scope',  'cal
     frais: 0,
     cfe: 500
   };
+  $scope.showDetails = 0;
 
   $scope.calculerResultats = function() {
     calculerResultats();
@@ -56,6 +57,7 @@ angular.module('calculator').controller('calculatorController', ['$scope',  'cal
     charges.push(calculette.impotSurLesSocietes($scope.form.chiffreAffaireHt));
 
     $scope.charges = charges;
+    console.log($scope.charges);
 
   }
 
@@ -66,8 +68,6 @@ angular.module('calculator').controller('calculatorController', ['$scope',  'cal
     calculerBenefice();
     calculerTotalAProvisionner();
   }
-
-
 
 }]);
 
