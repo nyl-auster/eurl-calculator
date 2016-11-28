@@ -1,13 +1,11 @@
 /**
  * Calculs des charges en fonction des paramètres
- *
-
  */
-angular.module('calculator').service('calculatorService',['calculatorConfig', function(calculatorConfig){
+ angular.module('calculator').service('calculatorService',['calculatorConfig', function(calculatorConfig){
 
-  var parametres = calculatorConfig;
+   parametres = calculatorConfig;
 
-  var service = {};
+   var service = {};
 
   // formater un resultat pour tous les calculs
   service.result = function(charge) {
@@ -18,13 +16,42 @@ angular.module('calculator').service('calculatorService',['calculatorConfig', fu
     }
   };
 
+  service.calculerCharge = function(nom, baseCalcul) {
+
+    // selon le type de tranche utilisée par une charge, on va utiliser
+    // différentes fonctions de notre calculette
+    // on map ici un type de tranche avec la fonction a exécuter pour obtenir le
+    // montant d'une charge.
+    var callback = null;
+    var callbacks = {
+      tranche_exclusive: 'calculerTrancheExclusive',
+      tranches_cumulatives: 'calculerTranchesCumulatives'
+    };
+
+    // on récupère la description de cette charge
+    var charge = parametres.charges[nom];
+
+    if (typeof callbacks[charge.type_tranches] !== 'undefined') {
+      callback = callbacks[charge.type_tranches];
+    }
+    else {
+      return false;
+    }
+
+    var result = service[callback](baseCalcul, charge);
+    console.log(result);
+
+
+
+  };
+
   /**
    * Calculer le montant d'une tranche. Une tranche est un objet contenant les clefs suivantes :
    * - montant : peut être déjà rempli pour les montants forfaitaires
    * - taux : le taux à appliquer sur la base de calcul pour calculer le montant
    */
-  service.calculerMontantTranche = function(tranche, baseCalcul) {
-    var montant = null;
+   service.calculerMontantTranche = function(tranche, baseCalcul) {
+     var montant = null;
 
     // si un montant forfaitaire est prédéfini pour cette tranche
     if (typeof tranche.montant_forfaitaire !== 'undefined') {
@@ -48,7 +75,7 @@ angular.module('calculator').service('calculatorService',['calculatorConfig', fu
    * @param baseCalcul float | int :
    * @param charge array : tableau d'objet "charges"
    */
-  service.calculerTrancheExclusive = function(baseCalcul, charge) {
+   service.calculerTrancheExclusive = function(baseCalcul, charge) {
 
     // on recherche la tranche qui correspond à notre baseCalcul
     var trancheActive = null;
@@ -75,7 +102,7 @@ angular.module('calculator').service('calculatorService',['calculatorConfig', fu
    * @param baseCalcul float | int :
    * @param charge array : tableau d'objet "charges"
    */
-  service.calculerTranchesCumulatives = function(baseCalcul, charge) {
+   service.calculerTranchesCumulatives = function(baseCalcul, charge) {
 
     // contiendra la liste des tranches qui seront appliquée
     // à notre base de calcul
@@ -133,52 +160,52 @@ angular.module('calculator').service('calculatorService',['calculatorConfig', fu
   /**
    * Calcul des cotisations maladie et maternité - URSSAF
    */
-  service.assuranceVieillesseComplementaire = function(baseCalcul) {
-    return service.calculerTrancheExclusive(baseCalcul, parametres.charges.assuranceVieillesseComplementaire);
-  };
+   service.assuranceVieillesseComplementaire = function(baseCalcul) {
+     return service.calculerTrancheExclusive(baseCalcul, parametres.charges.assuranceVieillesseComplementaire);
+   };
 
   /**
    * Calcul des cotisations pour la formation professionnelle
    */
-  service.formationProfessionnelle = function(baseCalcul) {
-    return service.calculerTrancheExclusive(baseCalcul, parametres.charges.formationProfessionnelle);
-  };
+   service.formationProfessionnelle = function(baseCalcul) {
+     return service.calculerTrancheExclusive(baseCalcul, parametres.charges.formationProfessionnelle);
+   };
 
   /**
    * Calcul des cotisations maladie et maternité - URSSAF
    */
-  service.allocationsFamiliales = function(baseCalcul) {
-    return service.calculerTrancheExclusive(baseCalcul, parametres.charges.allocationsFamiliales);
-  };
+   service.allocationsFamiliales = function(baseCalcul) {
+     return service.calculerTrancheExclusive(baseCalcul, parametres.charges.allocationsFamiliales);
+   };
 
   /**
    * Calcul des cotisations maladie et maternité - CIPAV
    * @FIXME calcul chelou, à vérifier
    */
-  service.assuranceVieillesseBase = function(baseCalcul) {
-    var assuranceVieillesseBase = angular.copy(parametres.charges.assuranceVieillesseBase);
-    if (baseCalcul > assuranceVieillesseBase.tranches[0].plafond) {
-      delete assuranceVieillesseBase.tranches[0];
-    }
-    var result = service.calculerTranchesCumulatives(baseCalcul, assuranceVieillesseBase);
-    return result;
-  };
+   service.assuranceVieillesseBase = function(baseCalcul) {
+     var assuranceVieillesseBase = angular.copy(parametres.charges.assuranceVieillesseBase);
+     if (baseCalcul > assuranceVieillesseBase.tranches[0].plafond) {
+       delete assuranceVieillesseBase.tranches[0];
+     }
+     var result = service.calculerTranchesCumulatives(baseCalcul, assuranceVieillesseBase);
+     return result;
+   };
 
   /**
    * Calcul des cotisations maladie et maternité - URSSAF
    */
-  service.maladiesMaternite = function(baseCalcul) {
-    return service.calculerTrancheExclusive(baseCalcul, parametres.charges.maladiesMaternite);
-  };
+   service.maladiesMaternite = function(baseCalcul) {
+     return service.calculerTrancheExclusive(baseCalcul, parametres.charges.maladiesMaternite);
+   };
 
   /**
    * Calcul de l'impot sur les bénéfices - Impots
    */
-  service.impotSurLesSocietes = function(baseCalcul) {
-    return service.calculerTranchesCumulatives(baseCalcul, parametres.charges.impotSurLesSocietes);
-  };
+   service.impotSurLesSocietes = function(baseCalcul) {
+     return service.calculerTranchesCumulatives(baseCalcul, parametres.charges.impotSurLesSocietes);
+   };
 
-  return service;
+   return service;
 
-}]);
+ }]);
 

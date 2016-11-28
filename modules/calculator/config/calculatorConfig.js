@@ -189,7 +189,7 @@ angular.module('calculator').service('calculatorConfig', function(){
   parametres.charges.assuranceVieillesseComplementaire = {
     label : 'Retraite complémentaire',
     organisme: 'CIPAV',
-    type : "exclusive",
+    type_tranches : "exclusive",
     tranches : [
       {
         nom : 'A',
@@ -245,7 +245,7 @@ angular.module('calculator').service('calculatorConfig', function(){
   // Réduction assurance vieillesse complémentaire
   parametres.charges.AssuranceVieillesseComplementaireReduction = {
     label: "Réduction assurance vieillesse complémentaire",
-    type: "exclusive",
+    type_tranches: "exclusive",
     tranches: [
       {
         plafond : 5792,

@@ -39286,7 +39286,7 @@
 	  parametres.charges.assuranceVieillesseComplementaire = {
 	    label : 'Retraite complémentaire',
 	    organisme: 'CIPAV',
-	    type : "exclusive",
+	    type_tranches : "exclusive",
 	    tranches : [
 	      {
 	        nom : 'A',
@@ -39342,7 +39342,7 @@
 	  // Réduction assurance vieillesse complémentaire
 	  parametres.charges.AssuranceVieillesseComplementaireReduction = {
 	    label: "Réduction assurance vieillesse complémentaire",
-	    type: "exclusive",
+	    type_tranches: "exclusive",
 	    tranches: [
 	      {
 	        plafond : 5792,
@@ -39400,14 +39400,12 @@
 
 	/**
 	 * Calculs des charges en fonction des paramètres
-	 *
-	
 	 */
-	angular.module('calculator').service('calculatorService',['calculatorConfig', function(calculatorConfig){
+	 angular.module('calculator').service('calculatorService',['calculatorConfig', function(calculatorConfig){
 	
-	  var parametres = calculatorConfig;
+	   parametres = calculatorConfig;
 	
-	  var service = {};
+	   var service = {};
 	
 	  // formater un resultat pour tous les calculs
 	  service.result = function(charge) {
@@ -39418,13 +39416,42 @@
 	    }
 	  };
 	
+	  service.calculerCharge = function(nom, baseCalcul) {
+	
+	    // selon le type de tranche utilisée par une charge, on va utiliser
+	    // différentes fonctions de notre calculette
+	    // on map ici un type de tranche avec la fonction a exécuter pour obtenir le
+	    // montant d'une charge.
+	    var callback = null;
+	    var callbacks = {
+	      tranche_exclusive: 'calculerTrancheExclusive',
+	      tranches_cumulatives: 'calculerTranchesCumulatives'
+	    };
+	
+	    // on récupère la description de cette charge
+	    var charge = parametres.charges[nom];
+	
+	    if (typeof callbacks[charge.type_tranches] !== 'undefined') {
+	      callback = callbacks[charge.type_tranches];
+	    }
+	    else {
+	      return false;
+	    }
+	
+	    var result = service[callback](baseCalcul, charge);
+	    console.log(result);
+	
+	
+	
+	  };
+	
 	  /**
 	   * Calculer le montant d'une tranche. Une tranche est un objet contenant les clefs suivantes :
 	   * - montant : peut être déjà rempli pour les montants forfaitaires
 	   * - taux : le taux à appliquer sur la base de calcul pour calculer le montant
 	   */
-	  service.calculerMontantTranche = function(tranche, baseCalcul) {
-	    var montant = null;
+	   service.calculerMontantTranche = function(tranche, baseCalcul) {
+	     var montant = null;
 	
 	    // si un montant forfaitaire est prédéfini pour cette tranche
 	    if (typeof tranche.montant_forfaitaire !== 'undefined') {
@@ -39448,7 +39475,7 @@
 	   * @param baseCalcul float | int :
 	   * @param charge array : tableau d'objet "charges"
 	   */
-	  service.calculerTrancheExclusive = function(baseCalcul, charge) {
+	   service.calculerTrancheExclusive = function(baseCalcul, charge) {
 	
 	    // on recherche la tranche qui correspond à notre baseCalcul
 	    var trancheActive = null;
@@ -39475,7 +39502,7 @@
 	   * @param baseCalcul float | int :
 	   * @param charge array : tableau d'objet "charges"
 	   */
-	  service.calculerTranchesCumulatives = function(baseCalcul, charge) {
+	   service.calculerTranchesCumulatives = function(baseCalcul, charge) {
 	
 	    // contiendra la liste des tranches qui seront appliquée
 	    // à notre base de calcul
@@ -39533,54 +39560,54 @@
 	  /**
 	   * Calcul des cotisations maladie et maternité - URSSAF
 	   */
-	  service.assuranceVieillesseComplementaire = function(baseCalcul) {
-	    return service.calculerTrancheExclusive(baseCalcul, parametres.charges.assuranceVieillesseComplementaire);
-	  };
+	   service.assuranceVieillesseComplementaire = function(baseCalcul) {
+	     return service.calculerTrancheExclusive(baseCalcul, parametres.charges.assuranceVieillesseComplementaire);
+	   };
 	
 	  /**
 	   * Calcul des cotisations pour la formation professionnelle
 	   */
-	  service.formationProfessionnelle = function(baseCalcul) {
-	    return service.calculerTrancheExclusive(baseCalcul, parametres.charges.formationProfessionnelle);
-	  };
+	   service.formationProfessionnelle = function(baseCalcul) {
+	     return service.calculerTrancheExclusive(baseCalcul, parametres.charges.formationProfessionnelle);
+	   };
 	
 	  /**
 	   * Calcul des cotisations maladie et maternité - URSSAF
 	   */
-	  service.allocationsFamiliales = function(baseCalcul) {
-	    return service.calculerTrancheExclusive(baseCalcul, parametres.charges.allocationsFamiliales);
-	  };
+	   service.allocationsFamiliales = function(baseCalcul) {
+	     return service.calculerTrancheExclusive(baseCalcul, parametres.charges.allocationsFamiliales);
+	   };
 	
 	  /**
 	   * Calcul des cotisations maladie et maternité - CIPAV
 	   * @FIXME calcul chelou, à vérifier
 	   */
-	  service.assuranceVieillesseBase = function(baseCalcul) {
-	    var assuranceVieillesseBase = angular.copy(parametres.charges.assuranceVieillesseBase);
-	    if (baseCalcul > assuranceVieillesseBase.tranches[0].plafond) {
-	      delete assuranceVieillesseBase.tranches[0];
-	    }
-	    var result = service.calculerTranchesCumulatives(baseCalcul, assuranceVieillesseBase);
-	    return result;
-	  };
+	   service.assuranceVieillesseBase = function(baseCalcul) {
+	     var assuranceVieillesseBase = angular.copy(parametres.charges.assuranceVieillesseBase);
+	     if (baseCalcul > assuranceVieillesseBase.tranches[0].plafond) {
+	       delete assuranceVieillesseBase.tranches[0];
+	     }
+	     var result = service.calculerTranchesCumulatives(baseCalcul, assuranceVieillesseBase);
+	     return result;
+	   };
 	
 	  /**
 	   * Calcul des cotisations maladie et maternité - URSSAF
 	   */
-	  service.maladiesMaternite = function(baseCalcul) {
-	    return service.calculerTrancheExclusive(baseCalcul, parametres.charges.maladiesMaternite);
-	  };
+	   service.maladiesMaternite = function(baseCalcul) {
+	     return service.calculerTrancheExclusive(baseCalcul, parametres.charges.maladiesMaternite);
+	   };
 	
 	  /**
 	   * Calcul de l'impot sur les bénéfices - Impots
 	   */
-	  service.impotSurLesSocietes = function(baseCalcul) {
-	    return service.calculerTranchesCumulatives(baseCalcul, parametres.charges.impotSurLesSocietes);
-	  };
+	   service.impotSurLesSocietes = function(baseCalcul) {
+	     return service.calculerTranchesCumulatives(baseCalcul, parametres.charges.impotSurLesSocietes);
+	   };
 	
-	  return service;
+	   return service;
 	
-	}]);
+	 }]);
 	
 
 
@@ -39609,37 +39636,75 @@
 /* 25 */
 /***/ function(module, exports) {
 
-	angular.module('calculator').controller('calculatorController', ['$scope',  'calculatorConfig', 'calculatorService', function ($scope, calculatorConfig, calculatorService) {
+	angular.module('calculator').controller('calculatorController', ['$scope',  'calculatorService', function ($scope, calculatorService) {
 	
 	  var calculette = calculatorService;
 	
+	  $scope.totalCharges = 0;
+	  $scope.tva = 0;
+	  $scope.cfe = 500;
+	  $scope.benefice = 0;
 	  $scope.form = {
 	    remuneration: 0,
-	    chiffreAffaire: 0
+	    chiffreAffaireHt: 0,
+	    frais: 0,
+	    cfe: 500
 	  };
-	
-	  calculerResultats();
-	
-	  function calculerResultats() {
-	    //@FIXME vérifier les bases de calcul
-	    $scope.assuranceVieillesseBase = calculette.assuranceVieillesseBase($scope.form.remuneration);
-	    $scope.assuranceVieillesseComplementaire = calculette.assuranceVieillesseComplementaire($scope.form.remuneration);
-	    $scope.formationProfessionnelle = calculette.formationProfessionnelle($scope.form.remuneration);
-	    $scope.allocationsFamiliales = calculette.allocationsFamiliales($scope.form.remuneration);
-	    $scope.maladiesMaternite = calculette.maladiesMaternite($scope.form.remuneration);
-	
-	    $scope.impotSurLesSocietes = calculette.impotSurLesSocietes($scope.form.chiffreAffaire);
-	
-	    $scope.total = $scope.assuranceVieillesseComplementaire.montant
-	      + $scope.formationProfessionnelle.montant
-	      + $scope.allocationsFamiliales.montant
-	      + $scope.maladiesMaternite.montant;
-	
-	  }
 	
 	  $scope.calculerResultats = function() {
 	    calculerResultats();
 	  }
+	
+	  calculerResultats();
+	
+	  function calculerTva() {
+	    $scope.tva = $scope.form.chiffreAffaireHt * 0.20;
+	  }
+	
+	  function calculerBenefice() {
+	    $scope.benefice = $scope.form.chiffreAffaireHt
+	    - $scope.form.remuneration
+	    - $scope.totalAProvisionner;
+	  }
+	
+	  function calculerTotalAProvisionner() {
+	    $scope.totalAProvisionner = $scope.tva
+	    + $scope.totalCharges
+	    + $scope.cfe;
+	  }
+	
+	  function calculerTotalCharges() {
+	    $scope.totalCharges = 0;
+	    $scope.charges.forEach(function(charge){
+	      $scope.totalCharges += charge.montant;
+	    });
+	  };
+	
+	  function calculerCharges() {
+	
+	    var charges = [];
+	
+	    //@FIXME vérifier les bases de calcul
+	    charges.push(calculette.assuranceVieillesseBase($scope.form.remuneration));
+	    charges.push(calculette.allocationsFamiliales($scope.form.remuneration));
+	    charges.push(calculette.assuranceVieillesseComplementaire($scope.form.remuneration));
+	    charges.push(calculette.formationProfessionnelle($scope.form.remuneration));
+	    charges.push(calculette.allocationsFamiliales($scope.form.remuneration));
+	    charges.push(calculette.maladiesMaternite($scope.form.remuneration));
+	    charges.push(calculette.impotSurLesSocietes($scope.form.chiffreAffaireHt));
+	
+	    $scope.charges = charges;
+	
+	  }
+	
+	  function calculerResultats() {
+	    calculerCharges();
+	    calculerTva();
+	    calculerTotalCharges();
+	    calculerBenefice();
+	    calculerTotalAProvisionner();
+	  }
+	
 	
 	
 	}]);
@@ -39654,16 +39719,14 @@
 
 	angular.module('calculator').directive('calculatorTableLine', ['coreConfig', function(coreConfig){
 	  return {
-	    restrict: 'AE',
 	    scope: {
-	      result: '='
+	      test: '=',
+	      details: 'details'
 	    },
 	    templateUrl : coreConfig.modulesPath + '/calculator/directives/calculatorTableLine/calculatorTableLine.html',
-	    controller:['$scope', 'calculatorConfig', function($scope, calculatorConfig) {
-	
-	    }]
 	  };
 	}]);
+
 
 /***/ }
 /******/ ]);

@@ -1,12 +1,9 @@
 angular.module('calculator').directive('calculatorTableLine', ['coreConfig', function(coreConfig){
   return {
-    restrict: 'AE',
     scope: {
-      result: '='
+      test: '=',
+      details: 'details'
     },
     templateUrl : coreConfig.modulesPath + '/calculator/directives/calculatorTableLine/calculatorTableLine.html',
-    controller:['$scope', 'calculatorConfig', function($scope, calculatorConfig) {
-
-    }]
   };
 }]);

@@ -1,18 +1,20 @@
-<td>{{result.charge.label}}</td>
-<td>{{result.montant | currency}}</td>
-<td ng-init="showDetails = true">
-    <a ng-show="!showDetails" href="" ng-click="showDetails=!showDetails">Montrer les détails</a>
-    <a ng-show="showDetails" href="" ng-click="showDetails=!showDetails">Masquer les détails</a>
-    <table ng-show="showDetails" class="table table-responsive">
+<td>{{result.charge.label}} {{details}} </td>
+<!-- colonne montrant le détails des calculs -->
+<td>
+
+    <table class="table table-responsive">
         <tr>
-            <th>montant</th>
+            <th>Tranche {{details}}</th>
             <th>plafond</th>
             <th>taux</th>
+            <th>montant</th>
         </tr>
         <tr ng-repeat="tranche in result.tranches">
-            <td>{{tranche.montant | currency}}</td>
+            <td>{{$index + 1}}</td>
             <td>{{tranche.plafond }}</td>
             <td>{{tranche.taux}}<span ng-hide="!tranche.taux">%</span></td>
+            <td>{{tranche.montant | currency}}</td>
         </tr>
     </table>
 </td>
+<td>{{result.montant | currency}}</td>
