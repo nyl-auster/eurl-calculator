@@ -3,6 +3,7 @@ angular.module('calculator').controller('calculatorController', ['$scope',  'cal
   var calculette = calculatorService;
 
   $scope.totalCharges = 0;
+  $scope.totalAProvisionner = 0;
   $scope.tva = 0;
   $scope.cfe = 500;
   $scope.benefice = 0;
@@ -31,15 +32,14 @@ angular.module('calculator').controller('calculatorController', ['$scope',  'cal
   }
 
   function calculerTotalAProvisionner() {
-    $scope.totalAProvisionner = $scope.tva
-    + $scope.totalCharges
-    + $scope.cfe;
+    $scope.totalAProvisionner = parseFloat($scope.tva)
+    + parseFloat($scope.totalCharges)
+    + parseFloat($scope.form.cfe);
   }
 
   function calculerTotalCharges() {
-    $scope.totalCharges = 0;
     $scope.charges.forEach(function(charge){
-      $scope.totalCharges += charge.montant;
+      $scope.totalCharges += parseFloat(charge.montant);
     });
   };
 
@@ -57,16 +57,15 @@ angular.module('calculator').controller('calculatorController', ['$scope',  'cal
     charges.push(calculette.impotSurLesSocietes($scope.form.chiffreAffaireHt));
 
     $scope.charges = charges;
-    console.log($scope.charges);
 
   }
 
   function calculerResultats() {
     calculerCharges();
-    calculerTva();
     calculerTotalCharges();
-    calculerBenefice();
+    calculerTva();
     calculerTotalAProvisionner();
+    calculerBenefice();
   }
 
 }]);
