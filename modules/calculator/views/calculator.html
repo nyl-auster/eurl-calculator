@@ -60,6 +60,7 @@
     <thead>
     <tr>
         <th>Nom</th>
+        <th>Organisme</th>
         <th>
             Détails
             <a ng-show="!showDetails" href="" ng-click="showDetails=!showDetails">
@@ -76,6 +77,7 @@
 
     <tr ng-repeat="line in lines">
         <td>{{line.charge.label}}</td>
+        <td>{{line.charge.organisme}}</td>
 
         <td>
 

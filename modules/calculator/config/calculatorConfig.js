@@ -169,7 +169,7 @@ angular.module('calculator').service('calculatorConfig', function(){
   // TVA 20%
   parametres.charges.tvaNormale = {
     label: "TVA",
-    organismes: "Impots",
+    organisme: "Impots",
     type_tranches: "exclusive",
     tranches: [
       {

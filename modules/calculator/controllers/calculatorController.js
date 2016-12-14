@@ -1,9 +1,6 @@
 angular.module('calculator').controller('calculatorController', ['$scope',  'calculatorService', function ($scope, calculatorService) {
 
-  $scope.totalCharges = 0;
   $scope.totalAProvisionner = 0;
-  $scope.tva = 0;
-  $scope.cfe = 500;
   $scope.benefice = 0;
   $scope.form = {
     remuneration: 0,
@@ -52,11 +49,12 @@ angular.module('calculator').controller('calculatorController', ['$scope',  'cal
     $scope.lines = lines;
   }
 
-
   function calculerBenefice(totalAprovisionner) {
-    return parseFloat($scope.form.chiffreAffaireHt)
-      - totalAprovisionner
-      - parseFloat($scope.form.remuneration);
+    // comme on compte la TVA dans notre total à provisionner, on doit partir
+    // du CA TTC pour calculer notre restant une fois retranché
+    // la rémunération et le total à provisionner
+    const CATTC = parseFloat($scope.form.chiffreAffaireHt) + calculatorService.tvaNormale($scope.form.chiffreAffaireHt).montant;
+    return CATTC - totalAprovisionner - parseFloat($scope.form.remuneration);
   }
 
   function getTotalAProvisionner() {
@@ -66,8 +64,6 @@ angular.module('calculator').controller('calculatorController', ['$scope',  'cal
       + parseFloat($scope.form.frais)
       + TVA
       + totalCotisationsSociales;
-
-    console.log(total);
     return total;
   }
 
