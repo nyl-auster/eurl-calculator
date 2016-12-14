@@ -39030,7 +39030,7 @@
 	/**
 	 * Création du module eligibilityApp
 	 */
-	var module = angular.module('core', ['ui.router']);
+	angular.module('core', ['ui.router']);
 	
 	// fichiers requis par notre module
 	__webpack_require__(19);
@@ -39088,7 +39088,6 @@
 	__webpack_require__(23);
 	__webpack_require__(24);
 	__webpack_require__(25);
-	__webpack_require__(26);
 
 
 /***/ },
@@ -39100,12 +39099,13 @@
 	 *
 	 * Le configuration définit des objets "charges" qui seront consomés par
 	 * le service "calculatorService", et qui contiennent les propriétés suivantes :
+	 *
 	 * {
 	 *
 	 *   // à quel organisme faut-il reverser la charge
 	 *   organisme: 'urssaf',
 	 *
-	 *   // label de la charge dans les résultats
+	 *   // label de la charge à afficher
 	 *   label: 'Allocations familiales',
 	 *
 	 *   // remarque supplémentaire concernant le calcul de la charge
@@ -39115,41 +39115,27 @@
 	 *   // indique comment une tranche doit être calculée : en cumulant les cotisations
 	 *   // pour chaque tranche existante, on sélectionnant uniquement une des tranches etc...
 	 *   // il existe les types suivants :
-	 *   - tranche_exclusive : une seule tranche sera choisie pour effectuer le calcul
-	 *   - tranches_cumulatives : le montant de chaque tranque se cumule pour créer un total
+	 *   // - tranche_exclusive : une seule tranche sera choisie pour effectuer le calcul
+	 *   // - tranches_cumulatives : le montant de chaque tranque se cumule pour créer un total
 	 *   type_tranches: 'tranche_exclusive',
 	 *
-	 *   // un tableau des tranches est obligatoire, même si une seule tranche semble exister.
+	 *   // un tableau des tranches est obligatoire, même si une seule tranche existe.
 	 *   tranches: [
 	 *     {
-	 *       taux: 0.0215, // le taux à appliquer. 0.0215 pour un pourcentage de 2,15%
+	 *       taux: 0.0215, // le taux à appliquer. "0.0215" définit un pourcentage de 2,15%
 	 *       plafond: 32000 // le plafond au delà duquel on passe à la tranche suivante
 	 *     }
 	 *   ]
 	 * };
 	 *
-	 * Pour une EURL à l'IS profession libérales, les cotisations sont à versées
-	 * à 3 organismes différents :
-	 *
-	 *
-	 * URSSAF :
-	 * - allocations familiale
-	 *
-	 * RSI Professions Libérales :
-	 * - assurance maladie
-	 *
-	 * CIPAV :
-	 * - invalidité décès
-	 *
 	 * SOURCES pour le calcul des cotisations:
-	 * http://www.cnavpl.fr/les-chiffres-cles/principaux-parametres-du-regime-de-base/principaux-parametres-variables-du-regime-de-base/
-	 * * https://www.urssaf.fr/portail/home/taux-et-baremes/taux-de-cotisations/les-professions-liberales/bases-de-calcul-et-taux-des-coti.html
-	 * https://www.rsi.fr/cotisations/professions-liberales/presentation-des-cotisations.html
+	 *   http://www.cnavpl.fr/les-chiffres-cles/principaux-parametres-du-regime-de-base/principaux-parametres-variables-du-regime-de-base/
+	 *   https://www.urssaf.fr/portail/home/taux-et-baremes/taux-de-cotisations/les-professions-liberales/bases-de-calcul-et-taux-des-coti.html
+	 *   https://www.rsi.fr/cotisations/professions-liberales/presentation-des-cotisations.html
+	 *
 	 * Le RSI gère uniquement votre protection santé maladie-maternité.
 	 * la retraite et l'invalidité décès sont assurées par la CNAVPL ou la CNBF
 	 * les cotisations d'allocations familiales, les contributions sociales (CSG/CRDS) et les contributions à la formation professionnelle sont à verser à l'Urssaf
-	
-	
 	 */
 	angular.module('calculator').service('calculatorConfig', function(){
 	
@@ -39166,11 +39152,6 @@
 	  // paramètres généraux pour le calcul des montants et charges
 	  parametres.plafond_securite_sociale = 38616;
 	  parametres.plafond_securite_sociale_precedent = 38040;
-	  parametres.tva = {
-	    normale: 20,
-	    intermediaire: 10,
-	    reduite: 5.5
-	  };
 	
 	  // URSSAF : MALADIE-MATERNITE
 	  parametres.charges.maladiesMaternite = {
@@ -39229,7 +39210,7 @@
 	    type_tranches: 'exclusive',
 	    tranches: [
 	      {
-	        taux: 0.25,
+	        taux: 25,
 	        plafond: max
 	      }
 	    ]
@@ -39276,10 +39257,23 @@
 	      },
 	      {
 	        plafond: max,
-	        taux: 33.33
+	        taux: 33
 	      }
 	    ]
 	  };
+	
+	  // TVA 20%
+	  parametres.charges.tvaNormale = {
+	    label: "TVA",
+	    organismes: "Impots",
+	    type_tranches: "exclusive",
+	    tranches: [
+	      {
+	        plafond:max,
+	        taux:20
+	      }
+	    ]
+	  }
 	
 	  // CIPAV: Assurance vieillesse complémentaire (obligatoire)
 	  // http://service.cipav-retraite.fr/cipav/article-33-recapitulatif-des-options-de-montantmax04.htm
@@ -39384,6 +39378,8 @@
 	    }
 	  };
 	
+	
+	
 	  // les professions libérales ne cotisent pas pour les indemnités journalières
 	  // source : http://www.rsi.fr/baremes/charges.html
 	  parametres.charges.indemnitesJournalieres = {};
@@ -39416,35 +39412,6 @@
 	    }
 	  };
 	
-	  service.calculerCharge = function(nom, baseCalcul) {
-	
-	    // selon le type de tranche utilisée par une charge, on va utiliser
-	    // différentes fonctions de notre calculette
-	    // on map ici un type de tranche avec la fonction a exécuter pour obtenir le
-	    // montant d'une charge.
-	    var callback = null;
-	    var callbacks = {
-	      tranche_exclusive: 'calculerTrancheExclusive',
-	      tranches_cumulatives: 'calculerTranchesCumulatives'
-	    };
-	
-	    // on récupère la description de cette charge
-	    var charge = parametres.charges[nom];
-	
-	    if (typeof callbacks[charge.type_tranches] !== 'undefined') {
-	      callback = callbacks[charge.type_tranches];
-	    }
-	    else {
-	      return false;
-	    }
-	
-	    var result = service[callback](baseCalcul, charge);
-	    console.log(result);
-	
-	
-	
-	  };
-	
 	  /**
 	   * Calculer le montant d'une tranche. Une tranche est un objet contenant les clefs suivantes :
 	   * - montant : peut être déjà rempli pour les montants forfaitaires
@@ -39459,7 +39426,7 @@
 	    }
 	    // sinon on calcule le montant de la tranche en fonction du taux indiqué
 	    else {
-	      montant = (baseCalcul * tranche.taux) / 100;
+	      montant = baseCalcul * (tranche.taux / 100);
 	    }
 	    // on ajoute ou met à jour le montant à notre objet tranche
 	    tranche.montant = montant;
@@ -39606,6 +39573,10 @@
 	     return service.calculerTranchesCumulatives(baseCalcul, parametres.charges.impotSurLesSocietes);
 	   };
 	
+	   service.tvaNormale = function(baseCalcul) {
+	     return service.calculerTranchesCumulatives(baseCalcul, parametres.charges.tvaNormale);
+	   };
+	
 	   return service;
 	
 	 }]);
@@ -39617,7 +39588,7 @@
 /***/ function(module, exports) {
 
 	/**
-	 * Config. On déclare notamment nos routes ici.
+	 * Nos routes ui-router
 	 */
 	angular.module('calculator').config(['$stateProvider', '$urlRouterProvider', 'coreConfig', function ($stateProvider, $urlRouterProvider, coreConfig) {
 	
@@ -39639,8 +39610,6 @@
 
 	angular.module('calculator').controller('calculatorController', ['$scope',  'calculatorService', function ($scope, calculatorService) {
 	
-	  var calculette = calculatorService;
-	
 	  $scope.totalCharges = 0;
 	  $scope.totalAProvisionner = 0;
 	  $scope.tva = 0;
@@ -39654,79 +39623,90 @@
 	  };
 	  $scope.showDetails = 0;
 	
-	  $scope.calculerResultats = function() {
-	    calculerResultats();
-	  }
+	  // rafraichir les résultats
+	  $scope.refreshResults = function() {
+	    getResults();
+	  };
 	
-	  calculerResultats();
+	  getResults();
 	
-	  function calculerTva() {
-	    $scope.tva = $scope.form.chiffreAffaireHt * 0.20;
-	  }
+	  function getResults() {
 	
-	  function calculerBenefice() {
-	    $scope.benefice = $scope.form.chiffreAffaireHt
-	    - $scope.form.remuneration
-	    - $scope.totalAProvisionner;
-	  }
+	    let lines = [];
 	
-	  function calculerTotalAProvisionner() {
-	    $scope.totalAProvisionner = parseFloat($scope.tva)
-	    + parseFloat($scope.totalCharges)
-	    + parseFloat($scope.form.cfe);
-	  }
+	    lines = lines
+	      .concat(getLinesCotisationsSociales())
+	      .concat(calculatorService.impotSurLesSocietes($scope.form.chiffreAffaireHt))
+	      .concat(calculatorService.tvaNormale($scope.form.chiffreAffaireHt));
 	
-	  function calculerTotalCharges() {
-	    $scope.totalCharges = 0;
-	    $scope.charges.forEach(function(charge){
-	      $scope.totalCharges += parseFloat(charge.montant);
+	    // ajout de la ligne CFE
+	    lines.push({
+	      charge: {
+	        label:'CFE'
+	      },
+	      montant: $scope.form.cfe
 	    });
-	  };
 	
-	  function calculerCharges() {
+	    // ajout de la ligne frais
+	    lines.push({
+	      charge: {
+	        label:'Frais'
+	      },
+	      montant: $scope.form.frais
+	    });
 	
-	    $scope.charges = [];
+	    $scope.totalAProvisionner = getTotalFromLines(lines);
 	
-	    //@FIXME vérifier les bases de calcul
-	    $scope.charges.push(calculette.assuranceVieillesseBase($scope.form.remuneration));
-	    $scope.charges.push(calculette.allocationsFamiliales($scope.form.remuneration));
-	    $scope.charges.push(calculette.assuranceVieillesseComplementaire($scope.form.remuneration));
-	    $scope.charges.push(calculette.formationProfessionnelle($scope.form.remuneration));
-	    $scope.charges.push(calculette.allocationsFamiliales($scope.form.remuneration));
-	    $scope.charges.push(calculette.maladiesMaternite($scope.form.remuneration));
-	    $scope.charges.push(calculette.impotSurLesSocietes($scope.form.chiffreAffaireHt));
+	    $scope.benefice = calculerBenefice($scope.totalAProvisionner);
 	
-	    console.log($scope.charges);
-	
+	    $scope.lines = lines;
 	  }
 	
-	  function calculerResultats() {
-	    calculerCharges();
-	    calculerTotalCharges();
-	    calculerTva();
-	    calculerTotalAProvisionner();
-	    calculerBenefice();
+	
+	  function calculerBenefice(totalAprovisionner) {
+	    return parseFloat($scope.form.chiffreAffaireHt)
+	      - totalAprovisionner
+	      - parseFloat($scope.form.remuneration);
+	  }
+	
+	  function getTotalAProvisionner() {
+	    let totalCotisationsSociales = getTotalFromLines(getLinesCotisationsSociales());
+	    let TVA = calculatorService.tvaNormale($scope.form.chiffreAffaireHt).montant;
+	    let total = parseFloat($scope.form.cfe)
+	      + parseFloat($scope.form.frais)
+	      + TVA
+	      + totalCotisationsSociales;
+	
+	    console.log(total);
+	    return total;
+	  }
+	
+	  function getTotalFromLines(lines) {
+	    totalCharges = 0;
+	    lines.forEach(function(charge){
+	      totalCharges += parseFloat(charge.montant);
+	    });
+	    return totalCharges;
+	  }
+	
+	  /**
+	   *
+	   * @returns {Array}
+	   */
+	  function getLinesCotisationsSociales() {
+	    return [
+	      calculatorService.assuranceVieillesseBase($scope.form.remuneration),
+	      calculatorService.assuranceVieillesseComplementaire($scope.form.remuneration),
+	      calculatorService.formationProfessionnelle($scope.form.remuneration),
+	      calculatorService.allocationsFamiliales($scope.form.remuneration),
+	      calculatorService.maladiesMaternite($scope.form.remuneration)
+	    ];
 	  }
 	
 	}]);
 	
 	
 	
-
-
-/***/ },
-/* 26 */
-/***/ function(module, exports) {
-
-	angular.module('calculator').directive('calculatorTableLine', ['coreConfig', function(coreConfig){
-	  return {
-	    scope: {
-	      test: '=',
-	      details: 'details'
-	    },
-	    templateUrl : coreConfig.modulesPath + '/calculator/directives/calculatorTableLine/calculatorTableLine.html',
-	  };
-	}]);
 
 
 /***/ }

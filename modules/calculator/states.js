@@ -1,5 +1,5 @@
 /**
- * Config. On déclare notamment nos routes ici.
+ * Nos routes ui-router
  */
 angular.module('calculator').config(['$stateProvider', '$urlRouterProvider', 'coreConfig', function ($stateProvider, $urlRouterProvider, coreConfig) {
 

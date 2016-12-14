@@ -1,56 +1,56 @@
-<div class="jumbotron">
-    <form name="calculatorForm" class="form-inline">
 
-        <!-- Chiffres d'affaires -->
-        <div class="form-group">
-            <label for="chiffre_affaire"> Chiffre d'affaire </label><br/>
-            <input
-            ng-change="calculerResultats()"
-            ng-model="form.chiffreAffaireHt"
-            type="text"
-            class="form-control"
-            placeholder="Chiffre d'affaire"
-            >
-        </div>
+<form name="calculatorForm" class="form-inline">
 
-        <!-- Rémunération -->
-        <div class="form-group">
-            <label for="remuneration"> Rémunération </label><br/>
-            <input
-            ng-change="calculerResultats()"
-            ng-model="form.remuneration"
-            type="text" class="form-control"
-            placeholder="Rémunération"
-            >
-        </div>
+    <!-- Chiffres d'affaires -->
+    <div class="form-group">
+        <label for="chiffre_affaire"> Chiffre d'affaire </label><br/>
+        <input
+                ng-change="refreshResults()"
+                ng-model="form.chiffreAffaireHt"
+                type="text"
+                class="form-control"
+                placeholder="Chiffre d'affaire"
+        >
+    </div>
 
-        <!-- frais -->
-        <div class="form-group">
-            <label for="frais"> Frais </label><br/>
-            <input
-            ng-change="calculerResultats()"
-            ng-model="form.frais"
-            type="text"
-            class="form-control"
-            placeholder="Frais"
-            >
-        </div>
+    <!-- Rémunération -->
+    <div class="form-group">
+        <label for="remuneration"> Rémunération </label><br/>
+        <input
+                ng-change="refreshResults()"
+                ng-model="form.remuneration"
+                type="text" class="form-control"
+                placeholder="Rémunération"
+        >
+    </div>
 
-        <!-- CFE -->
-        <div class="form-group">
-            <label for="frais"> CFE </label><br/>
-            <input
-            ng-change="calculerResultats()"
-            ng-model="form.cfe"
-            type="text"
-            class="form-control"
-            id="form.cfe"
-            placeholder="CFE"
-            >
-        </div>
+    <!-- frais -->
+    <div class="form-group">
+        <label for="frais"> Frais </label><br/>
+        <input
+                ng-change="refreshResults()"
+                ng-model="form.frais"
+                type="text"
+                class="form-control"
+                placeholder="Frais"
+        >
+    </div>
 
-    </form>
-</div>
+    <!-- CFE -->
+    <div class="form-group">
+        <label for="frais"> CFE </label><br/>
+        <input
+                ng-change="refreshResults()"
+                ng-model="form.cfe"
+                type="text"
+                class="form-control"
+                id="form.cfe"
+                placeholder="CFE"
+        >
+    </div>
+
+</form>
+
 
 <div>
     Bénéfice: {{benefice | currency}}
@@ -58,28 +58,24 @@
 
 <table class="table table-responsive">
     <thead>
-        <tr>
-            <th>Nom</th>
-            <th>
-                Détails
-                <a ng-show="!showDetails" href="" ng-click="showDetails=!showDetails">
-                    Montrer les détails
-                </a>
-                <a ng-show="showDetails" href="" ng-click="showDetails=!showDetails">
-                    Masquer les détails
-                </a>
-            </th>
-            <th>Montant</th>
-        </tr>
+    <tr>
+        <th>Nom</th>
+        <th>
+            Détails
+            <a ng-show="!showDetails" href="" ng-click="showDetails=!showDetails">
+                Montrer les détails
+            </a>
+            <a ng-show="showDetails" href="" ng-click="showDetails=!showDetails">
+                Masquer les détails
+            </a>
+        </th>
+
+        <th>Montant</th>
+    </tr>
     </thead>
 
-    <tr>
-        <td>TVA 20%</td>
-        <td></td>
-        <td>{{ tva | currency }}</td>
-    </tr>
-    <tr ng-repeat="charge in charges">
-        <td>{{charge.charge.label}}</td>
+    <tr ng-repeat="line in lines">
+        <td>{{line.charge.label}}</td>
 
         <td>
 
@@ -101,7 +97,7 @@
                         Taux
                     </th>
                 </tr>
-                <tr ng-repeat="tranche in charge.tranches">
+                <tr ng-repeat="tranche in line.tranches">
 
                     <td>
                         {{$index + 1}}
@@ -122,35 +118,13 @@
             </table>
 
         </td>
-        <td>{{charge.montant | currency }}</td>
+        <td>{{line.montant | currency }}</td>
     </tr>
-
-    <tr>
-        <td>CFE</td>
-        <td></td>
-        <td>{{form.cfe | currency }}</td>
-    </tr>
-
 
     <tr>
         <td><strong>Total A Provisionner</strong></td>
         <td></td>
         <td><strong>{{totalAProvisionner | currency }}</strong></td>
     </tr>
-
-    <!-- URSSAF -->
-    <!--
-    <tr calculator-table-line result="allocationsFamiliales" details="tatayoyo"></tr>
-    <tr calculator-table-line result="formationProfessionnelle" details="showDetails" ></tr>
-    <tr calculator-table-line result="maladiesMaternite" details="showDetails"></tr>
--->
-<!-- CIPAV -->
-    <!--
-    <tr calculator-table-line result="assuranceVieillesseBase" details="showDetails" ></tr>
-    <tr calculator-table-line result="assuranceVieillesseComplementaire" details="showDetails" ></tr>
--->
-    <!--
-    <tr calculator-table-line result="impotSurLesSocietes"></tr>
--->
 
 </table>

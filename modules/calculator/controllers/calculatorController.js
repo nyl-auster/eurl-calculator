@@ -1,7 +1,5 @@
 angular.module('calculator').controller('calculatorController', ['$scope',  'calculatorService', function ($scope, calculatorService) {
 
-  var calculette = calculatorService;
-
   $scope.totalCharges = 0;
   $scope.totalAProvisionner = 0;
   $scope.tva = 0;
@@ -15,58 +13,84 @@ angular.module('calculator').controller('calculatorController', ['$scope',  'cal
   };
   $scope.showDetails = 0;
 
-  $scope.calculerResultats = function() {
-    calculerResultats();
-  }
-
-  calculerResultats();
-
-  function calculerTva() {
-    $scope.tva = $scope.form.chiffreAffaireHt * 0.20;
-  }
-
-  function calculerBenefice() {
-    $scope.benefice = $scope.form.chiffreAffaireHt
-    - $scope.form.remuneration
-    - $scope.totalAProvisionner;
-  }
-
-  function calculerTotalAProvisionner() {
-    $scope.totalAProvisionner = parseFloat($scope.tva)
-    + parseFloat($scope.totalCharges)
-    + parseFloat($scope.form.cfe);
-  }
-
-  function calculerTotalCharges() {
-    $scope.totalCharges = 0;
-    $scope.charges.forEach(function(charge){
-      $scope.totalCharges += parseFloat(charge.montant);
-    });
+  // rafraichir les résultats
+  $scope.refreshResults = function() {
+    getResults();
   };
 
-  function calculerCharges() {
+  getResults();
 
-    $scope.charges = [];
+  function getResults() {
 
-    //@FIXME vérifier les bases de calcul
-    $scope.charges.push(calculette.assuranceVieillesseBase($scope.form.remuneration));
-    $scope.charges.push(calculette.allocationsFamiliales($scope.form.remuneration));
-    $scope.charges.push(calculette.assuranceVieillesseComplementaire($scope.form.remuneration));
-    $scope.charges.push(calculette.formationProfessionnelle($scope.form.remuneration));
-    $scope.charges.push(calculette.allocationsFamiliales($scope.form.remuneration));
-    $scope.charges.push(calculette.maladiesMaternite($scope.form.remuneration));
-    $scope.charges.push(calculette.impotSurLesSocietes($scope.form.chiffreAffaireHt));
+    let lines = [];
 
-    console.log($scope.charges);
+    lines = lines
+      .concat(getLinesCotisationsSociales())
+      .concat(calculatorService.impotSurLesSocietes($scope.form.chiffreAffaireHt))
+      .concat(calculatorService.tvaNormale($scope.form.chiffreAffaireHt));
 
+    // ajout de la ligne CFE
+    lines.push({
+      charge: {
+        label:'CFE'
+      },
+      montant: $scope.form.cfe
+    });
+
+    // ajout de la ligne frais
+    lines.push({
+      charge: {
+        label:'Frais'
+      },
+      montant: $scope.form.frais
+    });
+
+    $scope.totalAProvisionner = getTotalFromLines(lines);
+
+    $scope.benefice = calculerBenefice($scope.totalAProvisionner);
+
+    $scope.lines = lines;
   }
 
-  function calculerResultats() {
-    calculerCharges();
-    calculerTotalCharges();
-    calculerTva();
-    calculerTotalAProvisionner();
-    calculerBenefice();
+
+  function calculerBenefice(totalAprovisionner) {
+    return parseFloat($scope.form.chiffreAffaireHt)
+      - totalAprovisionner
+      - parseFloat($scope.form.remuneration);
+  }
+
+  function getTotalAProvisionner() {
+    let totalCotisationsSociales = getTotalFromLines(getLinesCotisationsSociales());
+    let TVA = calculatorService.tvaNormale($scope.form.chiffreAffaireHt).montant;
+    let total = parseFloat($scope.form.cfe)
+      + parseFloat($scope.form.frais)
+      + TVA
+      + totalCotisationsSociales;
+
+    console.log(total);
+    return total;
+  }
+
+  function getTotalFromLines(lines) {
+    totalCharges = 0;
+    lines.forEach(function(charge){
+      totalCharges += parseFloat(charge.montant);
+    });
+    return totalCharges;
+  }
+
+  /**
+   *
+   * @returns {Array}
+   */
+  function getLinesCotisationsSociales() {
+    return [
+      calculatorService.assuranceVieillesseBase($scope.form.remuneration),
+      calculatorService.assuranceVieillesseComplementaire($scope.form.remuneration),
+      calculatorService.formationProfessionnelle($scope.form.remuneration),
+      calculatorService.allocationsFamiliales($scope.form.remuneration),
+      calculatorService.maladiesMaternite($scope.form.remuneration)
+    ];
   }
 
 }]);

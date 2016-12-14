@@ -3,12 +3,13 @@
  *
  * Le configuration définit des objets "charges" qui seront consomés par
  * le service "calculatorService", et qui contiennent les propriétés suivantes :
+ *
  * {
  *
  *   // à quel organisme faut-il reverser la charge
  *   organisme: 'urssaf',
  *
- *   // label de la charge dans les résultats
+ *   // label de la charge à afficher
  *   label: 'Allocations familiales',
  *
  *   // remarque supplémentaire concernant le calcul de la charge
@@ -18,41 +19,27 @@
  *   // indique comment une tranche doit être calculée : en cumulant les cotisations
  *   // pour chaque tranche existante, on sélectionnant uniquement une des tranches etc...
  *   // il existe les types suivants :
- *   - tranche_exclusive : une seule tranche sera choisie pour effectuer le calcul
- *   - tranches_cumulatives : le montant de chaque tranque se cumule pour créer un total
+ *   // - tranche_exclusive : une seule tranche sera choisie pour effectuer le calcul
+ *   // - tranches_cumulatives : le montant de chaque tranque se cumule pour créer un total
  *   type_tranches: 'tranche_exclusive',
  *
- *   // un tableau des tranches est obligatoire, même si une seule tranche semble exister.
+ *   // un tableau des tranches est obligatoire, même si une seule tranche existe.
  *   tranches: [
  *     {
- *       taux: 0.0215, // le taux à appliquer. 0.0215 pour un pourcentage de 2,15%
+ *       taux: 0.0215, // le taux à appliquer. "0.0215" définit un pourcentage de 2,15%
  *       plafond: 32000 // le plafond au delà duquel on passe à la tranche suivante
  *     }
  *   ]
  * };
  *
- * Pour une EURL à l'IS profession libérales, les cotisations sont à versées
- * à 3 organismes différents :
- *
- *
- * URSSAF :
- * - allocations familiale
- *
- * RSI Professions Libérales :
- * - assurance maladie
- *
- * CIPAV :
- * - invalidité décès
- *
  * SOURCES pour le calcul des cotisations:
- * http://www.cnavpl.fr/les-chiffres-cles/principaux-parametres-du-regime-de-base/principaux-parametres-variables-du-regime-de-base/
- * * https://www.urssaf.fr/portail/home/taux-et-baremes/taux-de-cotisations/les-professions-liberales/bases-de-calcul-et-taux-des-coti.html
- * https://www.rsi.fr/cotisations/professions-liberales/presentation-des-cotisations.html
+ *   http://www.cnavpl.fr/les-chiffres-cles/principaux-parametres-du-regime-de-base/principaux-parametres-variables-du-regime-de-base/
+ *   https://www.urssaf.fr/portail/home/taux-et-baremes/taux-de-cotisations/les-professions-liberales/bases-de-calcul-et-taux-des-coti.html
+ *   https://www.rsi.fr/cotisations/professions-liberales/presentation-des-cotisations.html
+ *
  * Le RSI gère uniquement votre protection santé maladie-maternité.
  * la retraite et l'invalidité décès sont assurées par la CNAVPL ou la CNBF
  * les cotisations d'allocations familiales, les contributions sociales (CSG/CRDS) et les contributions à la formation professionnelle sont à verser à l'Urssaf
-
-
  */
 angular.module('calculator').service('calculatorConfig', function(){
 
@@ -69,11 +56,6 @@ angular.module('calculator').service('calculatorConfig', function(){
   // paramètres généraux pour le calcul des montants et charges
   parametres.plafond_securite_sociale = 38616;
   parametres.plafond_securite_sociale_precedent = 38040;
-  parametres.tva = {
-    normale: 20,
-    intermediaire: 10,
-    reduite: 5.5
-  };
 
   // URSSAF : MALADIE-MATERNITE
   parametres.charges.maladiesMaternite = {
@@ -132,7 +114,7 @@ angular.module('calculator').service('calculatorConfig', function(){
     type_tranches: 'exclusive',
     tranches: [
       {
-        taux: 0.25,
+        taux: 25,
         plafond: max
       }
     ]
@@ -179,10 +161,23 @@ angular.module('calculator').service('calculatorConfig', function(){
       },
       {
         plafond: max,
-        taux: 33.33
+        taux: 33
       }
     ]
   };
+
+  // TVA 20%
+  parametres.charges.tvaNormale = {
+    label: "TVA",
+    organismes: "Impots",
+    type_tranches: "exclusive",
+    tranches: [
+      {
+        plafond:max,
+        taux:20
+      }
+    ]
+  }
 
   // CIPAV: Assurance vieillesse complémentaire (obligatoire)
   // http://service.cipav-retraite.fr/cipav/article-33-recapitulatif-des-options-de-montantmax04.htm
@@ -286,6 +281,8 @@ angular.module('calculator').service('calculatorConfig', function(){
       }
     }
   };
+
+
 
   // les professions libérales ne cotisent pas pour les indemnités journalières
   // source : http://www.rsi.fr/baremes/charges.html

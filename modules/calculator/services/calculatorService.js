@@ -16,35 +16,6 @@
     }
   };
 
-  service.calculerCharge = function(nom, baseCalcul) {
-
-    // selon le type de tranche utilisée par une charge, on va utiliser
-    // différentes fonctions de notre calculette
-    // on map ici un type de tranche avec la fonction a exécuter pour obtenir le
-    // montant d'une charge.
-    var callback = null;
-    var callbacks = {
-      tranche_exclusive: 'calculerTrancheExclusive',
-      tranches_cumulatives: 'calculerTranchesCumulatives'
-    };
-
-    // on récupère la description de cette charge
-    var charge = parametres.charges[nom];
-
-    if (typeof callbacks[charge.type_tranches] !== 'undefined') {
-      callback = callbacks[charge.type_tranches];
-    }
-    else {
-      return false;
-    }
-
-    var result = service[callback](baseCalcul, charge);
-    console.log(result);
-
-
-
-  };
-
   /**
    * Calculer le montant d'une tranche. Une tranche est un objet contenant les clefs suivantes :
    * - montant : peut être déjà rempli pour les montants forfaitaires
@@ -59,7 +30,7 @@
     }
     // sinon on calcule le montant de la tranche en fonction du taux indiqué
     else {
-      montant = (baseCalcul * tranche.taux) / 100;
+      montant = baseCalcul * (tranche.taux / 100);
     }
     // on ajoute ou met à jour le montant à notre objet tranche
     tranche.montant = montant;
@@ -204,6 +175,10 @@
    */
    service.impotSurLesSocietes = function(baseCalcul) {
      return service.calculerTranchesCumulatives(baseCalcul, parametres.charges.impotSurLesSocietes);
+   };
+
+   service.tvaNormale = function(baseCalcul) {
+     return service.calculerTranchesCumulatives(baseCalcul, parametres.charges.tvaNormale);
    };
 
    return service;
