@@ -1,4 +1,4 @@
-angular.module('calculator').controller('calculatorController', ['$scope',  'calculatorService', function ($scope, calculatorService) {
+angular.module('calculator').controller('calculatorController', ['$scope',  'calculatorService', '$cookies', function ($scope, calculatorService, $cookies) {
 
   $scope.totalAProvisionner = 0;
   $scope.benefice = 0;
