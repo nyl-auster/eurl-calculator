@@ -39628,13 +39628,21 @@
 	
 	  getResults();
 	
+	  function getBaseCalculIs() {
+	    return $scope.form.chiffreAffaireHt
+	      - $scope.form.remuneration
+	      - $scope.form.frais;
+	  }
+	
 	  function getResults() {
 	
 	    let lines = [];
 	
+	    var baseCalculIS = $scope.form.chiffreAffaireHt - $scope.form.frais - $scope.form.cfe;
+	
 	    lines = lines
 	      .concat(getLinesCotisationsSociales())
-	      .concat(calculatorService.impotSurLesSocietes($scope.form.chiffreAffaireHt))
+	      .concat(calculatorService.impotSurLesSocietes(getBaseCalculIs()))
 	      .concat(calculatorService.tvaNormale($scope.form.chiffreAffaireHt));
 	
 	    // ajout de la ligne CFE
