@@ -55,6 +55,7 @@
 	__webpack_require__(6);
 	__webpack_require__(7);
 	
+	
 	// nos modules custom angular
 	__webpack_require__(9);
 	__webpack_require__(11);
@@ -37038,7 +37039,7 @@
 	 */
 	angular.module('calculator').service('chargesConfig', function(){
 	
-	  const max = 999999999999;
+	  const max = null;
 	
 	  const parametres = {
 	    general:{},
@@ -37442,17 +37443,19 @@
 	  };
 	
 	  /**
-	   * Calculer le montant d'une tranche.
+	   * Retourne le montant pour une tranche de charge.
+	   *
 	   * Une tranche est un objet qui peut contenir les clefs suivantes :
 	   * - montant : peut être déjà rempli pour les montants forfaitaires
 	   * - taux : le pourcentage à appliquer sur le montant
 	   * - montant_forfaitaire : si la tranche est un montant fixe en fonction du plafond.
 	   */
 	   service.calculerMontantTranche = function(tranche, baseCalcul) {
-	     var montant = null;
+	     var montant = 0;
+	     baseCalcul = baseCalcul;
 	
 	    // si un montant forfaitaire est prédéfini pour cette tranche
-	    if (typeof tranche.montant_forfaitaire !== undefined) {
+	    if (typeof tranche.montant_forfaitaire !== "undefined") {
 	      montant = tranche.montant_forfaitaire;
 	    }
 	    // sinon on calcule le montant de la tranche en fonction du taux indiqué
