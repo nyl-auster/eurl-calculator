@@ -37039,7 +37039,7 @@
 	 */
 	angular.module('calculator').service('chargesConfig', function(){
 	
-	  const max = 99999999999;
+	  const max = 999999999999999;
 	
 	  const parametres = {
 	    general:{},
@@ -37317,7 +37317,10 @@
 /***/ 160:
 /***/ function(module, exports) {
 
-	angular.module('calculator').controller('chargesReportController', ['$scope', 'chargesCalculatorService', '$cookies', function ($scope, chargesCalculatorService, $cookies) {
+	/**
+	 * Objet "charge" > objet "Resultat du calculator" > objet "ligne à afficher"
+	 */
+	angular.module('calculator').controller('chargesReportController', ['$scope', 'chargesCalculatorService', 'chargesConfig', '$cookies', function ($scope, chargesCalculatorService, $cookies, chargesConfig) {
 	
 	  $scope.totalAProvisionner = 0;
 	
@@ -37433,13 +37436,16 @@
 	 */
 	 angular.module('calculator').service('chargesCalculatorService',['chargesConfig', function(chargesConfig){
 	
-	   var service = {};
+	   const service = {};
 	
 	  // formater un resultat pour tous les calculs
 	  service.result = function(charge) {
 	    return {
+	      // notre objet charge tel que définit dans chargesConfig
 	      charge: charge,
+	      // le montant à parter pour la charge passé en paramètre
 	      montant:0,
+	      // les tranches pour lesquels notre base de calcul déclenche effectivement un calcul
 	      tranches:[]
 	    }
 	  };
@@ -37484,16 +37490,14 @@
 	    var trancheActive = null;
 	    var result = new service.result(charge);
 	
-	    charge.tranches.forEach(function(tranche, index) {
-	
-	      if (baseCalcul > tranche.plafond) {
-	        //trancheActive = tranches[index - 1] || tranches[0];
-	      }
-	
-	      if (!trancheActive &&  baseCalcul <= tranche.plafond) {
+	    charge.tranches.forEach(function(tranche) {
+	      // tant que la base de calcul n'est pas supérieur au plafond en cours, on continue
+	      // d'itérer.
+	      if (!trancheActive && baseCalcul <= tranche.plafond) {
+	        // on a dépassé le plafond, on arrête de mettre à jour la variable trancheActive
+	        // qui contient maintenant notre réponse
 	        trancheActive = tranche;
 	      }
-	
 	    });
 	
 	    if (trancheActive) {

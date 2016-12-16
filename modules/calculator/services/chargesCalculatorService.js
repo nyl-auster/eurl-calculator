@@ -3,13 +3,16 @@
  */
  angular.module('calculator').service('chargesCalculatorService',['chargesConfig', function(chargesConfig){
 
-   var service = {};
+   const service = {};
 
   // formater un resultat pour tous les calculs
   service.result = function(charge) {
     return {
+      // notre objet charge tel que définit dans chargesConfig
       charge: charge,
+      // le montant à parter pour la charge passé en paramètre
       montant:0,
+      // les tranches pour lesquels notre base de calcul déclenche effectivement un calcul
       tranches:[]
     }
   };
@@ -54,16 +57,14 @@
     var trancheActive = null;
     var result = new service.result(charge);
 
-    charge.tranches.forEach(function(tranche, index) {
-
-      if (baseCalcul > tranche.plafond) {
-        //trancheActive = tranches[index - 1] || tranches[0];
-      }
-
-      if (!trancheActive &&  baseCalcul <= tranche.plafond) {
+    charge.tranches.forEach(function(tranche) {
+      // tant que la base de calcul n'est pas supérieur au plafond en cours, on continue
+      // d'itérer.
+      if (!trancheActive && baseCalcul <= tranche.plafond) {
+        // on a dépassé le plafond, on arrête de mettre à jour la variable trancheActive
+        // qui contient maintenant notre réponse
         trancheActive = tranche;
       }
-
     });
 
     if (trancheActive) {

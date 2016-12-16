@@ -1,4 +1,7 @@
-angular.module('calculator').controller('chargesReportController', ['$scope', 'chargesCalculatorService', '$cookies', function ($scope, chargesCalculatorService, $cookies) {
+/**
+ * Objet "charge" > objet "Resultat du calculator" > objet "ligne à afficher"
+ */
+angular.module('calculator').controller('chargesReportController', ['$scope', 'chargesCalculatorService', 'chargesConfig', '$cookies', function ($scope, chargesCalculatorService, $cookies, chargesConfig) {
 
   $scope.totalAProvisionner = 0;
 

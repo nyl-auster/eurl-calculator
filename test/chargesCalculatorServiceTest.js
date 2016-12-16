@@ -1,7 +1,7 @@
 // Be descriptive with titles here. The describe and it titles combined read like a sentence.
 describe('chargesCalculatorService', function() {
 
-  var max = 999999999999;
+  const max = 999999999999999;
 
   beforeEach(function() {
     module('calculator');
@@ -15,7 +15,7 @@ describe('chargesCalculatorService', function() {
   it("doit retourner le montant pour d'une tranche avec taux", function() {
 
     baseCalcul = 1000;
-    var trancheA = {
+    let trancheA = {
       taux: 10,
       plafond:100000
     };
@@ -26,7 +26,7 @@ describe('chargesCalculatorService', function() {
   it("doit retourner le montant d'une tranche avec montant_forfaitaire", function() {
 
     baseCalcul = 1000;
-    var trancheA = {
+    let trancheA = {
       taux: 10,
       plafond:100000,
       montant_forfaitaire:2
@@ -94,13 +94,14 @@ describe('chargesCalculatorService', function() {
       ]
     };
 
-    var result = chargesCalculatorService.calculerTrancheExclusive(baseCalcul, charge);
+    let result = chargesCalculatorService.calculerTrancheExclusive(baseCalcul, charge);
     expect(result.montant).toEqual(2427);
 
     baseCalcul = 103180;
-    var result = chargesCalculatorService.calculerTrancheExclusive(baseCalcul, charge);
+    result = chargesCalculatorService.calculerTrancheExclusive(baseCalcul, charge);
     expect(result.montant).toEqual(13349);
   });
+
 
   it("doit retourner le montant avec taux pour une charge avec tranche_exclusive", function() {
 
@@ -119,10 +120,8 @@ describe('chargesCalculatorService', function() {
       ]
     };
 
-    var result = chargesCalculatorService.calculerTrancheExclusive(baseCalcul, charge);
+    let result = chargesCalculatorService.calculerTrancheExclusive(baseCalcul, charge);
     expect(result.montant).toEqual(65);
   });
-
-
 
 });
