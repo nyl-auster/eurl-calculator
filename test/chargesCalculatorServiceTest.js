@@ -33,7 +33,7 @@ describe('chargesCalculatorService', function() {
     expect(chargesCalculatorService.calculerMontantTranche(trancheA, baseCalcul)).toEqual(2);
   });
 
-  it("doit retourner le montant pour une charge avec tranche_exclusive", function() {
+  it("doit retourner le montant forfaitaire pour une charge avec tranche_exclusive", function() {
 
     baseCalcul = 30000;
     charge = {
@@ -99,5 +99,28 @@ describe('chargesCalculatorService', function() {
     var result = chargesCalculatorService.calculerTrancheExclusive(baseCalcul, charge);
     expect(result.montant).toEqual(13349);
   });
+
+  it("doit retourner le montant avec taux pour une charge avec tranche_exclusive", function() {
+
+    baseCalcul = 1000;
+    charge = {
+      organisme:'URSSAF',
+      type_tranches: 'tranche_exclusive',
+      label:'Maladie-maternité',
+      commentaire:'Base de calcul : totalité des revenus professionnels',
+      type_tranches: 'tranche_exclusive',
+      tranches: [
+        {
+          taux: 6.50,
+          plafond: 999999999
+        }
+      ]
+    };
+
+    var result = chargesCalculatorService.calculerTrancheExclusive(baseCalcul, charge);
+    expect(result.montant).toEqual(65);
+  });
+
+
 
 });
