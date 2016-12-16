@@ -1,5 +1,6 @@
 /**
- * Les objets "charges" qui seront consommés par le service "chargesCalculator",
+ * Les objets "charges" d'une EURL à l'IS en PL
+ * qui seront consommés par le service "chargesCalculator",
  * qui permettra de calculer le montant des cotisations et impots à payer.
  *
  * Une "charge" *DOIT* contenir les propriétés suivantes :

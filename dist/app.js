@@ -40,8 +40,9 @@
 /******/ 	return __webpack_require__(0);
 /******/ })
 /************************************************************************/
-/******/ ([
-/* 0 */
+/******/ ({
+
+/***/ 0:
 /***/ function(module, exports, __webpack_require__) {
 
 	/**
@@ -49,26 +50,28 @@
 	 */
 	
 	// contrib
-	__webpack_require__(1);
 	__webpack_require__(3);
-	__webpack_require__(4);
 	__webpack_require__(5);
+	__webpack_require__(6);
+	__webpack_require__(7);
 	
 	// nos modules custom angular
-	__webpack_require__(7);
 	__webpack_require__(9);
+	__webpack_require__(11);
 
 
 /***/ },
-/* 1 */
+
+/***/ 3:
 /***/ function(module, exports, __webpack_require__) {
 
-	__webpack_require__(2);
+	__webpack_require__(4);
 	module.exports = angular;
 
 
 /***/ },
-/* 2 */
+
+/***/ 4:
 /***/ function(module, exports) {
 
 	/**
@@ -31841,7 +31844,8 @@
 	!window.angular.$$csp().noInlineStyle && window.angular.element(document.head).prepend('<style type="text/css">@charset "UTF-8";[ng\\:cloak],[ng-cloak],[data-ng-cloak],[x-ng-cloak],.ng-cloak,.x-ng-cloak,.ng-hide:not(.ng-hide-animate){display:none !important;}ng\\:form{display:block;}.ng-animate-shim{visibility:hidden;}.ng-anchor{position:absolute;}</style>');
 
 /***/ },
-/* 3 */
+
+/***/ 5:
 /***/ function(module, exports) {
 
 	/**
@@ -36455,7 +36459,8 @@
 	})(window, window.angular);
 
 /***/ },
-/* 4 */
+
+/***/ 6:
 /***/ function(module, exports) {
 
 	'use strict';
@@ -36586,15 +36591,17 @@
 
 
 /***/ },
-/* 5 */
+
+/***/ 7:
 /***/ function(module, exports, __webpack_require__) {
 
-	__webpack_require__(6);
+	__webpack_require__(8);
 	module.exports = 'ngCookies';
 
 
 /***/ },
-/* 6 */
+
+/***/ 8:
 /***/ function(module, exports) {
 
 	/**
@@ -36930,7 +36937,8 @@
 
 
 /***/ },
-/* 7 */
+
+/***/ 9:
 /***/ function(module, exports, __webpack_require__) {
 
 	/**
@@ -36939,7 +36947,7 @@
 	angular.module('core', ['ui.router', 'ngCookies']);
 	
 	// fichiers requis par notre module
-	__webpack_require__(8);
+	__webpack_require__(10);
 	
 	
 	
@@ -36950,7 +36958,8 @@
 
 
 /***/ },
-/* 8 */
+
+/***/ 10:
 /***/ function(module, exports) {
 
 	/**
@@ -36966,7 +36975,8 @@
 
 
 /***/ },
-/* 9 */
+
+/***/ 11:
 /***/ function(module, exports, __webpack_require__) {
 
 	/**
@@ -36975,18 +36985,21 @@
 	angular.module('calculator', ['core']);
 	
 	// ajout des fichiers du module calculator
-	__webpack_require__(10);
-	__webpack_require__(11);
 	__webpack_require__(12);
-	__webpack_require__(13);
+	__webpack_require__(163);
+	__webpack_require__(161);
+	__webpack_require__(14);
+	__webpack_require__(160);
 
 
 /***/ },
-/* 10 */
+
+/***/ 12:
 /***/ function(module, exports) {
 
 	/**
-	 * Les objets "charges" qui seront consommés par le service "chargesCalculator",
+	 * Les objets "charges" d'une EURL à l'IS en PL
+	 * qui seront consommés par le service "chargesCalculator",
 	 * qui permettra de calculer le montant des cotisations et impots à payer.
 	 *
 	 * Une "charge" *DOIT* contenir les propriétés suivantes :
@@ -37279,208 +37292,8 @@
 
 
 /***/ },
-/* 11 */
-/***/ function(module, exports) {
 
-	/**
-	 * Calculs des charges en fonction des paramètres
-	 */
-	 angular.module('calculator').service('chargesCalculatorService',['chargesConfig', function(chargesConfig){
-	
-	   const service = {};
-	
-	  // formater un resultat pour tous les calculs
-	  service.result = function(charge) {
-	    return {
-	      // notre objet charge tel que définit dans chargesConfig
-	      charge: charge,
-	      // le montant à parter pour la charge passé en paramètre
-	      montant:0,
-	      // les tranches pour lesquels notre base de calcul déclenche effectivement un calcul
-	      tranches:[]
-	    }
-	  };
-	
-	  /**
-	   * Retourne le montant pour une tranche de charge.
-	   *
-	   * Une tranche est un objet qui peut contenir les clefs suivantes :
-	   * - montant : peut être déjà rempli pour les montants forfaitaires
-	   * - taux : le pourcentage à appliquer sur le montant
-	   * - montant_forfaitaire : si la tranche est un montant fixe en fonction du plafond.
-	   */
-	   service.calculerMontantTranche = function(tranche, baseCalcul) {
-	     var montant = 0;
-	
-	    // si un montant forfaitaire est prédéfini pour cette tranche
-	    if (typeof tranche.montant_forfaitaire !== "undefined") {
-	      montant = tranche.montant_forfaitaire;
-	    }
-	    // sinon on calcule le montant de la tranche en fonction du taux indiqué
-	    else {
-	      montant = baseCalcul * (tranche.taux / 100);
-	    }
-	    // on ajoute ou met à jour le montant à notre objet tranche
-	    tranche.montant = montant;
-	    tranche.baseCalcul = baseCalcul;
-	    return montant;
-	  };
-	
-	  /**
-	   * Calcul la tranche qui correspond à baseDeCalcul en fonction du tableau "tranches".
-	   * Pour les tranches exclusives, seule UNE tranche est conservé pour le calcul, les
-	   * tranches précédentes ou suivantes n'entrent donc en rien dans le calcul du montant
-	   * de la cotisation
-	   *
-	   * @param baseCalcul float | int :
-	   * @param charge array : tableau d'objet "charge"
-	   */
-	   service.calculerTrancheExclusive = function(baseCalcul, charge) {
-	
-	    // on recherche la tranche qui correspond à notre baseCalcul
-	    var trancheActive = null;
-	    var result = new service.result(charge);
-	
-	    charge.tranches.forEach(function(tranche) {
-	      // tant que la base de calcul n'est pas supérieur au plafond en cours, on continue
-	      // d'itérer.
-	      if (!trancheActive && baseCalcul <= tranche.plafond) {
-	        // on a dépassé le plafond, on arrête de mettre à jour la variable trancheActive
-	        // qui contient maintenant notre réponse
-	        trancheActive = tranche;
-	      }
-	    });
-	
-	    if (trancheActive) {
-	      result.montant = service.calculerMontantTranche(trancheActive, baseCalcul);
-	      result.tranches= [trancheActive];
-	    }
-	
-	    return result;
-	  };
-	
-	  /**
-	   * Calcul des charges à tranches cumulatives, tels que l'impot sur les bénéfices :
-	   * - 15% pour pour les 38120 premiers euros, puis 33,33% sur le reste des bénéfices
-	   *
-	   * @param baseCalcul float | int :
-	   * @param charge array : tableau d'objet "charges"
-	   */
-	   service.calculerTranchesCumulatives = function(baseCalcul, charge) {
-	
-	    // contiendra la liste des tranches qui seront appliquée
-	    // à notre base de calcul
-	    var tranches = [];
-	
-	    var result = new service.result(charge);
-	
-	    // montant total, toute tranches cumulées
-	    var montant = 0;
-	    var plancher = 0;
-	
-	    charge.tranches.forEach(function(tranche, index) {
-	
-	      // on calcule le "planger" de la tranche, qui est soit égal
-	      // au plafond précédent, soit à zéro si c'est la première tranche.
-	      if (typeof tranches[index - 1] !== 'undefined') {
-	        plancher = tranches[index - 1].plafond;
-	      }
-	
-	      // on calcule la différence entre le plafond et le plancher
-	      tranche.intervalle = tranche.plafond - plancher;
-	
-	      // si la somme est supérieure ou égale au plafond de la tranche courante ...
-	      if (baseCalcul >= tranche.plafond)
-	      {
-	        // ... on calcule le montant dû pour la tranche courante
-	        tranche.montant = service.calculerMontantTranche(tranche, tranche.intervalle);
-	        // on ajoute le montant de la cotisation de cette tranche au total.
-	        montant += tranche.montant;
-	        // ajout à la liste des tranches qui s'applique à notre cas.
-	        tranches.push(tranche);
-	      }
-	
-	      // mais si la somme est inférieure au plafond courant, c'est que nous sommes à la dernière tranche
-	      else
-	      {
-	        // on calcule le montant pour cette derniere tranche
-	        var depassement_plancher = baseCalcul - plancher;
-	        if (depassement_plancher > 0)
-	        {
-	          montant += tranche.montant = service.calculerMontantTranche(tranche, depassement_plancher);
-	          // ajout à la liste des tranches qui s'appliquent à notre cas.
-	          tranches.push(tranche);
-	        }
-	      }
-	
-	    });
-	
-	    result.montant = montant;
-	    result.tranches= tranches;
-	
-	    return result;
-	  };
-	
-	  /**
-	   * Calcul des cotisations maladie et maternité - URSSAF
-	   */
-	   service.assuranceVieillesseComplementaire = function(baseCalcul) {
-	     return service.calculerTrancheExclusive(baseCalcul, chargesConfig.charges.assuranceVieillesseComplementaire);
-	   };
-	
-	  /**
-	   * Calcul des cotisations pour la formation professionnelle
-	   */
-	   service.formationProfessionnelle = function(baseCalcul) {
-	     return service.calculerTrancheExclusive(baseCalcul, chargesConfig.charges.formationProfessionnelle);
-	   };
-	
-	  /**
-	   * Calcul des cotisations maladie et maternité - URSSAF
-	   */
-	   service.allocationsFamiliales = function(baseCalcul) {
-	     return service.calculerTrancheExclusive(baseCalcul, chargesConfig.charges.allocationsFamiliales);
-	   };
-	
-	  /**
-	   * Calcul des cotisations maladie et maternité - CIPAV
-	   * @FIXME calcul chelou, à vérifier
-	   */
-	   service.assuranceVieillesseBase = function(baseCalcul) {
-	     var assuranceVieillesseBase = angular.copy(chargesConfig.charges.assuranceVieillesseBase);
-	     if (baseCalcul > assuranceVieillesseBase.tranches[0].plafond) {
-	       delete assuranceVieillesseBase.tranches[0];
-	     }
-	     var result = service.calculerTranchesCumulatives(baseCalcul, assuranceVieillesseBase);
-	     return result;
-	   };
-	
-	  /**
-	   * Calcul des cotisations maladie et maternité - URSSAF
-	   */
-	   service.maladiesMaternite = function(baseCalcul) {
-	     return service.calculerTrancheExclusive(baseCalcul, chargesConfig.charges.maladiesMaternite);
-	   };
-	
-	  /**
-	   * Calcul de l'impot sur les bénéfices - Impots
-	   */
-	   service.impotSurLesSocietes = function(baseCalcul) {
-	     return service.calculerTranchesCumulatives(baseCalcul, chargesConfig.charges.impotSurLesSocietes);
-	   };
-	
-	   service.tvaNormale = function(baseCalcul) {
-	     return service.calculerTranchesCumulatives(baseCalcul, chargesConfig.charges.tvaNormale);
-	   };
-	
-	   return service;
-	
-	 }]);
-	
-
-
-/***/ },
-/* 12 */
+/***/ 14:
 /***/ function(module, exports) {
 
 	/**
@@ -37501,7 +37314,8 @@
 
 
 /***/ },
-/* 13 */
+
+/***/ 160:
 /***/ function(module, exports) {
 
 	/**
@@ -37613,6 +37427,228 @@
 	
 
 
+/***/ },
+
+/***/ 161:
+/***/ function(module, exports) {
+
+	/**
+	 * Calculs des charges d'une EULR en fonction des paramètres
+	 */
+	angular.module('calculator').service('chargesCalculatorService',['chargesConfig', 'chargesTranchesCalculatorService', function(chargesConfig, chargesTranchesCalculatorService){
+	
+	  const service = {};
+	
+	  /**
+	   * Calcul des cotisations maladie et maternité - URSSAF
+	   */
+	  service.assuranceVieillesseComplementaire = function(baseCalcul) {
+	    return chargesTranchesCalculatorService.calculerTrancheExclusive(baseCalcul, chargesConfig.charges.assuranceVieillesseComplementaire);
+	  };
+	
+	  /**
+	   * Calcul des cotisations pour la formation professionnelle
+	   */
+	  service.formationProfessionnelle = function(baseCalcul) {
+	    return chargesTranchesCalculatorService.calculerTrancheExclusive(baseCalcul, chargesConfig.charges.formationProfessionnelle);
+	  };
+	
+	  /**
+	   * Calcul des cotisations maladie et maternité - URSSAF
+	   */
+	  service.allocationsFamiliales = function(baseCalcul) {
+	    return chargesTranchesCalculatorService.calculerTrancheExclusive(baseCalcul, chargesConfig.charges.allocationsFamiliales);
+	  };
+	
+	  /**
+	   * Calcul des cotisations maladie et maternité - CIPAV
+	   * @FIXME calcul chelou, à vérifier
+	   */
+	  service.assuranceVieillesseBase = function(baseCalcul) {
+	    var assuranceVieillesseBase = angular.copy(chargesConfig.charges.assuranceVieillesseBase);
+	    if (baseCalcul > assuranceVieillesseBase.tranches[0].plafond) {
+	      delete assuranceVieillesseBase.tranches[0];
+	    }
+	    var result = chargesTranchesCalculatorService.calculerTranchesCumulatives(baseCalcul, assuranceVieillesseBase);
+	    return result;
+	  };
+	
+	  /**
+	   * Calcul des cotisations maladie et maternité - URSSAF
+	   */
+	  service.maladiesMaternite = function(baseCalcul) {
+	    return chargesTranchesCalculatorService.calculerTrancheExclusive(baseCalcul, chargesConfig.charges.maladiesMaternite);
+	  };
+	
+	  /**
+	   * Calcul de l'impot sur les bénéfices - Impots
+	   */
+	  service.impotSurLesSocietes = function(baseCalcul) {
+	    return chargesTranchesCalculatorService.calculerTranchesCumulatives(baseCalcul, chargesConfig.charges.impotSurLesSocietes);
+	  };
+	
+	  service.tvaNormale = function(baseCalcul) {
+	    return chargesTranchesCalculatorService.calculerTranchesCumulatives(baseCalcul, chargesConfig.charges.tvaNormale);
+	  };
+	
+	  return service;
+	
+	}]);
+	
+
+
+/***/ },
+
+/***/ 163:
+/***/ function(module, exports) {
+
+	/**
+	 * Permet de calculer le montant à payer en explorant les
+	 * tranches d'une charge
+	 */
+	angular.module('calculator').service('chargesTranchesCalculatorService',['chargesConfig', function(chargesConfig){
+	
+	  const service = {};
+	
+	  // formater un resultat pour tous les calculs
+	  service.result = function(charge) {
+	    return {
+	      // notre objet charge tel que définit dans chargesConfig
+	      charge: charge,
+	      // le montant à parter pour la charge passé en paramètre
+	      montant:0,
+	      // les tranches pour lesquels notre base de calcul déclenche effectivement un calcul
+	      tranches:[]
+	    }
+	  };
+	
+	  /**
+	   * Retourne le montant pour une tranche de charge.
+	   *
+	   * Une tranche est un objet qui peut contenir les clefs suivantes :
+	   * - montant : peut être déjà rempli pour les montants forfaitaires
+	   * - taux : le pourcentage à appliquer sur le montant
+	   * - montant_forfaitaire : si la tranche est un montant fixe en fonction du plafond.
+	   */
+	  service.calculerMontantTranche = function(tranche, baseCalcul) {
+	    var montant = 0;
+	
+	    // si un montant forfaitaire est prédéfini pour cette tranche
+	    if (typeof tranche.montant_forfaitaire !== "undefined") {
+	      montant = tranche.montant_forfaitaire;
+	    }
+	    // sinon on calcule le montant de la tranche en fonction du taux indiqué
+	    else {
+	      montant = baseCalcul * (tranche.taux / 100);
+	    }
+	    // on ajoute ou met à jour le montant à notre objet tranche
+	    tranche.montant = montant;
+	    tranche.baseCalcul = baseCalcul;
+	    return montant;
+	  };
+	
+	  /**
+	   * Calcul la tranche qui correspond à baseDeCalcul en fonction du tableau "tranches".
+	   * Pour les tranches exclusives, seule UNE tranche est conservé pour le calcul, les
+	   * tranches précédentes ou suivantes n'entrent donc en rien dans le calcul du montant
+	   * de la cotisation
+	   *
+	   * @param baseCalcul float | int :
+	   * @param charge array : tableau d'objet "charge"
+	   */
+	  service.calculerTrancheExclusive = function(baseCalcul, charge) {
+	
+	    // on recherche la tranche qui correspond à notre baseCalcul
+	    var trancheActive = null;
+	    var result = new service.result(charge);
+	
+	    charge.tranches.forEach(function(tranche) {
+	      // tant que la base de calcul n'est pas supérieur au plafond en cours, on continue
+	      // d'itérer.
+	      if (!trancheActive && baseCalcul <= tranche.plafond) {
+	        // on a dépassé le plafond, on arrête de mettre à jour la variable trancheActive
+	        // qui contient maintenant notre réponse
+	        trancheActive = tranche;
+	      }
+	    });
+	
+	    if (trancheActive) {
+	      result.montant = service.calculerMontantTranche(trancheActive, baseCalcul);
+	      result.tranches= [trancheActive];
+	    }
+	
+	    return result;
+	  };
+	
+	  /**
+	   * Calcul des charges à tranches cumulatives, tels que l'impot sur les bénéfices :
+	   * - 15% pour pour les 38120 premiers euros, puis 33,33% sur le reste des bénéfices
+	   *
+	   * @param baseCalcul float | int :
+	   * @param charge array : tableau d'objet "charges"
+	   */
+	  service.calculerTranchesCumulatives = function(baseCalcul, charge) {
+	
+	    // contiendra la liste des tranches qui seront appliquée
+	    // à notre base de calcul
+	    var tranches = [];
+	
+	    var result = new service.result(charge);
+	
+	    // montant total, toute tranches cumulées
+	    var montant = 0;
+	    var plancher = 0;
+	
+	    charge.tranches.forEach(function(tranche, index) {
+	
+	      // on calcule le "planger" de la tranche, qui est soit égal
+	      // au plafond précédent, soit à zéro si c'est la première tranche.
+	      if (typeof tranches[index - 1] !== 'undefined') {
+	        plancher = tranches[index - 1].plafond;
+	      }
+	
+	      // on calcule la différence entre le plafond et le plancher
+	      tranche.intervalle = tranche.plafond - plancher;
+	
+	      // si la somme est supérieure ou égale au plafond de la tranche courante ...
+	      if (baseCalcul >= tranche.plafond)
+	      {
+	        // ... on calcule le montant dû pour la tranche courante
+	        tranche.montant = service.calculerMontantTranche(tranche, tranche.intervalle);
+	        // on ajoute le montant de la cotisation de cette tranche au total.
+	        montant += tranche.montant;
+	        // ajout à la liste des tranches qui s'applique à notre cas.
+	        tranches.push(tranche);
+	      }
+	
+	      // mais si la somme est inférieure au plafond courant, c'est que nous sommes à la dernière tranche
+	      else
+	      {
+	        // on calcule le montant pour cette derniere tranche
+	        var depassement_plancher = baseCalcul - plancher;
+	        if (depassement_plancher > 0)
+	        {
+	          montant += tranche.montant = service.calculerMontantTranche(tranche, depassement_plancher);
+	          // ajout à la liste des tranches qui s'appliquent à notre cas.
+	          tranches.push(tranche);
+	        }
+	      }
+	
+	    });
+	
+	    result.montant = montant;
+	    result.tranches= tranches;
+	
+	    return result;
+	  };
+	
+	  return service;
+	
+	}]);
+	
+
+
 /***/ }
-/******/ ]);
+
+/******/ });
 //# sourceMappingURL=app.js.map

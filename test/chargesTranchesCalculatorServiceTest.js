@@ -1,5 +1,5 @@
 // Be descriptive with titles here. The describe and it titles combined read like a sentence.
-describe('chargesCalculatorService', function() {
+describe('chargesTranchesCalculatorService', function() {
 
   const max = 999999999999999;
 
@@ -7,8 +7,8 @@ describe('chargesCalculatorService', function() {
     module('calculator');
   });
 
-  beforeEach(inject(function (_chargesCalculatorService_, _chargesConfig_) {
-    chargesCalculatorService = _chargesCalculatorService_;
+  beforeEach(inject(function (_chargesTranchesCalculatorService_, _chargesConfig_) {
+    chargesCalculatorService = _chargesTranchesCalculatorService_;
     chargesConfig = _chargesConfig_;
   }));
 
