@@ -37175,7 +37175,8 @@
 	    ]
 	  }
 	
-	  // CIPAV: Assurance vieillesse complémentaire (obligatoire)
+	  // CIPAV: Assurance vieillesse "complémentaire" ( mais obligatoire :-p )
+	  // http://service.cipav-retraite.fr/cipav/article-28-principes-de-calcul-des-cotisations-103.htm
 	  // http://service.cipav-retraite.fr/cipav/article-33-recapitulatif-des-options-de-montantmax04.htm
 	  parametres.charges.assuranceVieillesseComplementaire = {
 	    label : 'Retraite complémentaire',
@@ -37234,6 +37235,7 @@
 	  };
 	
 	  // Réduction assurance vieillesse complémentaire
+	  // @pas appliquée dans le calculateur pour le moment
 	  parametres.charges.AssuranceVieillesseComplementaireReduction = {
 	    label: "Réduction assurance vieillesse complémentaire",
 	    type_tranches: "exclusive",
@@ -37452,7 +37454,6 @@
 	   */
 	   service.calculerMontantTranche = function(tranche, baseCalcul) {
 	     var montant = 0;
-	     baseCalcul = baseCalcul;
 	
 	    // si un montant forfaitaire est prédéfini pour cette tranche
 	    if (typeof tranche.montant_forfaitaire !== "undefined") {
@@ -37475,7 +37476,7 @@
 	   * de la cotisation
 	   *
 	   * @param baseCalcul float | int :
-	   * @param charge array : tableau d'objet "charges"
+	   * @param charge array : tableau d'objet "charge"
 	   */
 	   service.calculerTrancheExclusive = function(baseCalcul, charge) {
 	
@@ -37484,7 +37485,7 @@
 	    var result = new service.result(charge);
 	
 	    charge.tranches.forEach(function(tranche) {
-	      if (!trancheActive &&  baseCalcul < tranche.plafond) {
+	      if (!trancheActive &&  baseCalcul <= tranche.plafond) {
 	        trancheActive = tranche;
 	      }
 	    });

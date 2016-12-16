@@ -24,7 +24,6 @@
    */
    service.calculerMontantTranche = function(tranche, baseCalcul) {
      var montant = 0;
-     baseCalcul = baseCalcul;
 
     // si un montant forfaitaire est prédéfini pour cette tranche
     if (typeof tranche.montant_forfaitaire !== "undefined") {
@@ -47,7 +46,7 @@
    * de la cotisation
    *
    * @param baseCalcul float | int :
-   * @param charge array : tableau d'objet "charges"
+   * @param charge array : tableau d'objet "charge"
    */
    service.calculerTrancheExclusive = function(baseCalcul, charge) {
 
@@ -56,7 +55,7 @@
     var result = new service.result(charge);
 
     charge.tranches.forEach(function(tranche) {
-      if (!trancheActive &&  baseCalcul < tranche.plafond) {
+      if (!trancheActive &&  baseCalcul <= tranche.plafond) {
         trancheActive = tranche;
       }
     });

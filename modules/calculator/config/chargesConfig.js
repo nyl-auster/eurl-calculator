@@ -176,7 +176,8 @@ angular.module('calculator').service('chargesConfig', function(){
     ]
   }
 
-  // CIPAV: Assurance vieillesse complémentaire (obligatoire)
+  // CIPAV: Assurance vieillesse "complémentaire" ( mais obligatoire :-p )
+  // http://service.cipav-retraite.fr/cipav/article-28-principes-de-calcul-des-cotisations-103.htm
   // http://service.cipav-retraite.fr/cipav/article-33-recapitulatif-des-options-de-montantmax04.htm
   parametres.charges.assuranceVieillesseComplementaire = {
     label : 'Retraite complémentaire',
@@ -235,6 +236,7 @@ angular.module('calculator').service('chargesConfig', function(){
   };
 
   // Réduction assurance vieillesse complémentaire
+  // @pas appliquée dans le calculateur pour le moment
   parametres.charges.AssuranceVieillesseComplementaireReduction = {
     label: "Réduction assurance vieillesse complémentaire",
     type_tranches: "exclusive",
