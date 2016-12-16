@@ -1,6 +1,8 @@
 // Be descriptive with titles here. The describe and it titles combined read like a sentence.
 describe('chargesCalculatorService', function() {
 
+  var max = 99999;
+
   beforeEach(function() {
     module('calculator');
   });
@@ -85,7 +87,7 @@ describe('chargesCalculatorService', function() {
         },
         {
           nom : 'H',
-          plafond : 999999999999,
+          plafond : max,
           montant_forfaitaire : 15776,
           points_retraite : 468
         }
@@ -112,7 +114,7 @@ describe('chargesCalculatorService', function() {
       tranches: [
         {
           taux: 6.50,
-          plafond: 999999999
+          plafond: max
         }
       ]
     };
