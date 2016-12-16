@@ -1,11 +1,11 @@
 /**
  * Nos routes ui-router
  */
-angular.module('calculator').config(['$stateProvider', '$urlRouterProvider', 'coreConfig', function ($stateProvider, $urlRouterProvider, coreConfig) {
+angular.module('calculator').config(['$stateProvider', '$urlRouterProvider', function ($stateProvider, $urlRouterProvider) {
 
   $stateProvider.state('calculator', {
     url: '/',
-    templateUrl: coreConfig.modulesPath + "/calculator/views/calculator.html",
+    templateUrl: "modules/calculator/views/calculator.html",
     controller:'calculatorController'
   });
 

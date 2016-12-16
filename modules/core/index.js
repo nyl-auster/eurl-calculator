@@ -5,7 +5,6 @@ angular.module('core', ['ui.router', 'ngCookies']);
 
 // fichiers requis par notre module
 require('./states');
-require('./config/coreConfig');
 
 
 

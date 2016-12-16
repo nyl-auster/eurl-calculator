@@ -1,9 +1,9 @@
 /**
  * Calculs des charges en fonction des paramètres
  */
- angular.module('calculator').service('calculatorService',['calculatorConfig', function(calculatorConfig){
+ angular.module('calculator').service('chargesCalculator',['chargesConfig', function(chargesConfig){
 
-   parametres = calculatorConfig;
+   parametres = chargesConfig;
 
    var service = {};
 

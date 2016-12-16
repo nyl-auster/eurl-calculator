@@ -4,7 +4,7 @@
 angular.module('calculator', ['core']);
 
 // ajout des fichiers du module calculator
-require('./config/calculatorConfig');
-require('./services/calculatorService');
+require('./config/chargesConfig');
+require('./services/chargesCalculator');
 require('./states');
 require('./controllers/calculatorController');
