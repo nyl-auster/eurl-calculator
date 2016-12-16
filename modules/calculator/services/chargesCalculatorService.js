@@ -59,7 +59,9 @@ angular.module('calculator').service('chargesCalculatorService',['chargesConfig'
      * @returns {number}
      */
     service.getTotalCotisationsSociales = function() {
-      return service.getCotisationsSocialesArray().reduce((a, b) => a.montant + b.montant);
+      var total = 0;
+      service.getCotisationsSocialesArray().forEach(item => total += item.montant);
+      return total;
     };
 
     /**
@@ -69,7 +71,8 @@ angular.module('calculator').service('chargesCalculatorService',['chargesConfig'
      */
     service.getTotalAProvisionner = function() {
       let totalCotisationsSociales = service.getTotalCotisationsSociales();
-      let TVA = service.getTva20();
+      console.log(totalCotisationsSociales);
+      let TVA = service.getTva20().montant;
       let total = cfe + frais + TVA + totalCotisationsSociales;
       return total;
     };

@@ -34,16 +34,12 @@ angular.module('calculator').controller('chargesReportController', ['$scope', 'c
       .concat(calculator.getCfe())
       .concat(calculator.getFrais());
 
-    console.log(charges);
-
     $scope.totalAProvisionner = calculator.getTotalAProvisionner();
 
     $scope.benefice = calculator.getBenefice();
 
     $scope.charges = charges;
   }
-
-
 
 }]);
 
