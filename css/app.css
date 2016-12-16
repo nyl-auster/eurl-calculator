@@ -28,6 +28,7 @@ table tbody tr:nth-child(even) {
 
 .charges-results__result__details {
     font-style: italic;
+    font-size:0.9em;
 }
 
 .charges-results__total {
