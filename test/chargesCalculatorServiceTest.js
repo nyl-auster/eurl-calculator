@@ -12,9 +12,9 @@ describe('chargesCalculatorService', function() {
     chargesConfig = _chargesConfig_;
   }));
 
-  it("doit retourner le montant pour d'une tranche avec taux", function() {
+  it("calculerMontantTranche doit retourner le montant pour d'une tranche avec taux", function() {
 
-    baseCalcul = 1000;
+    let baseCalcul = 1000;
     let trancheA = {
       taux: 10,
       plafond:100000
@@ -23,9 +23,9 @@ describe('chargesCalculatorService', function() {
     expect(chargesCalculatorService.calculerMontantTranche(trancheA, baseCalcul)).toEqual(100);
   });
 
-  it("doit retourner le montant d'une tranche avec montant_forfaitaire", function() {
+  it("calculerMontantTranche doit retourner le montant d'une tranche avec montant_forfaitaire", function() {
 
-    baseCalcul = 1000;
+    let baseCalcul = 1000;
     let trancheA = {
       taux: 10,
       plafond:100000,
@@ -35,10 +35,10 @@ describe('chargesCalculatorService', function() {
     expect(chargesCalculatorService.calculerMontantTranche(trancheA, baseCalcul)).toEqual(2);
   });
 
-  it("doit retourner le montant forfaitaire pour une charge avec tranche_exclusive", function() {
+  it("calculerTrancheExclusive doit retourner le montant forfaitaire pour une charge avec tranche_exclusive", function() {
 
-    baseCalcul = 30000;
-    charge = {
+    let baseCalcul = 30000;
+    let charge = {
       label : 'Retraite complémentaire',
       organisme: 'CIPAV',
       type_tranches : "exclusive",
@@ -103,10 +103,10 @@ describe('chargesCalculatorService', function() {
   });
 
 
-  it("doit retourner le montant avec taux pour une charge avec tranche_exclusive", function() {
+  it("calculerTrancheExclusive doit retourner le montant avec taux pour une charge avec tranche_exclusive", function() {
 
-    baseCalcul = 1000;
-    charge = {
+    let baseCalcul = 1000;
+    let charge = {
       organisme:'URSSAF',
       type_tranches: 'tranche_exclusive',
       label:'Maladie-maternité',
@@ -122,6 +122,34 @@ describe('chargesCalculatorService', function() {
 
     let result = chargesCalculatorService.calculerTrancheExclusive(baseCalcul, charge);
     expect(result.montant).toEqual(65);
+  });
+
+  it("calculerTranchesCumulatives doivent cumuler le montant de chaque tranche en fonction du taux", function() {
+
+
+    let baseCalcul = 50000;
+    let charge = {
+      label: 'Impot sur les sociétés',
+      organisme: "Impots",
+      type_tranches: 'cumulatives',
+      tranches:[
+        {
+          plafond: 38120,
+          taux: 15
+        },
+        {
+          plafond: max,
+          taux: 33
+        }
+      ]
+    };
+
+    let result = chargesCalculatorService.calculerTranchesCumulatives(baseCalcul, charge);
+    // 38120 * 0.15 = 5718
+    // 50 000 - 38120 = 11880
+    // 11880 * 0.33 = 3920.4
+    // 5718 + 3920.4 = 9638.4
+    expect(result.montant).toEqual(9638.4);
   });
 
 });
