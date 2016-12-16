@@ -106,15 +106,15 @@
       </tr>
       </thead>
 
-      <tbody class="charges-results__result" ng-repeat="line in lines">
+      <tbody class="charges-results__result" ng-repeat="charge in charges">
 
       <tr class="charges-results__result__total">
-        <td> {{line.charge.label}} </td>
-        <td class="show-for-large" colspan="5"> {{line.charge.organisme}} </td>
-        <td> {{line.montant | currency }} </td>
+        <td> {{charge.label}} </td>
+        <td class="show-for-large" colspan="5"> {{charge.organisme}} </td>
+        <td> {{charge.montant | currency }} </td>
       </tr>
 
-      <tr ng-show="showDetails" class="charges-results__result__details" ng-repeat="tranche in line.tranches">
+      <tr ng-show="showDetails" class="charges-results__result__details" ng-repeat="tranche in charge.tranchesActives">
         <td colspan="2"></td>
         <td> {{$index + 1}} </td>
         <td> {{tranche.baseCalcul | currency}} </td>

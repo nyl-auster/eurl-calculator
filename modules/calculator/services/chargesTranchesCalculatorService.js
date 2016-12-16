@@ -1,22 +1,11 @@
 /**
- * Permet de calculer le montant à payer en explorant les
- * tranches d'une charge
+ * Augment les objets charges avec deux clefs :
+ * - le montant global à payer en fonction de la base de calcul
+ * - les "tranches actives" : le détail du montant par tranche
  */
 angular.module('calculator').service('chargesTranchesCalculatorService',['chargesConfig', function(chargesConfig){
 
   const service = {};
-
-  // formater un resultat pour tous les calculs
-  service.result = function(charge) {
-    return {
-      // notre objet charge tel que définit dans chargesConfig
-      charge: charge,
-      // le montant à parter pour la charge passé en paramètre
-      montant:0,
-      // les tranches pour lesquels notre base de calcul déclenche effectivement un calcul
-      tranches:[]
-    }
-  };
 
   /**
    * Retourne le montant pour une tranche de charge.
@@ -27,16 +16,18 @@ angular.module('calculator').service('chargesTranchesCalculatorService',['charge
    * - montant_forfaitaire : si la tranche est un montant fixe en fonction du plafond.
    */
   service.calculerMontantTranche = function(tranche, baseCalcul) {
+
     var montant = 0;
 
     // si un montant forfaitaire est prédéfini pour cette tranche
-    if (typeof tranche.montant_forfaitaire !== "undefined") {
+    if (tranche.montant_forfaitaire) {
       montant = tranche.montant_forfaitaire;
     }
     // sinon on calcule le montant de la tranche en fonction du taux indiqué
-    else {
+    if (tranche.taux) {
       montant = baseCalcul * (tranche.taux / 100);
     }
+
     // on ajoute ou met à jour le montant à notre objet tranche
     tranche.montant = montant;
     tranche.baseCalcul = baseCalcul;
@@ -54,9 +45,10 @@ angular.module('calculator').service('chargesTranchesCalculatorService',['charge
    */
   service.calculerTrancheExclusive = function(baseCalcul, charge) {
 
+    charge.montant = 0;
+
     // on recherche la tranche qui correspond à notre baseCalcul
     var trancheActive = null;
-    var result = new service.result(charge);
 
     charge.tranches.forEach(function(tranche) {
       // tant que la base de calcul n'est pas supérieur au plafond en cours, on continue
@@ -69,11 +61,11 @@ angular.module('calculator').service('chargesTranchesCalculatorService',['charge
     });
 
     if (trancheActive) {
-      result.montant = service.calculerMontantTranche(trancheActive, baseCalcul);
-      result.tranches= [trancheActive];
+      charge.montant = service.calculerMontantTranche(trancheActive, baseCalcul);
+      charge.tranchesActives= [trancheActive];
     }
 
-    return result;
+    return charge;
   };
 
   /**
@@ -85,11 +77,11 @@ angular.module('calculator').service('chargesTranchesCalculatorService',['charge
    */
   service.calculerTranchesCumulatives = function(baseCalcul, charge) {
 
+    charge.montant = 0;
+
     // contiendra la liste des tranches qui seront appliquée
     // à notre base de calcul
     var tranches = [];
-
-    var result = new service.result(charge);
 
     // montant total, toute tranches cumulées
     var montant = 0;
@@ -132,10 +124,10 @@ angular.module('calculator').service('chargesTranchesCalculatorService',['charge
 
     });
 
-    result.montant = montant;
-    result.tranches= tranches;
+    charge.montant = montant;
+    charge.tranchesActives= tranches;
 
-    return result;
+    return charge;
   };
 
   return service;

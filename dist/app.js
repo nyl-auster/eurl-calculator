@@ -37164,7 +37164,7 @@
 	  };
 	
 	  // TVA 20%
-	  parametres.charges.tvaNormale = {
+	  parametres.charges.tva20 = {
 	    label: "TVA",
 	    organisme: "Impots",
 	    type_tranches: "exclusive",
@@ -37174,7 +37174,20 @@
 	        taux:20
 	      }
 	    ]
-	  }
+	  };
+	
+	  // La taxe foncière dont le montant forfaitaire dépend de la ville
+	  parametres.charges.cfe = {
+	    label: "CFE",
+	    organisme: "Impots locaux",
+	    type_tranches: "exclusive",
+	    tranches: [
+	      {
+	        plafond:max,
+	        montant_forfaitaire: null
+	      }
+	    ]
+	  };
 	
 	  // CIPAV: Assurance vieillesse "complémentaire" ( mais obligatoire :-p )
 	  // http://service.cipav-retraite.fr/cipav/article-28-principes-de-calcul-des-cotisations-103.htm
@@ -37319,12 +37332,12 @@
 /***/ function(module, exports) {
 
 	/**
+	 * Affichage du cout des charges d'une EURL à l'IS
 	 * Objet "charge" > objet "Resultat du calculator" > objet "ligne à afficher"
 	 */
 	angular.module('calculator').controller('chargesReportController', ['$scope', 'chargesCalculatorService', 'chargesConfig', '$cookies', function ($scope, chargesCalculatorService, $cookies, chargesConfig) {
 	
 	  $scope.totalAProvisionner = 0;
-	
 	  $scope.benefice = 0;
 	  $scope.form = {
 	    remuneration: 0,
@@ -37341,85 +37354,29 @@
 	
 	  getResults();
 	
-	  function getBaseCalculIs() {
-	    return $scope.form.chiffreAffaireHt
-	      - $scope.form.remuneration
-	      - $scope.form.frais;
-	  }
-	
 	  function getResults() {
 	
-	    let lines = [];
+	    calculator = chargesCalculatorService($scope.form);
 	
-	    var baseCalculIS = $scope.form.chiffreAffaireHt - $scope.form.frais - $scope.form.cfe;
+	    let charges = [];
 	
-	    lines = lines
-	      .concat(getLinesCotisationsSociales())
-	      .concat(chargesCalculatorService.impotSurLesSocietes(getBaseCalculIs()))
-	      .concat(chargesCalculatorService.tvaNormale($scope.form.chiffreAffaireHt));
+	    charges = charges
+	      .concat(calculator.getCotisationsSocialesArray())
+	      .concat(calculator.getImpotSurLesSocietes())
+	      .concat(calculator.getTva20())
+	      .concat(calculator.getCfe())
+	      .concat(calculator.getFrais());
 	
-	    // ajout de la ligne CFE
-	    lines.push({
-	      charge: {
-	        label:'CFE'
-	      },
-	      montant: $scope.form.cfe
-	    });
+	    console.log(charges);
 	
-	    // ajout de la ligne frais
-	    lines.push({
-	      charge: {
-	        label:'Frais'
-	      },
-	      montant: $scope.form.frais
-	    });
+	    $scope.totalAProvisionner = calculator.getTotalAProvisionner();
 	
-	    $scope.totalAProvisionner = getTotalFromLines(lines);
+	    $scope.benefice = calculator.getBenefice();
 	
-	    $scope.benefice = calculerBenefice($scope.totalAProvisionner);
-	
-	    $scope.lines = lines;
+	    $scope.charges = charges;
 	  }
 	
-	  function calculerBenefice(totalAprovisionner) {
-	    // comme on compte la TVA dans notre total à provisionner, on doit partir
-	    // du CA TTC pour calculer notre restant une fois retranché
-	    // la rémunération et le total à provisionner
-	    const CATTC = parseFloat($scope.form.chiffreAffaireHt) + chargesCalculatorService.tvaNormale($scope.form.chiffreAffaireHt).montant;
-	    return CATTC - totalAprovisionner - parseFloat($scope.form.remuneration);
-	  }
 	
-	  function getTotalAProvisionner() {
-	    let totalCotisationsSociales = getTotalFromLines(getLinesCotisationsSociales());
-	    let TVA = chargesCalculatorService.tvaNormale($scope.form.chiffreAffaireHt).montant;
-	    let total = parseFloat($scope.form.cfe)
-	      + parseFloat($scope.form.frais)
-	      + TVA
-	      + totalCotisationsSociales;
-	    return total;
-	  }
-	
-	  function getTotalFromLines(lines) {
-	    totalCharges = 0;
-	    lines.forEach(function(charge){
-	      totalCharges += parseFloat(charge.montant);
-	    });
-	    return totalCharges;
-	  }
-	
-	  /**
-	   *
-	   * @returns {Array}
-	   */
-	  function getLinesCotisationsSociales() {
-	    return [
-	      chargesCalculatorService.assuranceVieillesseBase($scope.form.remuneration),
-	      chargesCalculatorService.assuranceVieillesseComplementaire($scope.form.remuneration),
-	      chargesCalculatorService.formationProfessionnelle($scope.form.remuneration),
-	      chargesCalculatorService.allocationsFamiliales($scope.form.remuneration),
-	      chargesCalculatorService.maladiesMaternite($scope.form.remuneration)
-	    ];
-	  }
 	
 	}]);
 	
@@ -37437,61 +37394,136 @@
 	 */
 	angular.module('calculator').service('chargesCalculatorService',['chargesConfig', 'chargesTranchesCalculatorService', function(chargesConfig, chargesTranchesCalculatorService){
 	
-	  const service = {};
-	
 	  /**
-	   * Calcul des cotisations maladie et maternité - URSSAF
+	   * @param params object avec les propriétés suivantes:
+	   *
+	   * - chiffreAffaire
+	   * - remuneration
+	   * - frais
+	   * - cfe
 	   */
-	  service.assuranceVieillesseComplementaire = function(baseCalcul) {
-	    return chargesTranchesCalculatorService.calculerTrancheExclusive(baseCalcul, chargesConfig.charges.assuranceVieillesseComplementaire);
-	  };
+	  return function(params) {
 	
-	  /**
-	   * Calcul des cotisations pour la formation professionnelle
-	   */
-	  service.formationProfessionnelle = function(baseCalcul) {
-	    return chargesTranchesCalculatorService.calculerTrancheExclusive(baseCalcul, chargesConfig.charges.formationProfessionnelle);
-	  };
+	    const service = {};
 	
-	  /**
-	   * Calcul des cotisations maladie et maternité - URSSAF
-	   */
-	  service.allocationsFamiliales = function(baseCalcul) {
-	    return chargesTranchesCalculatorService.calculerTrancheExclusive(baseCalcul, chargesConfig.charges.allocationsFamiliales);
-	  };
+	    var {chiffreAffaireHt = 0, remuneration = 0, frais = 0, cfe = 0} = params;
 	
-	  /**
-	   * Calcul des cotisations maladie et maternité - CIPAV
-	   * @FIXME calcul chelou, à vérifier
-	   */
-	  service.assuranceVieillesseBase = function(baseCalcul) {
-	    var assuranceVieillesseBase = angular.copy(chargesConfig.charges.assuranceVieillesseBase);
-	    if (baseCalcul > assuranceVieillesseBase.tranches[0].plafond) {
-	      delete assuranceVieillesseBase.tranches[0];
-	    }
-	    var result = chargesTranchesCalculatorService.calculerTranchesCumulatives(baseCalcul, assuranceVieillesseBase);
-	    return result;
-	  };
+	    service.getBaseCalculIs = function() {
+	      return chiffreAffaireHt - remuneration - frais;
+	    };
 	
-	  /**
-	   * Calcul des cotisations maladie et maternité - URSSAF
-	   */
-	  service.maladiesMaternite = function(baseCalcul) {
-	    return chargesTranchesCalculatorService.calculerTrancheExclusive(baseCalcul, chargesConfig.charges.maladiesMaternite);
-	  };
+	    service.getCfe = function() {
+	      // "pseudo" calcul : on fait ça juste pour récupérer les meta-données déjà définies
+	      // dans la configuration des charges (l'objet charge avec son label, son commentaire etc ...)
+	      var charge = chargesTranchesCalculatorService.calculerTrancheExclusive(0, chargesConfig.charges.cfe);
+	      charge.montant = cfe;
+	      return charge;
+	    };
 	
-	  /**
-	   * Calcul de l'impot sur les bénéfices - Impots
-	   */
-	  service.impotSurLesSocietes = function(baseCalcul) {
-	    return chargesTranchesCalculatorService.calculerTranchesCumulatives(baseCalcul, chargesConfig.charges.impotSurLesSocietes);
-	  };
+	    service.getFrais = function() {
+	      return {
+	        label: 'Frais',
+	        montant:frais
+	      };
+	    };
 	
-	  service.tvaNormale = function(baseCalcul) {
-	    return chargesTranchesCalculatorService.calculerTranchesCumulatives(baseCalcul, chargesConfig.charges.tvaNormale);
-	  };
+	    service.getBenefice = function(){
+	      // comme on compte la TVA dans notre total à provisionner, on doit partir
+	      // du CA TTC pour calculer notre restant une fois retranché
+	      // la rémunération et le total à provisionner
+	      const CATTC = chiffreAffaireHt + service.getTva20();
+	      return CATTC - service.getTotalAProvisionner() - remuneration;
+	    };
 	
-	  return service;
+	    service.getCotisationsSocialesArray = function() {
+	      return [
+	        service.getAssuranceVieillesseBase(remuneration),
+	        service.getAssuranceVieillesseComplementaire(remuneration),
+	        service.getFormationProfessionnelle(remuneration),
+	        service.getAllocationsFamiliales(remuneration),
+	        service.getMaladiesMaternite(remuneration)
+	      ];
+	    };
+	
+	    /**
+	     * Obtenir le montant total des cotisations sociales
+	     * @returns {number}
+	     */
+	    service.getTotalCotisationsSociales = function() {
+	      return service.getCotisationsSocialesArray().reduce((a, b) => a.montant + b.montant);
+	    };
+	
+	    /**
+	     * Le total a provisionner , c'est à dire ce qui sera payé à l'état
+	     * à un moement donné.
+	     * @returns {*}
+	     */
+	    service.getTotalAProvisionner = function() {
+	      let totalCotisationsSociales = service.getTotalCotisationsSociales();
+	      let TVA = service.getTva20();
+	      let total = cfe + frais + TVA + totalCotisationsSociales;
+	      return total;
+	    };
+	
+	    /**
+	     * Retourne la TVA à 20%
+	     * @returns {number}
+	     */
+	    service.getTva20 = function () {
+	      return chargesTranchesCalculatorService.calculerTrancheExclusive(chiffreAffaireHt, chargesConfig.charges.tva20);
+	    };
+	
+	    /**
+	     * Calcul des cotisations maladie et maternité - URSSAF
+	     */
+	    service.getAssuranceVieillesseComplementaire = function (baseCalcul) {
+	      return chargesTranchesCalculatorService.calculerTrancheExclusive(baseCalcul, chargesConfig.charges.assuranceVieillesseComplementaire);
+	    };
+	
+	    /**
+	     * Calcul des cotisations pour la formation professionnelle
+	     */
+	    service.getFormationProfessionnelle = function (baseCalcul) {
+	      return chargesTranchesCalculatorService.calculerTrancheExclusive(baseCalcul, chargesConfig.charges.formationProfessionnelle);
+	    };
+	
+	    /**
+	     * Calcul des cotisations maladie et maternité - URSSAF
+	     */
+	    service.getAllocationsFamiliales = function (baseCalcul) {
+	      return chargesTranchesCalculatorService.calculerTrancheExclusive(baseCalcul, chargesConfig.charges.allocationsFamiliales);
+	    };
+	
+	    /**
+	     * Calcul des cotisations maladie et maternité - CIPAV
+	     * @FIXME calcul chelou, à vérifier
+	     */
+	    service.getAssuranceVieillesseBase = function (baseCalcul) {
+	      var assuranceVieillesseBase = angular.copy(chargesConfig.charges.assuranceVieillesseBase);
+	      if (baseCalcul > assuranceVieillesseBase.tranches[0].plafond) {
+	        delete assuranceVieillesseBase.tranches[0];
+	      }
+	      var result = chargesTranchesCalculatorService.calculerTranchesCumulatives(baseCalcul, assuranceVieillesseBase);
+	      return result;
+	    };
+	
+	    /**
+	     * Calcul des cotisations maladie et maternité - URSSAF
+	     */
+	    service.getMaladiesMaternite = function (baseCalcul) {
+	      return chargesTranchesCalculatorService.calculerTrancheExclusive(baseCalcul, chargesConfig.charges.maladiesMaternite);
+	    };
+	
+	    /**
+	     * Calcul de l'impot sur les bénéfices - Impots
+	     */
+	    service.getImpotSurLesSocietes = function () {
+	      return chargesTranchesCalculatorService.calculerTranchesCumulatives(service.getBaseCalculIs(), chargesConfig.charges.impotSurLesSocietes);
+	    };
+	
+	    return service;
+	
+	  }
 	
 	}]);
 	
@@ -37503,24 +37535,13 @@
 /***/ function(module, exports) {
 
 	/**
-	 * Permet de calculer le montant à payer en explorant les
-	 * tranches d'une charge
+	 * Augment les objets charges avec deux clefs :
+	 * - le montant global à payer en fonction de la base de calcul
+	 * - les "tranches actives" : le détail du montant par tranche
 	 */
 	angular.module('calculator').service('chargesTranchesCalculatorService',['chargesConfig', function(chargesConfig){
 	
 	  const service = {};
-	
-	  // formater un resultat pour tous les calculs
-	  service.result = function(charge) {
-	    return {
-	      // notre objet charge tel que définit dans chargesConfig
-	      charge: charge,
-	      // le montant à parter pour la charge passé en paramètre
-	      montant:0,
-	      // les tranches pour lesquels notre base de calcul déclenche effectivement un calcul
-	      tranches:[]
-	    }
-	  };
 	
 	  /**
 	   * Retourne le montant pour une tranche de charge.
@@ -37531,16 +37552,18 @@
 	   * - montant_forfaitaire : si la tranche est un montant fixe en fonction du plafond.
 	   */
 	  service.calculerMontantTranche = function(tranche, baseCalcul) {
+	
 	    var montant = 0;
 	
 	    // si un montant forfaitaire est prédéfini pour cette tranche
-	    if (typeof tranche.montant_forfaitaire !== "undefined") {
+	    if (tranche.montant_forfaitaire) {
 	      montant = tranche.montant_forfaitaire;
 	    }
 	    // sinon on calcule le montant de la tranche en fonction du taux indiqué
-	    else {
+	    if (tranche.taux) {
 	      montant = baseCalcul * (tranche.taux / 100);
 	    }
+	
 	    // on ajoute ou met à jour le montant à notre objet tranche
 	    tranche.montant = montant;
 	    tranche.baseCalcul = baseCalcul;
@@ -37558,9 +37581,10 @@
 	   */
 	  service.calculerTrancheExclusive = function(baseCalcul, charge) {
 	
+	    charge.montant = 0;
+	
 	    // on recherche la tranche qui correspond à notre baseCalcul
 	    var trancheActive = null;
-	    var result = new service.result(charge);
 	
 	    charge.tranches.forEach(function(tranche) {
 	      // tant que la base de calcul n'est pas supérieur au plafond en cours, on continue
@@ -37573,11 +37597,11 @@
 	    });
 	
 	    if (trancheActive) {
-	      result.montant = service.calculerMontantTranche(trancheActive, baseCalcul);
-	      result.tranches= [trancheActive];
+	      charge.montant = service.calculerMontantTranche(trancheActive, baseCalcul);
+	      charge.tranchesActives= [trancheActive];
 	    }
 	
-	    return result;
+	    return charge;
 	  };
 	
 	  /**
@@ -37589,11 +37613,11 @@
 	   */
 	  service.calculerTranchesCumulatives = function(baseCalcul, charge) {
 	
+	    charge.montant = 0;
+	
 	    // contiendra la liste des tranches qui seront appliquée
 	    // à notre base de calcul
 	    var tranches = [];
-	
-	    var result = new service.result(charge);
 	
 	    // montant total, toute tranches cumulées
 	    var montant = 0;
@@ -37636,10 +37660,10 @@
 	
 	    });
 	
-	    result.montant = montant;
-	    result.tranches= tranches;
+	    charge.montant = montant;
+	    charge.tranchesActives= tranches;
 	
-	    return result;
+	    return charge;
 	  };
 	
 	  return service;

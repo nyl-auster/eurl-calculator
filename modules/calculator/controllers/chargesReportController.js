@@ -1,10 +1,10 @@
 /**
+ * Affichage du cout des charges d'une EURL à l'IS
  * Objet "charge" > objet "Resultat du calculator" > objet "ligne à afficher"
  */
 angular.module('calculator').controller('chargesReportController', ['$scope', 'chargesCalculatorService', 'chargesConfig', '$cookies', function ($scope, chargesCalculatorService, $cookies, chargesConfig) {
 
   $scope.totalAProvisionner = 0;
-
   $scope.benefice = 0;
   $scope.form = {
     remuneration: 0,
@@ -21,85 +21,29 @@ angular.module('calculator').controller('chargesReportController', ['$scope', 'c
 
   getResults();
 
-  function getBaseCalculIs() {
-    return $scope.form.chiffreAffaireHt
-      - $scope.form.remuneration
-      - $scope.form.frais;
-  }
-
   function getResults() {
 
-    let lines = [];
+    calculator = chargesCalculatorService($scope.form);
 
-    var baseCalculIS = $scope.form.chiffreAffaireHt - $scope.form.frais - $scope.form.cfe;
+    let charges = [];
 
-    lines = lines
-      .concat(getLinesCotisationsSociales())
-      .concat(chargesCalculatorService.impotSurLesSocietes(getBaseCalculIs()))
-      .concat(chargesCalculatorService.tvaNormale($scope.form.chiffreAffaireHt));
+    charges = charges
+      .concat(calculator.getCotisationsSocialesArray())
+      .concat(calculator.getImpotSurLesSocietes())
+      .concat(calculator.getTva20())
+      .concat(calculator.getCfe())
+      .concat(calculator.getFrais());
 
-    // ajout de la ligne CFE
-    lines.push({
-      charge: {
-        label:'CFE'
-      },
-      montant: $scope.form.cfe
-    });
+    console.log(charges);
 
-    // ajout de la ligne frais
-    lines.push({
-      charge: {
-        label:'Frais'
-      },
-      montant: $scope.form.frais
-    });
+    $scope.totalAProvisionner = calculator.getTotalAProvisionner();
 
-    $scope.totalAProvisionner = getTotalFromLines(lines);
+    $scope.benefice = calculator.getBenefice();
 
-    $scope.benefice = calculerBenefice($scope.totalAProvisionner);
-
-    $scope.lines = lines;
+    $scope.charges = charges;
   }
 
-  function calculerBenefice(totalAprovisionner) {
-    // comme on compte la TVA dans notre total à provisionner, on doit partir
-    // du CA TTC pour calculer notre restant une fois retranché
-    // la rémunération et le total à provisionner
-    const CATTC = parseFloat($scope.form.chiffreAffaireHt) + chargesCalculatorService.tvaNormale($scope.form.chiffreAffaireHt).montant;
-    return CATTC - totalAprovisionner - parseFloat($scope.form.remuneration);
-  }
 
-  function getTotalAProvisionner() {
-    let totalCotisationsSociales = getTotalFromLines(getLinesCotisationsSociales());
-    let TVA = chargesCalculatorService.tvaNormale($scope.form.chiffreAffaireHt).montant;
-    let total = parseFloat($scope.form.cfe)
-      + parseFloat($scope.form.frais)
-      + TVA
-      + totalCotisationsSociales;
-    return total;
-  }
-
-  function getTotalFromLines(lines) {
-    totalCharges = 0;
-    lines.forEach(function(charge){
-      totalCharges += parseFloat(charge.montant);
-    });
-    return totalCharges;
-  }
-
-  /**
-   *
-   * @returns {Array}
-   */
-  function getLinesCotisationsSociales() {
-    return [
-      chargesCalculatorService.assuranceVieillesseBase($scope.form.remuneration),
-      chargesCalculatorService.assuranceVieillesseComplementaire($scope.form.remuneration),
-      chargesCalculatorService.formationProfessionnelle($scope.form.remuneration),
-      chargesCalculatorService.allocationsFamiliales($scope.form.remuneration),
-      chargesCalculatorService.maladiesMaternite($scope.form.remuneration)
-    ];
-  }
 
 }]);
 

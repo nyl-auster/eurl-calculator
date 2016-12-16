@@ -165,7 +165,7 @@ angular.module('calculator').service('chargesConfig', function(){
   };
 
   // TVA 20%
-  parametres.charges.tvaNormale = {
+  parametres.charges.tva20 = {
     label: "TVA",
     organisme: "Impots",
     type_tranches: "exclusive",
@@ -175,7 +175,20 @@ angular.module('calculator').service('chargesConfig', function(){
         taux:20
       }
     ]
-  }
+  };
+
+  // La taxe foncière dont le montant forfaitaire dépend de la ville
+  parametres.charges.cfe = {
+    label: "CFE",
+    organisme: "Impots locaux",
+    type_tranches: "exclusive",
+    tranches: [
+      {
+        plafond:max,
+        montant_forfaitaire: null
+      }
+    ]
+  };
 
   // CIPAV: Assurance vieillesse "complémentaire" ( mais obligatoire :-p )
   // http://service.cipav-retraite.fr/cipav/article-28-principes-de-calcul-des-cotisations-103.htm
