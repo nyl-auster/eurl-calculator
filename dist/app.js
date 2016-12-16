@@ -37039,7 +37039,7 @@
 	 */
 	angular.module('calculator').service('chargesConfig', function(){
 	
-	  const max = null;
+	  const max = 99999999999;
 	
 	  const parametres = {
 	    general:{},
@@ -37484,10 +37484,16 @@
 	    var trancheActive = null;
 	    var result = new service.result(charge);
 	
-	    charge.tranches.forEach(function(tranche) {
+	    charge.tranches.forEach(function(tranche, index) {
+	
+	      if (baseCalcul > tranche.plafond) {
+	        //trancheActive = tranches[index - 1] || tranches[0];
+	      }
+	
 	      if (!trancheActive &&  baseCalcul <= tranche.plafond) {
 	        trancheActive = tranche;
 	      }
+	
 	    });
 	
 	    if (trancheActive) {

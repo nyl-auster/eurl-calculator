@@ -40,7 +40,7 @@
  */
 angular.module('calculator').service('chargesConfig', function(){
 
-  const max = null;
+  const max = 99999999999;
 
   const parametres = {
     general:{},

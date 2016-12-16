@@ -1,7 +1,7 @@
 // Be descriptive with titles here. The describe and it titles combined read like a sentence.
 describe('chargesCalculatorService', function() {
 
-  var max = 99999;
+  var max = 999999999999;
 
   beforeEach(function() {
     module('calculator');
