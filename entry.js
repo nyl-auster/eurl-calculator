@@ -3,7 +3,6 @@
  */
 
 // contrib
-require('bootstrap');
 require('angular');
 require('angular-ui-router');
 require('angular-i18n/angular-locale_fr.js');
