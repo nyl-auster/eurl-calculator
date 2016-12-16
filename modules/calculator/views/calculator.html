@@ -1,4 +1,4 @@
-<form name="calculatorForm" class="form-inline">
+<form name="calculatorForm" class="charges-form">
   <div class="row">
 
     <!-- Chiffres d'affaires -->
@@ -7,7 +7,7 @@
       <input
               ng-change="refreshResults()"
               ng-model="form.chiffreAffaireHt"
-              type="text"
+              type="number"
               class="form-control"
               placeholder="Chiffre d'affaire"
       >
@@ -19,7 +19,7 @@
       <input
               ng-change="refreshResults()"
               ng-model="form.remuneration"
-              type="text" class="form-control"
+              type="number" class="form-control"
               placeholder="Rémunération"
       >
     </div>
@@ -30,7 +30,7 @@
       <input
               ng-change="refreshResults()"
               ng-model="form.frais"
-              type="text"
+              type="number"
               class="form-control"
               placeholder="Frais"
       >
@@ -42,7 +42,7 @@
       <input
               ng-change="refreshResults()"
               ng-model="form.cfe"
-              type="text"
+              type="number"
               class="form-control"
               id="form.cfe"
               placeholder="CFE"

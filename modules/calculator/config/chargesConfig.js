@@ -40,7 +40,7 @@
  */
 angular.module('calculator').service('chargesConfig', function(){
 
-  const max = 999999999999999999999;
+  const max = 999999999999;
 
   const parametres = {
     general:{},
@@ -278,8 +278,6 @@ angular.module('calculator').service('chargesConfig', function(){
       }
     }
   };
-
-
 
   // les professions libérales ne cotisent pas pour les indemnités journalières
   // source : http://www.rsi.fr/baremes/charges.html

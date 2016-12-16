@@ -6,7 +6,7 @@ angular.module('calculator').config(['$stateProvider', '$urlRouterProvider', fun
   $stateProvider.state('calculator', {
     url: '/',
     templateUrl: "modules/calculator/views/calculator.html",
-    controller:'calculatorController'
+    controller:'chargesReportController'
   });
 
 }]);

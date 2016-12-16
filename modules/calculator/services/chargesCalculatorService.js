@@ -1,9 +1,7 @@
 /**
  * Calculs des charges en fonction des paramètres
  */
- angular.module('calculator').service('chargesCalculator',['chargesConfig', function(chargesConfig){
-
-   parametres = chargesConfig;
+ angular.module('calculator').service('chargesCalculatorService',['chargesConfig', function(chargesConfig){
 
    var service = {};
 
@@ -17,15 +15,17 @@
   };
 
   /**
-   * Calculer le montant d'une tranche. Une tranche est un objet contenant les clefs suivantes :
+   * Calculer le montant d'une tranche.
+   * Une tranche est un objet qui peut contenir les clefs suivantes :
    * - montant : peut être déjà rempli pour les montants forfaitaires
-   * - taux : le taux à appliquer sur la base de calcul pour calculer le montant
+   * - taux : le pourcentage à appliquer sur le montant
+   * - montant_forfaitaire : si la tranche est un montant fixe en fonction du plafond.
    */
    service.calculerMontantTranche = function(tranche, baseCalcul) {
      var montant = null;
 
     // si un montant forfaitaire est prédéfini pour cette tranche
-    if (typeof tranche.montant_forfaitaire !== 'undefined') {
+    if (typeof tranche.montant_forfaitaire !== undefined) {
       montant = tranche.montant_forfaitaire;
     }
     // sinon on calcule le montant de la tranche en fonction du taux indiqué
@@ -40,8 +40,8 @@
 
   /**
    * Calcul la tranche qui correspond à baseDeCalcul en fonction du tableau "tranches".
-   * Pour les tranches exclusives, seule une tranche est conservé pour le calcul, les
-   * tranches précédentes ou suivantes n'entrent en rien dans le calcul du montant
+   * Pour les tranches exclusives, seule UNE tranche est conservé pour le calcul, les
+   * tranches précédentes ou suivantes n'entrent donc en rien dans le calcul du montant
    * de la cotisation
    *
    * @param baseCalcul float | int :
@@ -133,21 +133,21 @@
    * Calcul des cotisations maladie et maternité - URSSAF
    */
    service.assuranceVieillesseComplementaire = function(baseCalcul) {
-     return service.calculerTrancheExclusive(baseCalcul, parametres.charges.assuranceVieillesseComplementaire);
+     return service.calculerTrancheExclusive(baseCalcul, chargesConfig.charges.assuranceVieillesseComplementaire);
    };
 
   /**
    * Calcul des cotisations pour la formation professionnelle
    */
    service.formationProfessionnelle = function(baseCalcul) {
-     return service.calculerTrancheExclusive(baseCalcul, parametres.charges.formationProfessionnelle);
+     return service.calculerTrancheExclusive(baseCalcul, chargesConfig.charges.formationProfessionnelle);
    };
 
   /**
    * Calcul des cotisations maladie et maternité - URSSAF
    */
    service.allocationsFamiliales = function(baseCalcul) {
-     return service.calculerTrancheExclusive(baseCalcul, parametres.charges.allocationsFamiliales);
+     return service.calculerTrancheExclusive(baseCalcul, chargesConfig.charges.allocationsFamiliales);
    };
 
   /**
@@ -155,7 +155,7 @@
    * @FIXME calcul chelou, à vérifier
    */
    service.assuranceVieillesseBase = function(baseCalcul) {
-     var assuranceVieillesseBase = angular.copy(parametres.charges.assuranceVieillesseBase);
+     var assuranceVieillesseBase = angular.copy(chargesConfig.charges.assuranceVieillesseBase);
      if (baseCalcul > assuranceVieillesseBase.tranches[0].plafond) {
        delete assuranceVieillesseBase.tranches[0];
      }
@@ -167,18 +167,18 @@
    * Calcul des cotisations maladie et maternité - URSSAF
    */
    service.maladiesMaternite = function(baseCalcul) {
-     return service.calculerTrancheExclusive(baseCalcul, parametres.charges.maladiesMaternite);
+     return service.calculerTrancheExclusive(baseCalcul, chargesConfig.charges.maladiesMaternite);
    };
 
   /**
    * Calcul de l'impot sur les bénéfices - Impots
    */
    service.impotSurLesSocietes = function(baseCalcul) {
-     return service.calculerTranchesCumulatives(baseCalcul, parametres.charges.impotSurLesSocietes);
+     return service.calculerTranchesCumulatives(baseCalcul, chargesConfig.charges.impotSurLesSocietes);
    };
 
    service.tvaNormale = function(baseCalcul) {
-     return service.calculerTranchesCumulatives(baseCalcul, parametres.charges.tvaNormale);
+     return service.calculerTranchesCumulatives(baseCalcul, chargesConfig.charges.tvaNormale);
    };
 
    return service;

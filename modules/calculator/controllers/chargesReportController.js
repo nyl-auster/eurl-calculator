@@ -1,4 +1,4 @@
-angular.module('calculator').controller('calculatorController', ['$scope', 'chargesCalculator', '$cookies', function ($scope, chargesCalculator, $cookies) {
+angular.module('calculator').controller('chargesReportController', ['$scope', 'chargesCalculatorService', '$cookies', function ($scope, chargesCalculatorService, $cookies) {
 
   $scope.totalAProvisionner = 0;
 
@@ -32,8 +32,8 @@ angular.module('calculator').controller('calculatorController', ['$scope', 'char
 
     lines = lines
       .concat(getLinesCotisationsSociales())
-      .concat(chargesCalculator.impotSurLesSocietes(getBaseCalculIs()))
-      .concat(chargesCalculator.tvaNormale($scope.form.chiffreAffaireHt));
+      .concat(chargesCalculatorService.impotSurLesSocietes(getBaseCalculIs()))
+      .concat(chargesCalculatorService.tvaNormale($scope.form.chiffreAffaireHt));
 
     // ajout de la ligne CFE
     lines.push({
@@ -62,13 +62,13 @@ angular.module('calculator').controller('calculatorController', ['$scope', 'char
     // comme on compte la TVA dans notre total à provisionner, on doit partir
     // du CA TTC pour calculer notre restant une fois retranché
     // la rémunération et le total à provisionner
-    const CATTC = parseFloat($scope.form.chiffreAffaireHt) + chargesCalculator.tvaNormale($scope.form.chiffreAffaireHt).montant;
+    const CATTC = parseFloat($scope.form.chiffreAffaireHt) + chargesCalculatorService.tvaNormale($scope.form.chiffreAffaireHt).montant;
     return CATTC - totalAprovisionner - parseFloat($scope.form.remuneration);
   }
 
   function getTotalAProvisionner() {
     let totalCotisationsSociales = getTotalFromLines(getLinesCotisationsSociales());
-    let TVA = chargesCalculator.tvaNormale($scope.form.chiffreAffaireHt).montant;
+    let TVA = chargesCalculatorService.tvaNormale($scope.form.chiffreAffaireHt).montant;
     let total = parseFloat($scope.form.cfe)
       + parseFloat($scope.form.frais)
       + TVA
@@ -90,11 +90,11 @@ angular.module('calculator').controller('calculatorController', ['$scope', 'char
    */
   function getLinesCotisationsSociales() {
     return [
-      chargesCalculator.assuranceVieillesseBase($scope.form.remuneration),
-      chargesCalculator.assuranceVieillesseComplementaire($scope.form.remuneration),
-      chargesCalculator.formationProfessionnelle($scope.form.remuneration),
-      chargesCalculator.allocationsFamiliales($scope.form.remuneration),
-      chargesCalculator.maladiesMaternite($scope.form.remuneration)
+      chargesCalculatorService.assuranceVieillesseBase($scope.form.remuneration),
+      chargesCalculatorService.assuranceVieillesseComplementaire($scope.form.remuneration),
+      chargesCalculatorService.formationProfessionnelle($scope.form.remuneration),
+      chargesCalculatorService.allocationsFamiliales($scope.form.remuneration),
+      chargesCalculatorService.maladiesMaternite($scope.form.remuneration)
     ];
   }
 

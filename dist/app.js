@@ -40,8 +40,9 @@
 /******/ 	return __webpack_require__(0);
 /******/ })
 /************************************************************************/
-/******/ ([
-/* 0 */
+/******/ ({
+
+/***/ 0:
 /***/ function(module, exports, __webpack_require__) {
 
 	/**
@@ -60,9 +61,8 @@
 
 
 /***/ },
-/* 1 */,
-/* 2 */,
-/* 3 */
+
+/***/ 3:
 /***/ function(module, exports, __webpack_require__) {
 
 	__webpack_require__(4);
@@ -70,7 +70,8 @@
 
 
 /***/ },
-/* 4 */
+
+/***/ 4:
 /***/ function(module, exports) {
 
 	/**
@@ -31843,7 +31844,8 @@
 	!window.angular.$$csp().noInlineStyle && window.angular.element(document.head).prepend('<style type="text/css">@charset "UTF-8";[ng\\:cloak],[ng-cloak],[data-ng-cloak],[x-ng-cloak],.ng-cloak,.x-ng-cloak,.ng-hide:not(.ng-hide-animate){display:none !important;}ng\\:form{display:block;}.ng-animate-shim{visibility:hidden;}.ng-anchor{position:absolute;}</style>');
 
 /***/ },
-/* 5 */
+
+/***/ 5:
 /***/ function(module, exports) {
 
 	/**
@@ -36457,7 +36459,8 @@
 	})(window, window.angular);
 
 /***/ },
-/* 6 */
+
+/***/ 6:
 /***/ function(module, exports) {
 
 	'use strict';
@@ -36588,7 +36591,8 @@
 
 
 /***/ },
-/* 7 */
+
+/***/ 7:
 /***/ function(module, exports, __webpack_require__) {
 
 	__webpack_require__(8);
@@ -36596,7 +36600,8 @@
 
 
 /***/ },
-/* 8 */
+
+/***/ 8:
 /***/ function(module, exports) {
 
 	/**
@@ -36932,7 +36937,8 @@
 
 
 /***/ },
-/* 9 */
+
+/***/ 9:
 /***/ function(module, exports, __webpack_require__) {
 
 	/**
@@ -36952,7 +36958,8 @@
 
 
 /***/ },
-/* 10 */
+
+/***/ 10:
 /***/ function(module, exports) {
 
 	/**
@@ -36968,7 +36975,8 @@
 
 
 /***/ },
-/* 11 */
+
+/***/ 11:
 /***/ function(module, exports, __webpack_require__) {
 
 	/**
@@ -36978,13 +36986,14 @@
 	
 	// ajout des fichiers du module calculator
 	__webpack_require__(12);
-	__webpack_require__(13);
+	__webpack_require__(161);
 	__webpack_require__(14);
-	__webpack_require__(15);
+	__webpack_require__(160);
 
 
 /***/ },
-/* 12 */
+
+/***/ 12:
 /***/ function(module, exports) {
 
 	/**
@@ -37029,7 +37038,7 @@
 	 */
 	angular.module('calculator').service('chargesConfig', function(){
 	
-	  const max = 999999999999999999999;
+	  const max = 999999999999;
 	
 	  const parametres = {
 	    general:{},
@@ -37268,8 +37277,6 @@
 	    }
 	  };
 	
-	
-	
 	  // les professions libérales ne cotisent pas pour les indemnités journalières
 	  // source : http://www.rsi.fr/baremes/charges.html
 	  parametres.charges.indemnitesJournalieres = {};
@@ -37281,15 +37288,147 @@
 
 
 /***/ },
-/* 13 */
+
+/***/ 14:
+/***/ function(module, exports) {
+
+	/**
+	 * Nos routes ui-router
+	 */
+	angular.module('calculator').config(['$stateProvider', '$urlRouterProvider', function ($stateProvider, $urlRouterProvider) {
+	
+	  $stateProvider.state('calculator', {
+	    url: '/',
+	    templateUrl: "modules/calculator/views/calculator.html",
+	    controller:'chargesReportController'
+	  });
+	
+	}]);
+	
+	
+	
+
+
+/***/ },
+
+/***/ 160:
+/***/ function(module, exports) {
+
+	angular.module('calculator').controller('chargesReportController', ['$scope', 'chargesCalculatorService', '$cookies', function ($scope, chargesCalculatorService, $cookies) {
+	
+	  $scope.totalAProvisionner = 0;
+	
+	  $scope.benefice = 0;
+	  $scope.form = {
+	    remuneration: 0,
+	    chiffreAffaireHt: 0,
+	    frais: 0,
+	    cfe: 500
+	  };
+	  $scope.showDetails = 0;
+	
+	  // rafraichir les résultats
+	  $scope.refreshResults = function() {
+	    getResults();
+	  };
+	
+	  getResults();
+	
+	  function getBaseCalculIs() {
+	    return $scope.form.chiffreAffaireHt
+	      - $scope.form.remuneration
+	      - $scope.form.frais;
+	  }
+	
+	  function getResults() {
+	
+	    let lines = [];
+	
+	    var baseCalculIS = $scope.form.chiffreAffaireHt - $scope.form.frais - $scope.form.cfe;
+	
+	    lines = lines
+	      .concat(getLinesCotisationsSociales())
+	      .concat(chargesCalculatorService.impotSurLesSocietes(getBaseCalculIs()))
+	      .concat(chargesCalculatorService.tvaNormale($scope.form.chiffreAffaireHt));
+	
+	    // ajout de la ligne CFE
+	    lines.push({
+	      charge: {
+	        label:'CFE'
+	      },
+	      montant: $scope.form.cfe
+	    });
+	
+	    // ajout de la ligne frais
+	    lines.push({
+	      charge: {
+	        label:'Frais'
+	      },
+	      montant: $scope.form.frais
+	    });
+	
+	    $scope.totalAProvisionner = getTotalFromLines(lines);
+	
+	    $scope.benefice = calculerBenefice($scope.totalAProvisionner);
+	
+	    $scope.lines = lines;
+	  }
+	
+	  function calculerBenefice(totalAprovisionner) {
+	    // comme on compte la TVA dans notre total à provisionner, on doit partir
+	    // du CA TTC pour calculer notre restant une fois retranché
+	    // la rémunération et le total à provisionner
+	    const CATTC = parseFloat($scope.form.chiffreAffaireHt) + chargesCalculatorService.tvaNormale($scope.form.chiffreAffaireHt).montant;
+	    return CATTC - totalAprovisionner - parseFloat($scope.form.remuneration);
+	  }
+	
+	  function getTotalAProvisionner() {
+	    let totalCotisationsSociales = getTotalFromLines(getLinesCotisationsSociales());
+	    let TVA = chargesCalculatorService.tvaNormale($scope.form.chiffreAffaireHt).montant;
+	    let total = parseFloat($scope.form.cfe)
+	      + parseFloat($scope.form.frais)
+	      + TVA
+	      + totalCotisationsSociales;
+	    return total;
+	  }
+	
+	  function getTotalFromLines(lines) {
+	    totalCharges = 0;
+	    lines.forEach(function(charge){
+	      totalCharges += parseFloat(charge.montant);
+	    });
+	    return totalCharges;
+	  }
+	
+	  /**
+	   *
+	   * @returns {Array}
+	   */
+	  function getLinesCotisationsSociales() {
+	    return [
+	      chargesCalculatorService.assuranceVieillesseBase($scope.form.remuneration),
+	      chargesCalculatorService.assuranceVieillesseComplementaire($scope.form.remuneration),
+	      chargesCalculatorService.formationProfessionnelle($scope.form.remuneration),
+	      chargesCalculatorService.allocationsFamiliales($scope.form.remuneration),
+	      chargesCalculatorService.maladiesMaternite($scope.form.remuneration)
+	    ];
+	  }
+	
+	}]);
+	
+	
+	
+
+
+/***/ },
+
+/***/ 161:
 /***/ function(module, exports) {
 
 	/**
 	 * Calculs des charges en fonction des paramètres
 	 */
-	 angular.module('calculator').service('chargesCalculator',['chargesConfig', function(chargesConfig){
-	
-	   parametres = chargesConfig;
+	 angular.module('calculator').service('chargesCalculatorService',['chargesConfig', function(chargesConfig){
 	
 	   var service = {};
 	
@@ -37303,15 +37442,17 @@
 	  };
 	
 	  /**
-	   * Calculer le montant d'une tranche. Une tranche est un objet contenant les clefs suivantes :
+	   * Calculer le montant d'une tranche.
+	   * Une tranche est un objet qui peut contenir les clefs suivantes :
 	   * - montant : peut être déjà rempli pour les montants forfaitaires
-	   * - taux : le taux à appliquer sur la base de calcul pour calculer le montant
+	   * - taux : le pourcentage à appliquer sur le montant
+	   * - montant_forfaitaire : si la tranche est un montant fixe en fonction du plafond.
 	   */
 	   service.calculerMontantTranche = function(tranche, baseCalcul) {
 	     var montant = null;
 	
 	    // si un montant forfaitaire est prédéfini pour cette tranche
-	    if (typeof tranche.montant_forfaitaire !== 'undefined') {
+	    if (typeof tranche.montant_forfaitaire !== undefined) {
 	      montant = tranche.montant_forfaitaire;
 	    }
 	    // sinon on calcule le montant de la tranche en fonction du taux indiqué
@@ -37326,8 +37467,8 @@
 	
 	  /**
 	   * Calcul la tranche qui correspond à baseDeCalcul en fonction du tableau "tranches".
-	   * Pour les tranches exclusives, seule une tranche est conservé pour le calcul, les
-	   * tranches précédentes ou suivantes n'entrent en rien dans le calcul du montant
+	   * Pour les tranches exclusives, seule UNE tranche est conservé pour le calcul, les
+	   * tranches précédentes ou suivantes n'entrent donc en rien dans le calcul du montant
 	   * de la cotisation
 	   *
 	   * @param baseCalcul float | int :
@@ -37419,21 +37560,21 @@
 	   * Calcul des cotisations maladie et maternité - URSSAF
 	   */
 	   service.assuranceVieillesseComplementaire = function(baseCalcul) {
-	     return service.calculerTrancheExclusive(baseCalcul, parametres.charges.assuranceVieillesseComplementaire);
+	     return service.calculerTrancheExclusive(baseCalcul, chargesConfig.charges.assuranceVieillesseComplementaire);
 	   };
 	
 	  /**
 	   * Calcul des cotisations pour la formation professionnelle
 	   */
 	   service.formationProfessionnelle = function(baseCalcul) {
-	     return service.calculerTrancheExclusive(baseCalcul, parametres.charges.formationProfessionnelle);
+	     return service.calculerTrancheExclusive(baseCalcul, chargesConfig.charges.formationProfessionnelle);
 	   };
 	
 	  /**
 	   * Calcul des cotisations maladie et maternité - URSSAF
 	   */
 	   service.allocationsFamiliales = function(baseCalcul) {
-	     return service.calculerTrancheExclusive(baseCalcul, parametres.charges.allocationsFamiliales);
+	     return service.calculerTrancheExclusive(baseCalcul, chargesConfig.charges.allocationsFamiliales);
 	   };
 	
 	  /**
@@ -37441,7 +37582,7 @@
 	   * @FIXME calcul chelou, à vérifier
 	   */
 	   service.assuranceVieillesseBase = function(baseCalcul) {
-	     var assuranceVieillesseBase = angular.copy(parametres.charges.assuranceVieillesseBase);
+	     var assuranceVieillesseBase = angular.copy(chargesConfig.charges.assuranceVieillesseBase);
 	     if (baseCalcul > assuranceVieillesseBase.tranches[0].plafond) {
 	       delete assuranceVieillesseBase.tranches[0];
 	     }
@@ -37453,18 +37594,18 @@
 	   * Calcul des cotisations maladie et maternité - URSSAF
 	   */
 	   service.maladiesMaternite = function(baseCalcul) {
-	     return service.calculerTrancheExclusive(baseCalcul, parametres.charges.maladiesMaternite);
+	     return service.calculerTrancheExclusive(baseCalcul, chargesConfig.charges.maladiesMaternite);
 	   };
 	
 	  /**
 	   * Calcul de l'impot sur les bénéfices - Impots
 	   */
 	   service.impotSurLesSocietes = function(baseCalcul) {
-	     return service.calculerTranchesCumulatives(baseCalcul, parametres.charges.impotSurLesSocietes);
+	     return service.calculerTranchesCumulatives(baseCalcul, chargesConfig.charges.impotSurLesSocietes);
 	   };
 	
 	   service.tvaNormale = function(baseCalcul) {
-	     return service.calculerTranchesCumulatives(baseCalcul, parametres.charges.tvaNormale);
+	     return service.calculerTranchesCumulatives(baseCalcul, chargesConfig.charges.tvaNormale);
 	   };
 	
 	   return service;
@@ -37473,137 +37614,7 @@
 	
 
 
-/***/ },
-/* 14 */
-/***/ function(module, exports) {
-
-	/**
-	 * Nos routes ui-router
-	 */
-	angular.module('calculator').config(['$stateProvider', '$urlRouterProvider', function ($stateProvider, $urlRouterProvider) {
-	
-	  $stateProvider.state('calculator', {
-	    url: '/',
-	    templateUrl: "modules/calculator/views/calculator.html",
-	    controller:'calculatorController'
-	  });
-	
-	}]);
-	
-	
-	
-
-
-/***/ },
-/* 15 */
-/***/ function(module, exports) {
-
-	angular.module('calculator').controller('calculatorController', ['$scope', 'chargesCalculator', '$cookies', function ($scope, chargesCalculator, $cookies) {
-	
-	  $scope.totalAProvisionner = 0;
-	
-	  $scope.benefice = 0;
-	  $scope.form = {
-	    remuneration: 0,
-	    chiffreAffaireHt: 0,
-	    frais: 0,
-	    cfe: 500
-	  };
-	  $scope.showDetails = 0;
-	
-	  // rafraichir les résultats
-	  $scope.refreshResults = function() {
-	    getResults();
-	  };
-	
-	  getResults();
-	
-	  function getBaseCalculIs() {
-	    return $scope.form.chiffreAffaireHt
-	      - $scope.form.remuneration
-	      - $scope.form.frais;
-	  }
-	
-	  function getResults() {
-	
-	    let lines = [];
-	
-	    var baseCalculIS = $scope.form.chiffreAffaireHt - $scope.form.frais - $scope.form.cfe;
-	
-	    lines = lines
-	      .concat(getLinesCotisationsSociales())
-	      .concat(chargesCalculator.impotSurLesSocietes(getBaseCalculIs()))
-	      .concat(chargesCalculator.tvaNormale($scope.form.chiffreAffaireHt));
-	
-	    // ajout de la ligne CFE
-	    lines.push({
-	      charge: {
-	        label:'CFE'
-	      },
-	      montant: $scope.form.cfe
-	    });
-	
-	    // ajout de la ligne frais
-	    lines.push({
-	      charge: {
-	        label:'Frais'
-	      },
-	      montant: $scope.form.frais
-	    });
-	
-	    $scope.totalAProvisionner = getTotalFromLines(lines);
-	
-	    $scope.benefice = calculerBenefice($scope.totalAProvisionner);
-	
-	    $scope.lines = lines;
-	  }
-	
-	  function calculerBenefice(totalAprovisionner) {
-	    // comme on compte la TVA dans notre total à provisionner, on doit partir
-	    // du CA TTC pour calculer notre restant une fois retranché
-	    // la rémunération et le total à provisionner
-	    const CATTC = parseFloat($scope.form.chiffreAffaireHt) + chargesCalculator.tvaNormale($scope.form.chiffreAffaireHt).montant;
-	    return CATTC - totalAprovisionner - parseFloat($scope.form.remuneration);
-	  }
-	
-	  function getTotalAProvisionner() {
-	    let totalCotisationsSociales = getTotalFromLines(getLinesCotisationsSociales());
-	    let TVA = chargesCalculator.tvaNormale($scope.form.chiffreAffaireHt).montant;
-	    let total = parseFloat($scope.form.cfe)
-	      + parseFloat($scope.form.frais)
-	      + TVA
-	      + totalCotisationsSociales;
-	    return total;
-	  }
-	
-	  function getTotalFromLines(lines) {
-	    totalCharges = 0;
-	    lines.forEach(function(charge){
-	      totalCharges += parseFloat(charge.montant);
-	    });
-	    return totalCharges;
-	  }
-	
-	  /**
-	   *
-	   * @returns {Array}
-	   */
-	  function getLinesCotisationsSociales() {
-	    return [
-	      chargesCalculator.assuranceVieillesseBase($scope.form.remuneration),
-	      chargesCalculator.assuranceVieillesseComplementaire($scope.form.remuneration),
-	      chargesCalculator.formationProfessionnelle($scope.form.remuneration),
-	      chargesCalculator.allocationsFamiliales($scope.form.remuneration),
-	      chargesCalculator.maladiesMaternite($scope.form.remuneration)
-	    ];
-	  }
-	
-	}]);
-	
-	
-	
-
-
 /***/ }
-/******/ ]);
+
+/******/ });
 //# sourceMappingURL=app.js.map
