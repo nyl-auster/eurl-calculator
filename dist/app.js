@@ -49,39 +49,28 @@
 	 */
 	
 	// contrib
-	__webpack_require__(14);
-	__webpack_require__(16);
-	__webpack_require__(17);
-	__webpack_require__(18);
+	__webpack_require__(3);
+	__webpack_require__(5);
+	__webpack_require__(6);
+	__webpack_require__(7);
 	
-	// modules custom de notre application
-	__webpack_require__(20);
-	__webpack_require__(22);
+	// nos modules custom angular
+	__webpack_require__(9);
+	__webpack_require__(11);
 
 
 /***/ },
 /* 1 */,
 /* 2 */,
-/* 3 */,
-/* 4 */,
-/* 5 */,
-/* 6 */,
-/* 7 */,
-/* 8 */,
-/* 9 */,
-/* 10 */,
-/* 11 */,
-/* 12 */,
-/* 13 */,
-/* 14 */
+/* 3 */
 /***/ function(module, exports, __webpack_require__) {
 
-	__webpack_require__(15);
+	__webpack_require__(4);
 	module.exports = angular;
 
 
 /***/ },
-/* 15 */
+/* 4 */
 /***/ function(module, exports) {
 
 	/**
@@ -31854,7 +31843,7 @@
 	!window.angular.$$csp().noInlineStyle && window.angular.element(document.head).prepend('<style type="text/css">@charset "UTF-8";[ng\\:cloak],[ng-cloak],[data-ng-cloak],[x-ng-cloak],.ng-cloak,.x-ng-cloak,.ng-hide:not(.ng-hide-animate){display:none !important;}ng\\:form{display:block;}.ng-animate-shim{visibility:hidden;}.ng-anchor{position:absolute;}</style>');
 
 /***/ },
-/* 16 */
+/* 5 */
 /***/ function(module, exports) {
 
 	/**
@@ -36468,7 +36457,7 @@
 	})(window, window.angular);
 
 /***/ },
-/* 17 */
+/* 6 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -36599,15 +36588,15 @@
 
 
 /***/ },
-/* 18 */
+/* 7 */
 /***/ function(module, exports, __webpack_require__) {
 
-	__webpack_require__(19);
+	__webpack_require__(8);
 	module.exports = 'ngCookies';
 
 
 /***/ },
-/* 19 */
+/* 8 */
 /***/ function(module, exports) {
 
 	/**
@@ -36943,7 +36932,7 @@
 
 
 /***/ },
-/* 20 */
+/* 9 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/**
@@ -36952,7 +36941,7 @@
 	angular.module('core', ['ui.router', 'ngCookies']);
 	
 	// fichiers requis par notre module
-	__webpack_require__(21);
+	__webpack_require__(10);
 	
 	
 	
@@ -36963,7 +36952,7 @@
 
 
 /***/ },
-/* 21 */
+/* 10 */
 /***/ function(module, exports) {
 
 	/**
@@ -36979,7 +36968,7 @@
 
 
 /***/ },
-/* 22 */
+/* 11 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/**
@@ -36988,14 +36977,14 @@
 	angular.module('calculator', ['core']);
 	
 	// ajout des fichiers du module calculator
-	__webpack_require__(23);
-	__webpack_require__(24);
-	__webpack_require__(25);
-	__webpack_require__(26);
+	__webpack_require__(12);
+	__webpack_require__(13);
+	__webpack_require__(14);
+	__webpack_require__(15);
 
 
 /***/ },
-/* 23 */
+/* 12 */
 /***/ function(module, exports) {
 
 	/**
@@ -37292,7 +37281,7 @@
 
 
 /***/ },
-/* 24 */
+/* 13 */
 /***/ function(module, exports) {
 
 	/**
@@ -37485,7 +37474,7 @@
 
 
 /***/ },
-/* 25 */
+/* 14 */
 /***/ function(module, exports) {
 
 	/**
@@ -37506,7 +37495,7 @@
 
 
 /***/ },
-/* 26 */
+/* 15 */
 /***/ function(module, exports) {
 
 	angular.module('calculator').controller('calculatorController', ['$scope', 'chargesCalculator', '$cookies', function ($scope, chargesCalculator, $cookies) {

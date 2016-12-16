@@ -1,0 +1,27 @@
+/**
+ * suppression de la couleur grise de foundation
+ */
+table tbody tr:nth-child(even) {
+    background-color:inherit;
+}
+
+
+table tbody tr.charges-results__result__total {
+    /*background-color: #f1f1f1;*/
+}
+
+.charges-results__result__details {
+    font-style: italic;
+}
+
+.charges-results__total {
+    font-weight: bold;
+    background-color: #f1f1f1;
+}
+
+.charges-results__result__details {
+    transition: all linear 0.5s;
+}
+.charges-results__result__details.ng-hide {
+    opacity: 0;
+}

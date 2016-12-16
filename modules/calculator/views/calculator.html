@@ -1,106 +1,131 @@
-
 <form name="calculatorForm" class="form-inline">
+  <div class="row">
 
-  <!-- Chiffres d'affaires -->
-  <div class="form-group">
-    <label for="chiffre_affaire"> Chiffre d'affaire </label><br/>
-    <input
-            ng-change="refreshResults()"
-            ng-model="form.chiffreAffaireHt"
-            type="text"
-            class="form-control"
-            placeholder="Chiffre d'affaire"
-    >
+    <!-- Chiffres d'affaires -->
+    <div class="large-3 columns">
+      <label for="chiffre_affaire"> Chiffre d'affaire </label>
+      <input
+              ng-change="refreshResults()"
+              ng-model="form.chiffreAffaireHt"
+              type="text"
+              class="form-control"
+              placeholder="Chiffre d'affaire"
+      >
+    </div>
+
+    <!-- Rémunération -->
+    <div class="large-3 columns">
+      <label for="remuneration"> Rémunération </label>
+      <input
+              ng-change="refreshResults()"
+              ng-model="form.remuneration"
+              type="text" class="form-control"
+              placeholder="Rémunération"
+      >
+    </div>
+
+    <!-- frais -->
+    <div class="large-3 columns">
+      <label for="frais"> Frais </label>
+      <input
+              ng-change="refreshResults()"
+              ng-model="form.frais"
+              type="text"
+              class="form-control"
+              placeholder="Frais"
+      >
+    </div>
+
+    <!-- CFE -->
+    <div class="large-3 columns">
+      <label for="frais"> CFE </label>
+      <input
+              ng-change="refreshResults()"
+              ng-model="form.cfe"
+              type="text"
+              class="form-control"
+              id="form.cfe"
+              placeholder="CFE"
+      >
+    </div>
+
   </div>
-
-  <!-- Rémunération -->
-  <div class="form-group">
-    <label for="remuneration"> Rémunération </label><br/>
-    <input
-            ng-change="refreshResults()"
-            ng-model="form.remuneration"
-            type="text" class="form-control"
-            placeholder="Rémunération"
-    >
-  </div>
-
-  <!-- frais -->
-  <div class="form-group">
-    <label for="frais"> Frais </label><br/>
-    <input
-            ng-change="refreshResults()"
-            ng-model="form.frais"
-            type="text"
-            class="form-control"
-            placeholder="Frais"
-    >
-  </div>
-
-  <!-- CFE -->
-  <div class="form-group">
-    <label for="frais"> CFE </label><br/>
-    <input
-            ng-change="refreshResults()"
-            ng-model="form.cfe"
-            type="text"
-            class="form-control"
-            id="form.cfe"
-            placeholder="CFE"
-    >
-  </div>
-
 </form>
 
+<div class="row">
+  <div class="small-12 columns">
 
-<div>
-  Bénéfice: {{benefice | currency}}
+    <table class="charges-report">
+      <caption>Rapport</caption>
+      <thead>
+      <tr>
+        <th>Nom</th>
+        <th>Montant</th>
+      </tr>
+      </thead>
+      <tbody>
+      <tr>
+        <td>A provisionner</td>
+        <td>{{totalAProvisionner | currency }}</td>
+      </tr>
+      <tr>
+        <td> Bénéfices </td>
+        <td>{{benefice | currency }}</td>
+      </tr>
+      </tbody>
+    </table>
+
+  </div>
 </div>
 
-Détails
-<a ng-show="!showDetails" href="" ng-click="showDetails=!showDetails">
-  Montrer les détails
-</a>
-<a ng-show="showDetails" href="" ng-click="showDetails=!showDetails">
-  Masquer les détails
-</a>
 
-<table class="table table-responsive charges-results">
+<div class="row">
+  <div class="small-12 columns">
 
-  <thead>
-  <tr>
-    <th> Nom </th>
-    <th> Organisme </th>
-    <th> Tranche </th>
-    <th> Tranche Base de calcul </th>
-    <th> Tranche taux </th>
-    <th> tranche plafond </th>
-    <th> Montant </th>
-  </tr>
-  </thead>
+    <table class="charges-results">
+      <caption>
+        Détails des charges
+        <div class="show-details show-for-large">
+          <a ng-show="!showDetails" href="" ng-click="showDetails=!showDetails">
+            Montrer les détails
+          </a>
+          <a ng-show="showDetails" href="" ng-click="showDetails=!showDetails">
+            Masquer les détails
+          </a>
+        </div>
+      </caption>
+      <thead>
+      <tr>
+        <th> Nom </th>
+        <th class="show-for-large"> Organisme </th>
+        <th class="show-for-large"> Tranche </th>
+        <th class="show-for-large"> Tranche Base de calcul </th>
+        <th class="show-for-large"> Tranche taux </th>
+        <th class="show-for-large"> tranche plafond </th>
+        <th> Montant </th>
+      </tr>
+      </thead>
 
-  <tbody class="charges-results__result" ng-repeat="line in lines">
+      <tbody class="charges-results__result" ng-repeat="line in lines">
 
-  <tr ng-show="showDetails" class="charges-results__result__details" ng-repeat="tranche in line.tranches">
-    <td colspan="2"></td>
-    <td> {{$index + 1}} </td>
-    <td> {{tranche.baseCalcul | currency}} </td>
-    <td> {{tranche.taux}} <span ng-show="tranche.taux">%</span> </td>
-    <td colspan="2"> {{tranche.plafond | currency}} </td>
-    <td> {{tranche.montant | currency}} </td>
-  </tr>
+      <tr class="charges-results__result__total">
+        <td> {{line.charge.label}} </td>
+        <td class="show-for-large" colspan="5"> {{line.charge.organisme}} </td>
+        <td> {{line.montant | currency }} </td>
+      </tr>
 
-  <tr class="charges-results__result__total">
-    <td> {{line.charge.label}} </td>
-    <td colspan="6"> {{line.charge.organisme}} </td>
-    <td> {{line.montant | currency }} </td>
-  </tr>
+      <tr ng-show="showDetails" class="charges-results__result__details" ng-repeat="tranche in line.tranches">
+        <td colspan="2"></td>
+        <td> {{$index + 1}} </td>
+        <td> {{tranche.baseCalcul | currency}} </td>
+        <td> {{tranche.taux}} <span ng-show="tranche.taux">%</span> </td>
+        <td> {{tranche.plafond | currency}} </td>
+        <td> {{tranche.montant | currency}} </td>
+      </tr>
 
-  </tbody>
+      </tbody>
 
-  <tr>
-    <td><strong>Total A Provisionner</strong></td>
-    <td></td>
-    <td><strong>{{totalAProvisionner | currency }}</strong></td>
-  </tr>
 
-</table>
+    </table>
+  </div>
+</div>
