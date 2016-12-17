@@ -65,31 +65,6 @@ angular.module('calculator').controller('chargesReportController', ['$scope', 'c
       calculator.getChiffreAffaireTtc().montant
     ];
 
-
-    /*
-    $scope.chartBar = {labels:[], data:[]};
-    $scope.chartBar.labels = [
-      "Remunération + Bénéfice",
-      "CA TTC"
-    ];
-    $scope.chartBar.series = ['A'];
-    $scope.chartBar.data = [
-      [calculator.remuneration + calculator.getBenefice().montant,
-      calculator.getChiffreAffaireTtc().montant]
-    ];
-    */
-
-    /*
-    aProvisionner.forEach((charge) => {
-      if (charge.id && charge.id == "totalAProvisionner") {
-        $scope.pie.labels.push(charge.label);
-        $scope.pie.data.push(charge.montant);
-      }
-    });
-    */
-
-    console.log($scope.pie);
-
     // on rafraichit le scope avec les données retournées par le calculateur
     $scope.charges = charges;
     $scope.aProvisionner = aProvisionner;
