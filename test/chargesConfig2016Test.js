@@ -11,7 +11,7 @@ describe('chargesConfig', function() {
   }));
 
 
-  it("les charges doivent avoir les clefs attendues", function() {
+  it("les objets charges doivent avoir les clefs obligatoire", function() {
     for(charge in chargesConfig.charges) {
       expect(chargesConfig.charges[charge].organisme).toBeDefined(`propriété "organisme" manquante pour la charge ${charge}`);
       expect(chargesConfig.charges[charge].label).toBeDefined(`propriété "label" manquante pour la charge ${charge}`);
@@ -23,7 +23,7 @@ describe('chargesConfig', function() {
 
   });
 
-  it("Les plafonds de la sécurité sociale doivent être définis", function() {
+  it("Les plafonds de la sécurité sociale doivent être définis avec les bonnes valeurs", function() {
     expect(chargesConfig.plafond_securite_sociale).toEqual(38616);
     expect(chargesConfig.plafond_securite_sociale_precedent).toEqual(38040);
   });
