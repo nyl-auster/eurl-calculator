@@ -19,9 +19,7 @@ table thead tr {
 
 .header {
     padding-top: 2rem;
-    padding-bottom: 2rem;
     margin-bottom: 2rem;
-    text-transform: uppercase;
    /* border-bottom: 1px solid gold;*/
 }
 
