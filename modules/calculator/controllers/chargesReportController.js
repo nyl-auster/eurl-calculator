@@ -2,7 +2,7 @@
  * Affichage du cout des charges d'une EURL à l'IS
  * Objet "charge" > objet "Resultat du calculator" > objet "ligne à afficher"
  */
-angular.module('calculator').controller('chargesReportController', ['$scope', 'chargesCalculatorService', 'chargesConfig', '$cookies', function ($scope, chargesCalculatorService, $cookies, chargesConfig) {
+angular.module('calculator').controller('chargesReportController', ['$scope', 'chargesCalculatorService', '$cookies', function ($scope, chargesCalculatorService, $cookies) {
 
   $scope.totalAProvisionner = 0;
   $scope.benefice = 0;
