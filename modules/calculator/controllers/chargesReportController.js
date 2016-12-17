@@ -1,4 +1,6 @@
 /**
+ * @FIXME ajout CGS CRD, controle de toutes les charges
+ *
  * Affichage du cout des charges d'une EURL à l'IS
  * Objet "charge" > objet "Resultat du calculator" > objet "ligne à afficher"
  */
@@ -7,8 +9,8 @@ angular.module('calculator').controller('chargesReportController', ['$scope', 'c
   $scope.totalAProvisionner = 0;
   $scope.benefice = 0;
   $scope.form = {
-    chiffreAffaireHt: 50000,
-    remuneration: 30000,
+    chiffreAffaireHt: 35000,
+    remuneration: 15000,
     tva:0,
     frais: 0,
     cfe: 500
@@ -31,7 +33,8 @@ angular.module('calculator').controller('chargesReportController', ['$scope', 'c
 
   function getResults() {
 
-    calculator = chargesCalculatorService($scope.form);
+    $scope.calculator = calculator = chargesCalculatorService($scope.form);
+
 
     let charges = [];
     charges = charges
@@ -41,11 +44,56 @@ angular.module('calculator').controller('chargesReportController', ['$scope', 'c
       .concat(calculator.getCfe())
       .concat(calculator.getFrais());
 
+    aProvisionner = [];
+    aProvisionner = aProvisionner
+      .concat(calculator.getTotalAProvisionner())
+      .concat(calculator.getTotalCotisationsSociales())
+      .concat(calculator.getImpotSurLesSocietes())
+      .concat(calculator.getCfe())
+      .concat(calculator.getTva())
+      .concat(calculator.getBenefice());
+
+    console.log(aProvisionner);
+
+    $scope.pie = {labels:[], data:[]};
+    $scope.pie.labels = [
+      "Bénéfice",
+      "Chiffre d'affaire TTC"
+    ];
+    $scope.pie.data = [
+      calculator.getBenefice().montant,
+      calculator.getChiffreAffaireTtc().montant
+    ];
+
+
+    /*
+    $scope.chartBar = {labels:[], data:[]};
+    $scope.chartBar.labels = [
+      "Remunération + Bénéfice",
+      "CA TTC"
+    ];
+    $scope.chartBar.series = ['A'];
+    $scope.chartBar.data = [
+      [calculator.remuneration + calculator.getBenefice().montant,
+      calculator.getChiffreAffaireTtc().montant]
+    ];
+    */
+
+    /*
+    aProvisionner.forEach((charge) => {
+      if (charge.id && charge.id == "totalAProvisionner") {
+        $scope.pie.labels.push(charge.label);
+        $scope.pie.data.push(charge.montant);
+      }
+    });
+    */
+
+    console.log($scope.pie);
+
     // on rafraichit le scope avec les données retournées par le calculateur
-    $scope.totalAProvisionner = calculator.getTotalAProvisionner();
-    $scope.benefice = calculator.getBenefice();
-    $scope.chiffreAffaireTtc = calculator.caculerChiffreAffaireTtc();
     $scope.charges = charges;
+    $scope.aProvisionner = aProvisionner;
+
   }
 
 }]);

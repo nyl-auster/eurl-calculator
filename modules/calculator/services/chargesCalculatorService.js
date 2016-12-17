@@ -61,10 +61,14 @@ angular.module('calculator').service('chargesCalculatorService',['chargesConfig2
       // comme on compte la TVA dans notre total à provisionner, on doit partir
       // du CA TTC pour calculer notre restant une fois retranché
       // la rémunération et le total à provisionner
-      return service.chiffreAffaireHt
-        - service.getTotalAProvisionner()
+      let montant = service.chiffreAffaireHt
+        - service.getTotalAProvisionner().montant
         - service.remuneration
         - service.frais;
+      return {
+        label: "Bénéfice après provisions",
+        montant: montant
+      };
     };
 
     service.getCotisationsSocialesArray = () => {
@@ -90,14 +94,36 @@ angular.module('calculator').service('chargesCalculatorService',['chargesConfig2
     };
 
     /**
-     * Le total a provisionner , c'est à dire ce qui sera payé à l'état
+     * Le total a provisionner, ce pour quoi j'ai créer l'application
+     * c'est à dire ce qui sera payé à l'état
      * à un moement donné.
      * @returns {*}
      */
     service.getTotalAProvisionner = () => {
       let totalCotisationsSociales = service.calculerTotalCotisationsSociales();
-      let total = service.cfe + service.tva + totalCotisationsSociales;
-      return total;
+      let total = service.cfe
+        + service.tva
+        + totalCotisationsSociales
+        + service.getImpotSurLesSocietes().montant;
+      return {
+        id:'totalAProvisionner',
+        label:'Total à provisionner',
+        montant:total
+      };
+    };
+
+    service.getChiffreAffaireTtc = () => {
+      return {
+        label:"Chiffre d'affaire TTC",
+        montant:service.chiffreAffaireHt + service.tva
+      };
+    };
+
+    service.getTotalCotisationsSociales = () => {
+      return {
+        label: 'Cotisations sociales',
+        montant: service.calculerTotalCotisationsSociales()
+      }
     };
 
     /**

@@ -62,3 +62,17 @@ table tbody tr.charges-results__result__total {
     background-color: #f1f1f1;
     font-weight: bold;
 }
+
+.report-charts {
+    margin-top:47px;
+    /*text-align: center;*/
+}
+
+canvas#pie {
+
+    /*
+    height:30rem !important;
+    width: auto !important;
+    margin:auto;
+    */
+}

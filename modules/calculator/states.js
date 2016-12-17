@@ -1,7 +1,7 @@
 /**
  * Nos routes ui-router
  */
-angular.module('calculator').config(['$stateProvider', '$urlRouterProvider', function ($stateProvider, $urlRouterProvider) {
+angular.module('calculator').config(['$stateProvider', '$urlRouterProvider', "ChartJsProvider", function ($stateProvider, $urlRouterProvider) {
 
   $stateProvider.state('calculator', {
     url: '/',

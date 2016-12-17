@@ -7,11 +7,12 @@
       <input
               ng-change="refreshResults()"
               ng-model="form.chiffreAffaireHt"
+              ng-model-options="{ debounce: 300 }"
               type="number"
               class="form-control"
               placeholder="Chiffre d'affaire"
       >
-      <div class="charges-form__field__descripton">
+      <div class="charges-form__field__descripton show-for-large">
         Votre chiffre d'affaire <strong>Hors Taxe</strong>
       </div>
     </div>
@@ -22,11 +23,12 @@
       <input
               ng-change="refreshResults()"
               ng-model="form.tva"
+              ng-model-options="{ debounce: 300 }"
               type="number"
               class="form-control"
               placeholder="Chiffre d'affaire"
       >
-      <div class="charges-form__field__descripton">
+      <div class="charges-form__field__descripton show-for-large">
         La TVA que vous devez reverser à l'état par rapport au chiffre d'affaire hors-taxe. Pensez à retrancher la TVA de vos achats.
         <br />20% du chiffre d'affaire = <a title="cliquer pour reporter ce chiffre dans le champ TVA" ng-click="reportTvaHelper()">
         {{form.chiffreAffaireHt * 0.20 | currency }}
@@ -40,10 +42,11 @@
       <input
               ng-change="refreshResults()"
               ng-model="form.remuneration"
+              ng-model-options="{ debounce: 300 }"
               type="number" class="form-control"
               placeholder="Rémunération"
       >
-      <div class="charges-form__field__descripton">
+      <div class="charges-form__field__descripton show-for-large">
         Votre rémunération de gérant. Les cotisations sociales sont calculées sur cette base.
       </div>
     </div>
@@ -54,12 +57,13 @@
       <input
               ng-change="refreshResults()"
               ng-model="form.frais"
+              ng-model-options="{ debounce: 300 }"
               type="number"
               class="form-control"
               placeholder="Frais"
       >
-      <div class="charges-form__field__descripton">
-        Vos achats et frais de sociétés <strong>Hors taxe</strong>
+      <div class="charges-form__field__descripton show-for-large">
+        Vos achats et frais de sociétés <strong>Hors taxe</strong> : expertise comtpables, achats, déplacements etc ...
       </div>
     </div>
 
@@ -69,11 +73,15 @@
       <input
               ng-change="refreshResults()"
               ng-model="form.cfe"
+              ng-model-options="{ debounce: 300 }"
               type="number"
               class="form-control"
               id="form.cfe"
               placeholder="CFE"
       >
+      <div class="charges-form__field__descripton show-for-large">
+      Le montant de la cotisation foncière des entreprises dépend de votre commune
+    </div>
     </div>
 
     <div class="large-2 columns">
@@ -83,36 +91,50 @@
   </div>
 </form>
 
+
 <div class="row">
-  <div class="small-12 columns">
+
+  <div class="small-12 medium-6 columns">
 
     <table class="charges-report">
+
       <caption>Rapport</caption>
       <thead>
       <tr>
-        <th>Nom</th>
+        <th>A Provisionner</th>
         <th>Montant</th>
       </tr>
       </thead>
-      <tbody>
-      <tr>
-        <td> CA TTC </td>
-        <td>{{chiffreAffaireTtc | currency }}</td>
-      </tr>
-      <tr>
-        <td>A provisionner</td>
-        <td>{{totalAProvisionner | currency }}</td>
-      </tr>
-      <tr>
-        <td> Bénéfices </td>
-        <td>{{benefice | currency }}</td>
-      </tr>
 
+      <tbody >
+      <tr ng-repeat="line in aProvisionner">
+        <td>{{line.label}}</td>
+        <td>{{line.montant | currency }}</td>
+      </tr>
       </tbody>
+
     </table>
 
   </div>
+
+  <div class="small-12 medium-6 columns">
+    <div class="report-charts">
+
+      <div class="callout warning" ng-show="calculator.getBenefice().montant < 0">
+        <h3>Bénéfice négatif : {{calculator.getBenefice().montant}}</h3>
+      </div>
+
+      <div ng-show="calculator.getBenefice().montant >= 0">
+        <canvas id="pie" class="chart chart-pie"
+                chart-data="pie.data" chart-labels="pie.labels" chart-options="pie.options">
+        </canvas>
+      </div>
+
+    </div>
+  </div>
+
 </div>
+
 
 
 <div class="row">
@@ -151,7 +173,7 @@
         <td> {{charge.montant | currency }} </td>
       </tr>
 
-      <tr ng-show="showDetails" class="charges-results__result__details" ng-repeat="tranche in charge.tranchesActives">
+      <tr class="show-for-large" ng-show="showDetails" class="charges-results__result__details" ng-repeat="tranche in charge.tranchesActives">
 
         <td colspan="2"></td>
         <td> {{$index + 1}} </td>

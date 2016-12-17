@@ -1,7 +1,7 @@
 /**
  * Création du module angular
  */
-angular.module('calculator', ['core']);
+angular.module('calculator', ['core', 'chart.js']);
 
 // ajout des fichiers du module calculator
 require('./config/chargesConfig2016');
