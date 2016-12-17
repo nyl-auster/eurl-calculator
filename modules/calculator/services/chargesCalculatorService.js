@@ -81,13 +81,14 @@ angular.module('calculator').service('chargesCalculatorService',['chargesConfig2
     };
 
     service.getBenefice = () => {
-      // comme on compte la TVA dans notre total à provisionner, on doit partir
-      // du CA TTC pour calculer notre restant une fois retranché
-      // la rémunération et le total à provisionner
-      let montant = service.chiffreAffaireHt
+
+      // comme on compte la TVA dans ce que nous devons provisionner,
+      // il faut l'ajouter ici pour avoir un bénéfice juste
+      // @FIXME il faudrait compter le chiffre d'affaire TTC,
+      // puis que la tva dûe + chiffreAffaireHT != CA TTC
+      let montant = service.chiffreAffaireHt + service.tva
         - service.getTotalAProvisionner().montant
         - service.remuneration
-        - service.getCgsCrds().montant
         - service.frais;
 
       return {
@@ -106,8 +107,6 @@ angular.module('calculator').service('chargesCalculatorService',['chargesConfig2
       ];
     };
 
-    service.caculerChiffreAffaireTtc = () => service.chiffreAffaireHt + service.tva;
-
     /**
      * Obtenir le montant total des cotisations sociales
      * @returns {number}
@@ -120,7 +119,8 @@ angular.module('calculator').service('chargesCalculatorService',['chargesConfig2
 
     /**
      * Le total a provisionner, ce pour quoi j'ai créer l'application
-     * c'est à dire ce qui sera payé à l'état
+     * c'est à dire ce qui devra être payé un jour ou l'autre, peu
+     * nous importe la date d'ailleurs peu prédictible.
      * à un moement donné.
      * @returns {*}
      */
@@ -136,13 +136,6 @@ angular.module('calculator').service('chargesCalculatorService',['chargesConfig2
         id:'totalAProvisionner',
         label:'Total à provisionner',
         montant:total
-      };
-    };
-
-    service.getChiffreAffaireTtc = () => {
-      return {
-        label:"Chiffre d'affaire TTC",
-        montant:service.chiffreAffaireHt + service.tva
       };
     };
 

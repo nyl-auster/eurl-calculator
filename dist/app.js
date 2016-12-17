@@ -63607,10 +63607,12 @@
 	    };
 	
 	    service.getBenefice = function () {
-	      // comme on compte la TVA dans notre total à provisionner, on doit partir
-	      // du CA TTC pour calculer notre restant une fois retranché
-	      // la rémunération et le total à provisionner
-	      var montant = service.chiffreAffaireHt - service.getTotalAProvisionner().montant - service.remuneration - service.getCgsCrds().montant - service.frais;
+	
+	      // comme on compte la TVA dans ce que nous devons provisionner,
+	      // il faut l'ajouter ici pour avoir un bénéfice juste
+	      // @FIXME il faudrait compter le chiffre d'affaire TTC,
+	      // puis que la tva dûe + chiffreAffaireHT != CA TTC
+	      var montant = service.chiffreAffaireHt + service.tva - service.getTotalAProvisionner().montant - service.remuneration - service.frais;
 	
 	      return {
 	        label: "Bénéfice après provisions",
@@ -63620,10 +63622,6 @@
 	
 	    service.getCotisationsSocialesArray = function () {
 	      return [service.getAssuranceVieillesseBase(service.remuneration), service.getAssuranceVieillesseComplementaire(service.remuneration), service.getFormationProfessionnelle(service.remuneration), service.getAllocationsFamiliales(service.remuneration), service.getMaladiesMaternite(service.remuneration)];
-	    };
-	
-	    service.caculerChiffreAffaireTtc = function () {
-	      return service.chiffreAffaireHt + service.tva;
 	    };
 	
 	    /**
@@ -63640,7 +63638,8 @@
 	
 	    /**
 	     * Le total a provisionner, ce pour quoi j'ai créer l'application
-	     * c'est à dire ce qui sera payé à l'état
+	     * c'est à dire ce qui devra être payé un jour ou l'autre, peu
+	     * nous importe la date d'ailleurs peu prédictible.
 	     * à un moement donné.
 	     * @returns {*}
 	     */
@@ -63651,13 +63650,6 @@
 	        id: 'totalAProvisionner',
 	        label: 'Total à provisionner',
 	        montant: total
-	      };
-	    };
-	
-	    service.getChiffreAffaireTtc = function () {
-	      return {
-	        label: "Chiffre d'affaire TTC",
-	        montant: service.chiffreAffaireHt + service.tva
 	      };
 	    };
 	
