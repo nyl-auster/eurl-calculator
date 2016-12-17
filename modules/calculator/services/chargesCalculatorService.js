@@ -21,11 +21,22 @@ angular.module('calculator').service('chargesCalculatorService',['chargesConfig2
     service.remuneration = params.remuneration;
     service.frais = params.frais;
     service.cfe = params.cfe;
+    service.tva = params.tva;
 
     service.getBaseCalculIs = () => {
       return service.chiffreAffaireHt - service.remuneration - service.frais;
     };
 
+    service.getTva = () => {
+      return {
+        label: 'TVA',
+        montant: service.tva
+      }
+    };
+
+    /**
+     * Pseudo charge
+     */
     service.getCfe = () => {
       // pseudo calcul : on fait ça juste pour récupérer les meta-données déjà définies
       // dans la configuration des charges (l'objet charge avec son label, son commentaire etc ...)
@@ -35,6 +46,10 @@ angular.module('calculator').service('chargesCalculatorService',['chargesConfig2
       return charge;
     };
 
+    /**
+     * pseudo charge
+     * @returns {{label: string, montant: (number|*)}}
+     */
     service.getFrais = () => {
       return {
         label: 'Frais',
@@ -46,8 +61,10 @@ angular.module('calculator').service('chargesCalculatorService',['chargesConfig2
       // comme on compte la TVA dans notre total à provisionner, on doit partir
       // du CA TTC pour calculer notre restant une fois retranché
       // la rémunération et le total à provisionner
-      const CATTC = service.chiffreAffaireHt + service.getTva20();
-      return CATTC - service.getTotalAProvisionner() - service.remuneration;
+      return service.chiffreAffaireHt
+        - service.getTotalAProvisionner()
+        - service.remuneration
+        - service.frais;
     };
 
     service.getCotisationsSocialesArray = () => {
@@ -60,11 +77,13 @@ angular.module('calculator').service('chargesCalculatorService',['chargesConfig2
       ];
     };
 
+    service.caculerChiffreAffaireTtc = () => service.chiffreAffaireHt + service.tva;
+
     /**
      * Obtenir le montant total des cotisations sociales
      * @returns {number}
      */
-    service.getTotalCotisationsSociales = () => {
+    service.calculerTotalCotisationsSociales = () => {
       var total = 0;
       service.getCotisationsSocialesArray().forEach(item => total += item.montant);
       return total;
@@ -76,18 +95,9 @@ angular.module('calculator').service('chargesCalculatorService',['chargesConfig2
      * @returns {*}
      */
     service.getTotalAProvisionner = () => {
-      let totalCotisationsSociales = service.getTotalCotisationsSociales();
-      let TVA = service.getTva20().montant;
-      let total = service.cfe + TVA + totalCotisationsSociales;
+      let totalCotisationsSociales = service.calculerTotalCotisationsSociales();
+      let total = service.cfe + service.tva + totalCotisationsSociales;
       return total;
-    };
-
-    /**
-     * Retourne la TVA à 20%
-     * @returns {number}
-     */
-    service.getTva20 = () => {
-      return chargesTranchesCalculatorService.calculerTrancheExclusive(service.chiffreAffaireHt, chargesConfig.charges.tva20);
     };
 
     /**

@@ -14,6 +14,18 @@ table thead tr {
 }
 
 /*=================================
+ LAYOUT
+ =================================*/
+
+.header {
+    padding-top: 2rem;
+    padding-bottom: 2rem;
+    margin-bottom: 2rem;
+    text-transform: uppercase;
+   /* border-bottom: 1px solid gold;*/
+}
+
+/*=================================
  Resultats des calculs de charges
  =================================*/
 
@@ -22,7 +34,13 @@ table thead tr {
 }
 
 .charges-form label {
-    font-size:1.5rem;
+    font-size:1rem;
+    font-weight: bold;
+}
+
+.charges-form__field__descripton{
+    font-size:0.9rem;
+    font-style: italic;
 }
 
 .charges-form input {

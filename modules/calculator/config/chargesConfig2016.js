@@ -41,15 +41,13 @@
  */
 angular.module('calculator').service('chargesConfig2016', function(){
 
-  const max = 999999999999999;
-
   const parametres = {
     general:{},
     charges:{},
     organismes:{}
   };
 
-  parametres.plafondMax = max;
+  parametres.plafondMax =  Number.MAX_SAFE_INTEGER;
 
   // paramètres généraux pour le calcul des montants et charges
   parametres.plafond_securite_sociale = 38616;
@@ -66,7 +64,7 @@ angular.module('calculator').service('chargesConfig2016', function(){
       {
         label: "Tranche 1",
         taux: 6.50,
-        plafond: max
+        plafond: parametres.plafondMax
       }
     ]
   };
@@ -86,7 +84,7 @@ angular.module('calculator').service('chargesConfig2016', function(){
       // pour les revenus compris entre 42 478 € et 54 062 €. On tire l'estimation vers le haut.
       {
         taux: 5.25,
-        plafond: max
+        plafond: parametres.plafondMax
       }
     ]
   };
@@ -101,7 +99,7 @@ angular.module('calculator').service('chargesConfig2016', function(){
       {
         label:"Tranche 1",
         taux: 8,
-        plafond: max
+        plafond: parametres.plafondMax
       }
     ]
   };
@@ -116,7 +114,7 @@ angular.module('calculator').service('chargesConfig2016', function(){
       {
         label: "Tranche 1",
         taux: 25,
-        plafond: max
+        plafond: parametres.plafondMax
       }
     ]
   };
@@ -166,7 +164,7 @@ angular.module('calculator').service('chargesConfig2016', function(){
       },
       {
         label: "tranche 2",
-        plafond: max,
+        plafond: parametres.plafondMax,
         taux: 33
       }
     ]
@@ -180,7 +178,7 @@ angular.module('calculator').service('chargesConfig2016', function(){
     tranches: [
       {
         label:"TVA 20%",
-        plafond:max,
+        plafond:parametres.plafondMax,
         taux:20
       }
     ]
@@ -194,7 +192,7 @@ angular.module('calculator').service('chargesConfig2016', function(){
     tranches: [
       {
         label: "Tranche 1",
-        plafond:max,
+        plafond:parametres.plafondMax,
         montant_forfaitaire: null
       }
     ]
@@ -252,7 +250,7 @@ angular.module('calculator').service('chargesConfig2016', function(){
       },
       {
         label : 'H',
-        plafond : max,
+        plafond : parametres.plafondMax,
         montant_forfaitaire : 15776,
         points_retraite : 468
       }

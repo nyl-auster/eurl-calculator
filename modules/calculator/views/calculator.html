@@ -1,9 +1,9 @@
 <form name="calculatorForm" class="charges-form">
   <div class="row">
 
-    <!-- Chiffres d'affaires -->
-    <div class="large-3 columns">
-      <label for="chiffre_affaire"> Chiffre d'affaire HT </label>
+    <!-- Chiffres d'affaires HT -->
+    <div class="large-2 columns">
+      <label for="chiffre_affaire">Chiffre d'affaire HT</label>
       <input
               ng-change="refreshResults()"
               ng-model="form.chiffreAffaireHt"
@@ -11,10 +11,31 @@
               class="form-control"
               placeholder="Chiffre d'affaire"
       >
+      <div class="charges-form__field__descripton">
+        Votre chiffre d'affaire <strong>Hors Taxe</strong>
+      </div>
+    </div>
+
+    <!-- TVA a reverser -->
+    <div class="large-2 columns">
+      <label for="chiffre_affaire"> TVA à reverser</label>
+      <input
+              ng-change="refreshResults()"
+              ng-model="form.tva"
+              type="number"
+              class="form-control"
+              placeholder="Chiffre d'affaire"
+      >
+      <div class="charges-form__field__descripton">
+        La TVA que vous devez reverser à l'état par rapport au chiffre d'affaire hors-taxe. Pensez à retrancher la TVA de vos achats.
+        <br />20% du chiffre d'affaire = <a title="cliquer pour reporter ce chiffre dans le champ TVA" ng-click="reportTvaHelper()">
+        {{form.chiffreAffaireHt * 0.20 | currency }}
+      </a>
+      </div>
     </div>
 
     <!-- Rémunération -->
-    <div class="large-3 columns">
+    <div class="large-2 columns">
       <label for="remuneration"> Rémunération versée </label>
       <input
               ng-change="refreshResults()"
@@ -22,11 +43,14 @@
               type="number" class="form-control"
               placeholder="Rémunération"
       >
+      <div class="charges-form__field__descripton">
+        Votre rémunération de gérant. Les cotisations sociales sont calculées sur cette base.
+      </div>
     </div>
 
     <!-- frais -->
-    <div class="large-3 columns">
-      <label for="frais"> Frais dépensés </label>
+    <div class="large-2 columns">
+      <label for="frais"> Frais dépensés HT </label>
       <input
               ng-change="refreshResults()"
               ng-model="form.frais"
@@ -34,10 +58,13 @@
               class="form-control"
               placeholder="Frais"
       >
+      <div class="charges-form__field__descripton">
+        Vos achats et frais de sociétés <strong>Hors taxe</strong>
+      </div>
     </div>
 
     <!-- CFE -->
-    <div class="large-3 columns">
+    <div class="large-2 columns">
       <label for="frais"> CFE à verser </label>
       <input
               ng-change="refreshResults()"
@@ -47,6 +74,10 @@
               id="form.cfe"
               placeholder="CFE"
       >
+    </div>
+
+    <div class="large-2 columns">
+
     </div>
 
   </div>
@@ -65,6 +96,10 @@
       </thead>
       <tbody>
       <tr>
+        <td> CA TTC </td>
+        <td>{{chiffreAffaireTtc | currency }}</td>
+      </tr>
+      <tr>
         <td>A provisionner</td>
         <td>{{totalAProvisionner | currency }}</td>
       </tr>
@@ -72,6 +107,7 @@
         <td> Bénéfices </td>
         <td>{{benefice | currency }}</td>
       </tr>
+
       </tbody>
     </table>
 
@@ -101,6 +137,7 @@
         <th class="show-for-large"> Tranche </th>
         <th class="show-for-large"> Tranche Base de calcul </th>
         <th class="show-for-large"> Tranche taux </th>
+        <th class="show-for-large"> Tranche forfait </th>
         <th class="show-for-large"> tranche plafond </th>
         <th> Montant </th>
       </tr>
@@ -110,7 +147,7 @@
 
       <tr class="charges-results__result__total">
         <td> {{charge.label}} </td>
-        <td class="show-for-large" colspan="5"> {{charge.organisme}} </td>
+        <td class="show-for-large" colspan="6"> {{charge.organisme}} </td>
         <td> {{charge.montant | currency }} </td>
       </tr>
 
@@ -120,6 +157,7 @@
         <td> {{$index + 1}} </td>
         <td> {{tranche.baseCalcul | currency}} </td>
         <td> {{tranche.taux}} <span ng-show="tranche.taux">%</span> </td>
+        <td> {{tranche.montant_forfaitaire | currency}}</td>
         <td> {{tranche.plafond == plafondMax ? ' - ' : (tranche.plafond | currency) }} </td>
         <td> {{tranche.montant | currency}} </td>
       </tr>

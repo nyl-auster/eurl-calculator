@@ -37028,8 +37028,9 @@
 	  $scope.totalAProvisionner = 0;
 	  $scope.benefice = 0;
 	  $scope.form = {
-	    remuneration: 0,
-	    chiffreAffaireHt: 0,
+	    chiffreAffaireHt: 50000,
+	    remuneration: 30000,
+	    tva:0,
 	    frais: 0,
 	    cfe: 500
 	  };
@@ -37042,6 +37043,11 @@
 	    getResults();
 	  };
 	
+	  $scope.reportTvaHelper = () => {
+	    $scope.form.tva = $scope.form.chiffreAffaireHt * 0.20;
+	    getResults();
+	  };
+	
 	  getResults();
 	
 	  function getResults() {
@@ -37049,18 +37055,17 @@
 	    calculator = chargesCalculatorService($scope.form);
 	
 	    let charges = [];
-	
 	    charges = charges
 	      .concat(calculator.getCotisationsSocialesArray())
 	      .concat(calculator.getImpotSurLesSocietes())
-	      .concat(calculator.getTva20())
+	      .concat(calculator.getTva())
 	      .concat(calculator.getCfe())
 	      .concat(calculator.getFrais());
 	
+	    // on rafraichit le scope avec les données retournées par le calculateur
 	    $scope.totalAProvisionner = calculator.getTotalAProvisionner();
-	
 	    $scope.benefice = calculator.getBenefice();
-	
+	    $scope.chiffreAffaireTtc = calculator.caculerChiffreAffaireTtc();
 	    $scope.charges = charges;
 	  }
 	
@@ -37098,11 +37103,22 @@
 	    service.remuneration = params.remuneration;
 	    service.frais = params.frais;
 	    service.cfe = params.cfe;
+	    service.tva = params.tva;
 	
 	    service.getBaseCalculIs = () => {
 	      return service.chiffreAffaireHt - service.remuneration - service.frais;
 	    };
 	
+	    service.getTva = () => {
+	      return {
+	        label: 'TVA',
+	        montant: service.tva
+	      }
+	    };
+	
+	    /**
+	     * Pseudo charge
+	     */
 	    service.getCfe = () => {
 	      // pseudo calcul : on fait ça juste pour récupérer les meta-données déjà définies
 	      // dans la configuration des charges (l'objet charge avec son label, son commentaire etc ...)
@@ -37112,6 +37128,10 @@
 	      return charge;
 	    };
 	
+	    /**
+	     * pseudo charge
+	     * @returns {{label: string, montant: (number|*)}}
+	     */
 	    service.getFrais = () => {
 	      return {
 	        label: 'Frais',
@@ -37123,8 +37143,10 @@
 	      // comme on compte la TVA dans notre total à provisionner, on doit partir
 	      // du CA TTC pour calculer notre restant une fois retranché
 	      // la rémunération et le total à provisionner
-	      const CATTC = service.chiffreAffaireHt + service.getTva20();
-	      return CATTC - service.getTotalAProvisionner() - service.remuneration;
+	      return service.chiffreAffaireHt
+	        - service.getTotalAProvisionner()
+	        - service.remuneration
+	        - service.frais;
 	    };
 	
 	    service.getCotisationsSocialesArray = () => {
@@ -37137,11 +37159,13 @@
 	      ];
 	    };
 	
+	    service.caculerChiffreAffaireTtc = () => service.chiffreAffaireHt + service.tva;
+	
 	    /**
 	     * Obtenir le montant total des cotisations sociales
 	     * @returns {number}
 	     */
-	    service.getTotalCotisationsSociales = () => {
+	    service.calculerTotalCotisationsSociales = () => {
 	      var total = 0;
 	      service.getCotisationsSocialesArray().forEach(item => total += item.montant);
 	      return total;
@@ -37153,18 +37177,9 @@
 	     * @returns {*}
 	     */
 	    service.getTotalAProvisionner = () => {
-	      let totalCotisationsSociales = service.getTotalCotisationsSociales();
-	      let TVA = service.getTva20().montant;
-	      let total = service.cfe + TVA + totalCotisationsSociales;
+	      let totalCotisationsSociales = service.calculerTotalCotisationsSociales();
+	      let total = service.cfe + service.tva + totalCotisationsSociales;
 	      return total;
-	    };
-	
-	    /**
-	     * Retourne la TVA à 20%
-	     * @returns {number}
-	     */
-	    service.getTva20 = () => {
-	      return chargesTranchesCalculatorService.calculerTrancheExclusive(service.chiffreAffaireHt, chargesConfig.charges.tva20);
 	    };
 	
 	    /**
@@ -37286,6 +37301,7 @@
 	      if (!trancheActive && baseCalcul <= tranche.plafond) {
 	        // on a dépassé le plafond, on arrête de mettre à jour la variable trancheActive
 	        // qui contient maintenant notre réponse
+	        //tranche.baseCalcul = baseCalcul;
 	        trancheActive = tranche;
 	      }
 	    });
@@ -37324,7 +37340,6 @@
 	      if (typeof tranches[index - 1] !== 'undefined') {
 	        plancher = tranches[index - 1].plafond;
 	      }
-	      console.log(tranche.plafond - plancher);
 	      // on calcule la différence entre le plafond et le plancher
 	      tranche.intervalle = tranche.plafond - plancher;
 	
@@ -37416,15 +37431,13 @@
 	 */
 	angular.module('calculator').service('chargesConfig2016', function(){
 	
-	  const max = 999999999999999;
-	
 	  const parametres = {
 	    general:{},
 	    charges:{},
 	    organismes:{}
 	  };
 	
-	  parametres.plafondMax = max;
+	  parametres.plafondMax =  Number.MAX_SAFE_INTEGER;
 	
 	  // paramètres généraux pour le calcul des montants et charges
 	  parametres.plafond_securite_sociale = 38616;
@@ -37441,7 +37454,7 @@
 	      {
 	        label: "Tranche 1",
 	        taux: 6.50,
-	        plafond: max
+	        plafond: parametres.plafondMax
 	      }
 	    ]
 	  };
@@ -37461,7 +37474,7 @@
 	      // pour les revenus compris entre 42 478 € et 54 062 €. On tire l'estimation vers le haut.
 	      {
 	        taux: 5.25,
-	        plafond: max
+	        plafond: parametres.plafondMax
 	      }
 	    ]
 	  };
@@ -37476,7 +37489,7 @@
 	      {
 	        label:"Tranche 1",
 	        taux: 8,
-	        plafond: max
+	        plafond: parametres.plafondMax
 	      }
 	    ]
 	  };
@@ -37491,7 +37504,7 @@
 	      {
 	        label: "Tranche 1",
 	        taux: 25,
-	        plafond: max
+	        plafond: parametres.plafondMax
 	      }
 	    ]
 	  };
@@ -37541,7 +37554,7 @@
 	      },
 	      {
 	        label: "tranche 2",
-	        plafond: max,
+	        plafond: parametres.plafondMax,
 	        taux: 33
 	      }
 	    ]
@@ -37555,7 +37568,7 @@
 	    tranches: [
 	      {
 	        label:"TVA 20%",
-	        plafond:max,
+	        plafond:parametres.plafondMax,
 	        taux:20
 	      }
 	    ]
@@ -37569,7 +37582,7 @@
 	    tranches: [
 	      {
 	        label: "Tranche 1",
-	        plafond:max,
+	        plafond:parametres.plafondMax,
 	        montant_forfaitaire: null
 	      }
 	    ]
@@ -37627,7 +37640,7 @@
 	      },
 	      {
 	        label : 'H',
-	        plafond : max,
+	        plafond : parametres.plafondMax,
 	        montant_forfaitaire : 15776,
 	        points_retraite : 468
 	      }

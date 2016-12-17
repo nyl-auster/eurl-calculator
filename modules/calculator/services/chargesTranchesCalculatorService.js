@@ -56,6 +56,7 @@ angular.module('calculator').service('chargesTranchesCalculatorService',['charge
       if (!trancheActive && baseCalcul <= tranche.plafond) {
         // on a dépassé le plafond, on arrête de mettre à jour la variable trancheActive
         // qui contient maintenant notre réponse
+        //tranche.baseCalcul = baseCalcul;
         trancheActive = tranche;
       }
     });
@@ -94,7 +95,6 @@ angular.module('calculator').service('chargesTranchesCalculatorService',['charge
       if (typeof tranches[index - 1] !== 'undefined') {
         plancher = tranches[index - 1].plafond;
       }
-      console.log(tranche.plafond - plancher);
       // on calcule la différence entre le plafond et le plancher
       tranche.intervalle = tranche.plafond - plancher;
 

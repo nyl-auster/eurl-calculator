@@ -7,8 +7,9 @@ angular.module('calculator').controller('chargesReportController', ['$scope', 'c
   $scope.totalAProvisionner = 0;
   $scope.benefice = 0;
   $scope.form = {
-    remuneration: 0,
-    chiffreAffaireHt: 0,
+    chiffreAffaireHt: 50000,
+    remuneration: 30000,
+    tva:0,
     frais: 0,
     cfe: 500
   };
@@ -21,6 +22,11 @@ angular.module('calculator').controller('chargesReportController', ['$scope', 'c
     getResults();
   };
 
+  $scope.reportTvaHelper = () => {
+    $scope.form.tva = $scope.form.chiffreAffaireHt * 0.20;
+    getResults();
+  };
+
   getResults();
 
   function getResults() {
@@ -28,18 +34,17 @@ angular.module('calculator').controller('chargesReportController', ['$scope', 'c
     calculator = chargesCalculatorService($scope.form);
 
     let charges = [];
-
     charges = charges
       .concat(calculator.getCotisationsSocialesArray())
       .concat(calculator.getImpotSurLesSocietes())
-      .concat(calculator.getTva20())
+      .concat(calculator.getTva())
       .concat(calculator.getCfe())
       .concat(calculator.getFrais());
 
+    // on rafraichit le scope avec les données retournées par le calculateur
     $scope.totalAProvisionner = calculator.getTotalAProvisionner();
-
     $scope.benefice = calculator.getBenefice();
-
+    $scope.chiffreAffaireTtc = calculator.caculerChiffreAffaireTtc();
     $scope.charges = charges;
   }
 
