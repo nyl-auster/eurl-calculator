@@ -15,7 +15,7 @@ angular.module('calculator').controller('chargesReportController', ['$scope', 'c
   $scope.showDetails = 0;
 
   // rafraichir les résultats
-  $scope.refreshResults = function() {
+  $scope.refreshResults = () => {
     getResults();
   };
 

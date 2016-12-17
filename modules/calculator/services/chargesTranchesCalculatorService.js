@@ -15,7 +15,7 @@ angular.module('calculator').service('chargesTranchesCalculatorService',['charge
    * - taux : le pourcentage à appliquer sur le montant
    * - montant_forfaitaire : si la tranche est un montant fixe en fonction du plafond.
    */
-  service.calculerMontantTranche = function(tranche, baseCalcul) {
+  service.calculerMontantTranche = (tranche, baseCalcul) => {
 
     var montant = 0;
 
@@ -43,7 +43,7 @@ angular.module('calculator').service('chargesTranchesCalculatorService',['charge
    * @param baseCalcul float | int :
    * @param charge array : tableau d'objet "charge"
    */
-  service.calculerTrancheExclusive = function(baseCalcul, charge) {
+  service.calculerTrancheExclusive = (baseCalcul, charge) => {
 
     charge.montant = 0;
 
@@ -75,7 +75,7 @@ angular.module('calculator').service('chargesTranchesCalculatorService',['charge
    * @param baseCalcul float | int :
    * @param charge array : tableau d'objet "charges"
    */
-  service.calculerTranchesCumulatives = function(baseCalcul, charge) {
+  service.calculerTranchesCumulatives = (baseCalcul, charge) => {
 
     charge.montant = 0;
 
@@ -87,7 +87,7 @@ angular.module('calculator').service('chargesTranchesCalculatorService',['charge
     var montant = 0;
     var plancher = 0;
 
-    charge.tranches.forEach(function(tranche, index) {
+    charge.tranches.forEach((tranche, index) => {
 
       // on calcule le "planger" de la tranche, qui est soit égal
       // au plafond précédent, soit à zéro si c'est la première tranche.
@@ -113,7 +113,7 @@ angular.module('calculator').service('chargesTranchesCalculatorService',['charge
       else
       {
         // on calcule le montant pour cette derniere tranche
-        var depassement_plancher = baseCalcul - plancher;
+        let depassement_plancher = baseCalcul - plancher;
         if (depassement_plancher > 0)
         {
           montant += tranche.montant = service.calculerMontantTranche(tranche, depassement_plancher);
