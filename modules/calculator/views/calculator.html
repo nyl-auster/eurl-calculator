@@ -97,11 +97,11 @@
 <div style="padding-top:2rem" class="row">
   <div class="small-6 medium-6 columns callout text-center">
     <h4>A provisionner :</h4>
-    <h3>{{calculator.getTotalAProvisionner().montant}}</h3>
+    <h3>{{calculator.getTotalAProvisionner().montant | currency}}</h3>
   </div>
   <div ng-class="{'alert':calculator.getBenefice().montant <= 0, 'success':calculator.getBenefice().montant > 0}" class="small-6 medium-6 columns callout text-center">
     <h4>Bénéfices après provisions </h4>
-    <h3>{{calculator.getBenefice().montant}}</h3>
+    <h3>{{calculator.getBenefice().montant | currency}}</h3>
   </div>
 </div>
 
@@ -110,15 +110,15 @@
   <div class="small-12 medium-3 columns">
     <div class="report-charts">
 
+      <h5 class="report-charts__title">Chiffre d'affaire HT / rému / bénéfice </h5>
       <div class="text-center" ng-show="calculator.getBenefice().montant < 0">
         <em>
-        impossible de représenter le graphique:<br/>
-        déficit de : {{calculator.getBenefice().montant}}
+          impossible de représenter ce graphique avec un
+          déficit
         </em>
       </div>
 
       <div ng-if="calculator.getBenefice().montant >= 0">
-        <h5 class="report-charts__title">Chiffre d'affaire HT / rému / bénéfice </h5>
         <canvas id="pie" class="chart chart-pie"
                 chart-data="pie.data" chart-labels="pie.labels" chart-options="pie.options">
         </canvas>
