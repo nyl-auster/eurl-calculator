@@ -35,6 +35,7 @@ angular.module('calculator').service('chargesCalculatorService',['chargesConfig2
 
       let charge = chargesConfig2016.charges.prevoyance;
       if (classeChoisie) {
+        charge.label = "Prévoyance classe " + classeChoisie.classe;
         charge.montant = classeChoisie.montant_forfaitaire;
       }
       else {

@@ -96,7 +96,7 @@
               class="form-control"
               placeholder="Prévoyance"
       >
-        <option ng-value="tranche.classe" ng-repeat="tranche in chargesConfig.charges.prevoyance.classes">{{tranche.label}}</option>
+        <option ng-value="tranche.classe" ng-selected="tranche.classe === form.prevoyance" ng-repeat="tranche in chargesConfig.charges.prevoyance.classes">{{tranche.label}}</option>
       </select>
       <div ng-show="showFormHelp"  class="charges-form__field__descripton show-for-large">
       </div>

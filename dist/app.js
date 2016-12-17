@@ -63562,6 +63562,7 @@
 	
 	      var charge = chargesConfig2016.charges.prevoyance;
 	      if (classeChoisie) {
+	        charge.label = "Prévoyance classe " + classeChoisie.classe;
 	        charge.montant = classeChoisie.montant_forfaitaire;
 	      } else {
 	        charge.montant = chargesConfig2016.charges.prevoyance.classes[0].montant_forfaitaire;
