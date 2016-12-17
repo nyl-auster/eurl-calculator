@@ -30,6 +30,7 @@ angular.module('calculator').service('chargesCalculatorService',['chargesConfig2
     service.getTva = () => {
       return {
         label: 'TVA',
+        organisme: 'Impots',
         montant: service.tva
       }
     };
@@ -64,7 +65,9 @@ angular.module('calculator').service('chargesCalculatorService',['chargesConfig2
       let montant = service.chiffreAffaireHt
         - service.getTotalAProvisionner().montant
         - service.remuneration
+        - service.getCgsCrds().montant
         - service.frais;
+
       return {
         label: "Bénéfice après provisions",
         montant: montant
@@ -104,6 +107,7 @@ angular.module('calculator').service('chargesCalculatorService',['chargesConfig2
       let total = service.cfe
         + service.tva
         + totalCotisationsSociales
+        + service.getCgsCrds().montant
         + service.getImpotSurLesSocietes().montant;
       return {
         id:'totalAProvisionner',
@@ -172,6 +176,14 @@ angular.module('calculator').service('chargesCalculatorService',['chargesConfig2
      */
     service.getImpotSurLesSocietes = () => {
       return chargesTranchesCalculatorService.calculerTranchesCumulatives(service.getBaseCalculIs(), chargesConfig.charges.impotSurLesSocietes);
+    };
+
+    /**
+     * Calcul de l'impot sur les bénéfices - Impots
+     */
+    service.getCgsCrds= () => {
+      const baseCalcul = service.remuneration + service.getTotalCotisationsSociales().montant;
+      return chargesTranchesCalculatorService.calculerTranchesCumulatives(service.getBaseCalculIs(), chargesConfig.charges.cgsCrds);
     };
 
     return service;

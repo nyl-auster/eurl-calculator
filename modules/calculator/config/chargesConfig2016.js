@@ -93,7 +93,7 @@ angular.module('calculator').service('chargesConfig2016', function(){
   parametres.charges.cgsCrds = {
     organisme:'URSSAF',
     label:'CGS-CRDS',
-    commentaire:"Base de calcul : 	Totalité du revenu de l’activité non salariée + cotisations sociales obligatoires",
+    commentaire:"Base de calcul : 	Totalité du revenu de l’activité non salariée + cotisations sociales obligatoires hors CSG-CRDS",
     type_tranches: 'exclusive',
     tranches: [
       {

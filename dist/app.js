@@ -63178,7 +63178,7 @@
 	  parametres.charges.cgsCrds = {
 	    organisme: 'URSSAF',
 	    label: 'CGS-CRDS',
-	    commentaire: "Base de calcul : 	Totalité du revenu de l’activité non salariée + cotisations sociales obligatoires",
+	    commentaire: "Base de calcul : 	Totalité du revenu de l’activité non salariée + cotisations sociales obligatoires hors CSG-CRDS",
 	    type_tranches: 'exclusive',
 	    tranches: [{
 	      label: "Tranche 1",
@@ -63553,6 +63553,7 @@
 	    service.getTva = function () {
 	      return {
 	        label: 'TVA',
+	        organisme: 'Impots',
 	        montant: service.tva
 	      };
 	    };
@@ -63584,7 +63585,8 @@
 	      // comme on compte la TVA dans notre total à provisionner, on doit partir
 	      // du CA TTC pour calculer notre restant une fois retranché
 	      // la rémunération et le total à provisionner
-	      var montant = service.chiffreAffaireHt - service.getTotalAProvisionner().montant - service.remuneration - service.frais;
+	      var montant = service.chiffreAffaireHt - service.getTotalAProvisionner().montant - service.remuneration - service.getCgsCrds().montant - service.frais;
+	
 	      return {
 	        label: "Bénéfice après provisions",
 	        montant: montant
@@ -63619,7 +63621,7 @@
 	     */
 	    service.getTotalAProvisionner = function () {
 	      var totalCotisationsSociales = service.calculerTotalCotisationsSociales();
-	      var total = service.cfe + service.tva + totalCotisationsSociales + service.getImpotSurLesSocietes().montant;
+	      var total = service.cfe + service.tva + totalCotisationsSociales + service.getCgsCrds().montant + service.getImpotSurLesSocietes().montant;
 	      return {
 	        id: 'totalAProvisionner',
 	        label: 'Total à provisionner',
@@ -63689,6 +63691,14 @@
 	      return chargesTranchesCalculatorService.calculerTranchesCumulatives(service.getBaseCalculIs(), chargesConfig.charges.impotSurLesSocietes);
 	    };
 	
+	    /**
+	     * Calcul de l'impot sur les bénéfices - Impots
+	     */
+	    service.getCgsCrds = function () {
+	      var baseCalcul = service.remuneration + service.getTotalCotisationsSociales().montant;
+	      return chargesTranchesCalculatorService.calculerTranchesCumulatives(service.getBaseCalculIs(), chargesConfig.charges.cgsCrds);
+	    };
+	
 	    return service;
 	  };
 	}]);
@@ -63734,7 +63744,7 @@
 	    frais: 0,
 	    cfe: 500
 	  };
-	  $scope.showDetails = 1;
+	  $scope.showDetails = 0;
 	  $scope.showFormHelp = 1;
 	
 	  $scope.plafondMax = chargesConfig2016.plafondMax;
@@ -63751,28 +63761,44 @@
 	
 	  getResults();
 	
+	  function getChargesTotal(lines) {
+	    var total = 0;
+	    lines.forEach(function (line) {
+	      total += line.montant;
+	    });
+	    return {
+	      label: "TOTAL A PROVISIONNER",
+	      montant: total
+	    };
+	  }
+	
 	  function getResults() {
 	
 	    var calculator = chargesCalculatorService($scope.form);
 	    $scope.calculator = calculator;
 	
 	    var charges = [];
-	    charges = charges.concat(calculator.getCotisationsSocialesArray()).concat(calculator.getImpotSurLesSocietes()).concat(calculator.getTva()).concat(calculator.getCfe()).concat(calculator.getFrais());
+	    charges = charges.concat(calculator.getCotisationsSocialesArray());
+	    charges.push(calculator.getCgsCrds());
+	    charges.push(calculator.getImpotSurLesSocietes());
+	    charges.push(calculator.getTva());
+	    charges.push(calculator.getCfe());
 	
-	    var aProvisionner = [];
-	    aProvisionner = aProvisionner.concat(calculator.getTotalAProvisionner()).concat(calculator.getBenefice());
+	    // ajout du total à provisionner
+	    charges.push(getChargesTotal(charges));
 	
+	    // on rafraichit le scope avec les données retournées par le calculateur
+	    $scope.charges = charges;
+	
+	    // graphique 1
 	    $scope.pie = { labels: [], data: [] };
 	    $scope.pie.labels = ["Bénéfice", "Rémunération", "Chiffre d'affaire TTC"];
 	    $scope.pie.data = [calculator.getBenefice().montant, calculator.remuneration, calculator.chiffreAffaireHt];
 	
+	    // graphique 2
 	    $scope.pieCotisations = { labels: [], data: [] };
 	    $scope.pieCotisations.labels = ["Rémunération", "Cotisations sociales"];
 	    $scope.pieCotisations.data = [calculator.remuneration, calculator.getTotalCotisationsSociales().montant];
-	
-	    // on rafraichit le scope avec les données retournées par le calculateur
-	    $scope.charges = charges;
-	    $scope.aProvisionner = aProvisionner;
 	  }
 	}]);
 

@@ -15,7 +15,7 @@ angular.module('calculator').controller('chargesReportController', ['$scope', 'c
     frais: 0,
     cfe: 500
   };
-  $scope.showDetails = 1;
+  $scope.showDetails = 0;
   $scope.showFormHelp = 1;
 
   $scope.plafondMax = chargesConfig2016.plafondMax;
@@ -32,24 +32,36 @@ angular.module('calculator').controller('chargesReportController', ['$scope', 'c
 
   getResults();
 
+  function getChargesTotal(lines) {
+    var total = 0;
+    lines.forEach(function(line) {
+      total += line.montant;
+    });
+    return {
+      label: "TOTAL A PROVISIONNER",
+      montant:total
+    };
+  }
+
   function getResults() {
 
     let calculator = chargesCalculatorService($scope.form);
     $scope.calculator = calculator;
 
     let charges = [];
-    charges = charges
-      .concat(calculator.getCotisationsSocialesArray())
-      .concat(calculator.getImpotSurLesSocietes())
-      .concat(calculator.getTva())
-      .concat(calculator.getCfe())
-      .concat(calculator.getFrais());
+    charges = charges.concat(calculator.getCotisationsSocialesArray());
+    charges.push(calculator.getCgsCrds());
+    charges.push(calculator.getImpotSurLesSocietes());
+    charges.push(calculator.getTva());
+    charges.push(calculator.getCfe());
 
-    let aProvisionner = [];
-    aProvisionner = aProvisionner
-      .concat(calculator.getTotalAProvisionner())
-      .concat(calculator.getBenefice());
+    // ajout du total à provisionner
+    charges.push(getChargesTotal(charges));
 
+    // on rafraichit le scope avec les données retournées par le calculateur
+    $scope.charges = charges;
+
+    // graphique 1
     $scope.pie = {labels:[], data:[]};
     $scope.pie.labels = [
       "Bénéfice",
@@ -62,6 +74,7 @@ angular.module('calculator').controller('chargesReportController', ['$scope', 'c
       calculator.chiffreAffaireHt
     ];
 
+    // graphique 2
     $scope.pieCotisations = {labels:[], data:[]};
     $scope.pieCotisations.labels = [
       "Rémunération",
@@ -73,9 +86,7 @@ angular.module('calculator').controller('chargesReportController', ['$scope', 'c
     ];
 
 
-    // on rafraichit le scope avec les données retournées par le calculateur
-    $scope.charges = charges;
-    $scope.aProvisionner = aProvisionner;
+
 
   }
 
