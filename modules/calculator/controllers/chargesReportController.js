@@ -7,9 +7,9 @@ angular.module('calculator').controller('chargesReportController', ['$scope', 'c
   $scope.totalAProvisionner = 0;
   $scope.benefice = 0;
   $scope.form = {
-    remuneration: 40000,
-    chiffreAffaireHt: 90000,
-    frais: 5000,
+    remuneration: 0,
+    chiffreAffaireHt: 0,
+    frais: 0,
     cfe: 500
   };
   $scope.showDetails = 1;
