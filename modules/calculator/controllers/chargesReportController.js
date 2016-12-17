@@ -2,17 +2,19 @@
  * Affichage du cout des charges d'une EURL à l'IS
  * Objet "charge" > objet "Resultat du calculator" > objet "ligne à afficher"
  */
-angular.module('calculator').controller('chargesReportController', ['$scope', 'chargesCalculatorService', '$cookies', function ($scope, chargesCalculatorService, $cookies) {
+angular.module('calculator').controller('chargesReportController', ['$scope', 'chargesCalculatorService', '$cookies','chargesConfig2016', function ($scope, chargesCalculatorService, $cookies, chargesConfig2016) {
 
   $scope.totalAProvisionner = 0;
   $scope.benefice = 0;
   $scope.form = {
-    remuneration: 0,
-    chiffreAffaireHt: 0,
-    frais: 0,
+    remuneration: 40000,
+    chiffreAffaireHt: 90000,
+    frais: 5000,
     cfe: 500
   };
-  $scope.showDetails = 0;
+  $scope.showDetails = 1;
+
+  $scope.plafondMax = chargesConfig2016.plafondMax;
 
   // rafraichir les résultats
   $scope.refreshResults = () => {

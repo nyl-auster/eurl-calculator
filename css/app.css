@@ -9,6 +9,10 @@ table tbody tr:nth-child(even) {
     background-color:inherit;
 }
 
+table thead tr {
+    background-color: lightsteelblue;
+}
+
 /*=================================
  Resultats des calculs de charges
  =================================*/
@@ -37,5 +41,6 @@ table tbody tr:nth-child(even) {
 }
 
 table tbody tr.charges-results__result__total {
-    /*background-color: #f1f1f1;*/
+    background-color: #f1f1f1;
+    font-weight: bold;
 }

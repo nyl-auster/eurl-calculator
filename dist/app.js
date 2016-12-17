@@ -37023,17 +37023,19 @@
 	 * Affichage du cout des charges d'une EURL à l'IS
 	 * Objet "charge" > objet "Resultat du calculator" > objet "ligne à afficher"
 	 */
-	angular.module('calculator').controller('chargesReportController', ['$scope', 'chargesCalculatorService', '$cookies', function ($scope, chargesCalculatorService, $cookies) {
+	angular.module('calculator').controller('chargesReportController', ['$scope', 'chargesCalculatorService', '$cookies','chargesConfig2016', function ($scope, chargesCalculatorService, $cookies, chargesConfig2016) {
 	
 	  $scope.totalAProvisionner = 0;
 	  $scope.benefice = 0;
 	  $scope.form = {
-	    remuneration: 0,
-	    chiffreAffaireHt: 0,
-	    frais: 0,
+	    remuneration: 40000,
+	    chiffreAffaireHt: 90000,
+	    frais: 5000,
 	    cfe: 500
 	  };
-	  $scope.showDetails = 0;
+	  $scope.showDetails = 1;
+	
+	  $scope.plafondMax = chargesConfig2016.plafondMax;
 	
 	  // rafraichir les résultats
 	  $scope.refreshResults = () => {
@@ -37322,7 +37324,7 @@
 	      if (typeof tranches[index - 1] !== 'undefined') {
 	        plancher = tranches[index - 1].plafond;
 	      }
-	
+	      console.log(tranche.plafond - plancher);
 	      // on calcule la différence entre le plafond et le plancher
 	      tranche.intervalle = tranche.plafond - plancher;
 	
@@ -37330,7 +37332,8 @@
 	      if (baseCalcul >= tranche.plafond)
 	      {
 	        // ... on calcule le montant dû pour la tranche courante
-	        tranche.montant = service.calculerMontantTranche(tranche, tranche.intervalle);
+	        tranche.baseCalcul = tranche.intervalle;
+	        tranche.montant = service.calculerMontantTranche(tranche, tranche.baseCalcul);
 	        // on ajoute le montant de la cotisation de cette tranche au total.
 	        montant += tranche.montant;
 	        // ajout à la liste des tranches qui s'applique à notre cas.
@@ -37341,10 +37344,11 @@
 	      else
 	      {
 	        // on calcule le montant pour cette derniere tranche
-	        let depassement_plancher = baseCalcul - plancher;
+	        var depassement_plancher = baseCalcul - plancher;
 	        if (depassement_plancher > 0)
 	        {
-	          montant += tranche.montant = service.calculerMontantTranche(tranche, depassement_plancher);
+	          tranche.baseCalcul = depassement_plancher;
+	          montant += tranche.montant = service.calculerMontantTranche(tranche, tranche.baseCalcul);
 	          // ajout à la liste des tranches qui s'appliquent à notre cas.
 	          tranches.push(tranche);
 	        }

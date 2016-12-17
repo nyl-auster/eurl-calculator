@@ -94,7 +94,7 @@ angular.module('calculator').service('chargesTranchesCalculatorService',['charge
       if (typeof tranches[index - 1] !== 'undefined') {
         plancher = tranches[index - 1].plafond;
       }
-
+      console.log(tranche.plafond - plancher);
       // on calcule la différence entre le plafond et le plancher
       tranche.intervalle = tranche.plafond - plancher;
 
@@ -102,7 +102,8 @@ angular.module('calculator').service('chargesTranchesCalculatorService',['charge
       if (baseCalcul >= tranche.plafond)
       {
         // ... on calcule le montant dû pour la tranche courante
-        tranche.montant = service.calculerMontantTranche(tranche, tranche.intervalle);
+        tranche.baseCalcul = tranche.intervalle;
+        tranche.montant = service.calculerMontantTranche(tranche, tranche.baseCalcul);
         // on ajoute le montant de la cotisation de cette tranche au total.
         montant += tranche.montant;
         // ajout à la liste des tranches qui s'applique à notre cas.
@@ -113,10 +114,11 @@ angular.module('calculator').service('chargesTranchesCalculatorService',['charge
       else
       {
         // on calcule le montant pour cette derniere tranche
-        let depassement_plancher = baseCalcul - plancher;
+        var depassement_plancher = baseCalcul - plancher;
         if (depassement_plancher > 0)
         {
-          montant += tranche.montant = service.calculerMontantTranche(tranche, depassement_plancher);
+          tranche.baseCalcul = depassement_plancher;
+          montant += tranche.montant = service.calculerMontantTranche(tranche, tranche.baseCalcul);
           // ajout à la liste des tranches qui s'appliquent à notre cas.
           tranches.push(tranche);
         }
