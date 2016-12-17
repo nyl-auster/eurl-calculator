@@ -63812,7 +63812,7 @@
 	
 	    // graphique 1
 	    $scope.pie = { labels: [], data: [] };
-	    $scope.pie.labels = ["Bénéfice", "Rémunération", "Chiffre d'affaire TTC"];
+	    $scope.pie.labels = ["Bénéfice", "Rémunération", "Chiffre d'affaire HT"];
 	    $scope.pie.data = [calculator.getBenefice().montant, calculator.remuneration, calculator.chiffreAffaireHt];
 	
 	    // graphique 2

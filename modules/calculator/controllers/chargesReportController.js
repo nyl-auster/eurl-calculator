@@ -70,7 +70,7 @@ angular.module('calculator').controller('chargesReportController', ['$scope', 'c
     $scope.pie.labels = [
       "Bénéfice",
       "Rémunération",
-      "Chiffre d'affaire TTC"
+      "Chiffre d'affaire HT"
     ];
     $scope.pie.data = [
       calculator.getBenefice().montant,
@@ -88,9 +88,6 @@ angular.module('calculator').controller('chargesReportController', ['$scope', 'c
       calculator.remuneration,
       calculator.getTotalCotisationsSociales().montant
     ];
-
-
-
 
   }
 
