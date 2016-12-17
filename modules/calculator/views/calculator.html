@@ -30,8 +30,8 @@
               placeholder="Chiffre d'affaire"
       >
       <div ng-show="showFormHelp" class="charges-form__field__descripton show-for-large">
-        La TVA que vous devez reverser à l'état par rapport au chiffre d'affaire hors-taxe. Pensez à retrancher la TVA de vos achats.
-        <br />20% du chiffre d'affaire = <a title="cliquer pour reporter ce chiffre dans le champ TVA" ng-click="reportTvaHelper()">
+        La TVA à reverser à l'état moins la TVA des achats.
+        <br />préremplir avec 20% du Chiffre d'affaire HT : <a title="cliquer pour reporter ce chiffre dans le champ TVA" ng-click="reportTvaHelper()">
         {{form.chiffreAffaireHt * 0.20 | currency }}
       </a>
       </div>
@@ -94,49 +94,27 @@
   </div>
 </form>
 
-<div class="row">
-  <div class="small-12 columns text-center">
-    <a class="secondary" ng-click="showFormHelp=!showFormHelp">
-      <span ng-show="!showFormHelp">Montrer l'aide</span>
-      <span ng-show="showFormHelp">Cacher l'aide</span>
-    </a>
+<div style="padding-top:2rem" class="row">
+  <div class="small-6 medium-6 columns callout text-center">
+    <h4>A provisionner :</h4>
+    <h3>{{calculator.getTotalAProvisionner().montant}}</h3>
+  </div>
+  <div ng-class="{'alert':calculator.getBenefice().montant <= 0, 'success':calculator.getBenefice().montant > 0}" class="small-6 medium-6 columns callout text-center">
+    <h4>Bénéfices après provisions </h4>
+    <h3>{{calculator.getBenefice().montant}}</h3>
   </div>
 </div>
 
 <div class="row">
 
-  <div class="small-12 columns">
-
-    <table class="charges-report">
-
-      <caption>Résumé</caption>
-      <thead>
-      <tr>
-        <th>Nom</th>
-        <th>Montant</th>
-      </tr>
-      </thead>
-
-      <tbody >
-      <tr ng-repeat="line in aProvisionner">
-        <td>{{line.label}}</td>
-        <td>{{line.montant | currency }}</td>
-      </tr>
-      </tbody>
-
-    </table>
-
-  </div>
-
-</div>
-
-<div class="row">
-
-  <div class="small-12 medium-6 columns">
+  <div class="small-12 medium-3 columns">
     <div class="report-charts">
 
-      <div class="callout warning" ng-show="calculator.getBenefice().montant < 0">
-        <h3>Bénéfice négatif : {{calculator.getBenefice().montant}}</h3>
+      <div class="text-center" ng-show="calculator.getBenefice().montant < 0">
+        <em>
+        impossible de représenter le graphique:<br/>
+        déficit de : {{calculator.getBenefice().montant}}
+        </em>
       </div>
 
       <div ng-if="calculator.getBenefice().montant >= 0">
@@ -149,7 +127,7 @@
     </div>
   </div>
 
-  <div class="small-12 medium-6 columns">
+  <div class="small-12 medium-3 columns">
     <div class="report-charts">
       <h5 class="report-charts__title">Rémunération / cotisations sociales</h5>
       <canvas id="pieCotisations" class="chart chart-pie"
@@ -157,6 +135,9 @@
       </canvas>
     </div>
   </div>
+
+  <div class="small-12 medium-3 columns"></div>
+  <div class="small-12 medium-3 columns"></div>
 </div>
 
 <div class="row">
