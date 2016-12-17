@@ -80,8 +80,8 @@
               placeholder="CFE"
       >
       <div class="charges-form__field__descripton show-for-large">
-      Le montant de la cotisation foncière des entreprises dépend de votre commune
-    </div>
+        Le montant de la cotisation foncière des entreprises dépend de votre commune
+      </div>
     </div>
 
     <div class="large-2 columns">
@@ -94,14 +94,14 @@
 
 <div class="row">
 
-  <div class="small-12 medium-6 columns">
+  <div class="small-12 columns">
 
     <table class="charges-report">
 
       <caption>Résumé</caption>
       <thead>
       <tr>
-        <th>A Provisionner</th>
+        <th>Nom</th>
         <th>Montant</th>
       </tr>
       </thead>
@@ -117,6 +117,10 @@
 
   </div>
 
+</div>
+
+<div class="row">
+
   <div class="small-12 medium-6 columns">
     <div class="report-charts">
 
@@ -124,7 +128,8 @@
         <h3>Bénéfice négatif : {{calculator.getBenefice().montant}}</h3>
       </div>
 
-      <div ng-show="calculator.getBenefice().montant >= 0">
+      <div ng-if="calculator.getBenefice().montant >= 0">
+        <h5 class="report-charts__title">Chiffre d'affaire HT / rému / bénéfice </h5>
         <canvas id="pie" class="chart chart-pie"
                 chart-data="pie.data" chart-labels="pie.labels" chart-options="pie.options">
         </canvas>
@@ -133,9 +138,15 @@
     </div>
   </div>
 
+  <div class="small-12 medium-6 columns">
+    <div class="report-charts">
+      <h5 class="report-charts__title">Rémunération / cotisations sociales</h5>
+        <canvas id="pieCotisations" class="chart chart-pie"
+                chart-data="pieCotisations.data" chart-labels="pieCotisations.labels" chart-options="pieCotisations.options">
+        </canvas>
+    </div>
+  </div>
 </div>
-
-
 
 <div class="row">
   <div class="small-12 columns">

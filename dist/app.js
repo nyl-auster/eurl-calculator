@@ -63761,8 +63761,12 @@
 	    aProvisionner = aProvisionner.concat(calculator.getTotalAProvisionner()).concat(calculator.getBenefice());
 	
 	    $scope.pie = { labels: [], data: [] };
-	    $scope.pie.labels = ["Bénéfice", "Chiffre d'affaire TTC"];
-	    $scope.pie.data = [calculator.getBenefice().montant, calculator.getChiffreAffaireTtc().montant];
+	    $scope.pie.labels = ["Bénéfice", "Rémunération", "Chiffre d'affaire TTC"];
+	    $scope.pie.data = [calculator.getBenefice().montant, calculator.remuneration, calculator.chiffreAffaireHt];
+	
+	    $scope.pieCotisations = { labels: [], data: [] };
+	    $scope.pieCotisations.labels = ["Rémunération", "Cotisations sociales"];
+	    $scope.pieCotisations.data = [calculator.remuneration, calculator.getTotalCotisationsSociales().montant];
 	
 	    // on rafraichit le scope avec les données retournées par le calculateur
 	    $scope.charges = charges;

@@ -52,12 +52,25 @@ angular.module('calculator').controller('chargesReportController', ['$scope', 'c
     $scope.pie = {labels:[], data:[]};
     $scope.pie.labels = [
       "Bénéfice",
+      "Rémunération",
       "Chiffre d'affaire TTC"
     ];
     $scope.pie.data = [
       calculator.getBenefice().montant,
-      calculator.getChiffreAffaireTtc().montant
+      calculator.remuneration,
+      calculator.chiffreAffaireHt
     ];
+
+    $scope.pieCotisations = {labels:[], data:[]};
+    $scope.pieCotisations.labels = [
+      "Rémunération",
+      "Cotisations sociales"
+    ];
+    $scope.pieCotisations.data = [
+      calculator.remuneration,
+      calculator.getTotalCotisationsSociales().montant
+    ];
+
 
     // on rafraichit le scope avec les données retournées par le calculateur
     $scope.charges = charges;
