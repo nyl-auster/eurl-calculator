@@ -37460,7 +37460,7 @@
 	      let totalCotisationsSociales = service.getTotalCotisationsSociales();
 	      console.log(totalCotisationsSociales);
 	      let TVA = service.getTva20().montant;
-	      let total = cfe + frais + TVA + totalCotisationsSociales;
+	      let total = cfe + TVA + totalCotisationsSociales;
 	      return total;
 	    };
 	
@@ -37559,7 +37559,7 @@
 	      montant = tranche.montant_forfaitaire;
 	    }
 	    // sinon on calcule le montant de la tranche en fonction du taux indiqué
-	    if (tranche.taux) {
+	    else if (tranche.taux) {
 	      montant = baseCalcul * (tranche.taux / 100);
 	    }
 	

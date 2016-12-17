@@ -24,7 +24,7 @@ angular.module('calculator').service('chargesTranchesCalculatorService',['charge
       montant = tranche.montant_forfaitaire;
     }
     // sinon on calcule le montant de la tranche en fonction du taux indiqué
-    if (tranche.taux) {
+    else if (tranche.taux) {
       montant = baseCalcul * (tranche.taux / 100);
     }
 
