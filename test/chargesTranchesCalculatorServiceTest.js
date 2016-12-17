@@ -7,9 +7,9 @@ describe('chargesTranchesCalculatorService', function() {
     module('calculator');
   });
 
-  beforeEach(inject(function (_chargesTranchesCalculatorService_, _chargesConfig_) {
+  beforeEach(inject(function (_chargesTranchesCalculatorService_, _chargesConfig2016_) {
     chargesCalculatorService = _chargesTranchesCalculatorService_;
-    chargesConfig = _chargesConfig_;
+    chargesConfig = _chargesConfig2016_;
   }));
 
   it("calculerMontantTranche doit retourner le montant pour d'une tranche avec taux", function() {

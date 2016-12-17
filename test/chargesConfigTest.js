@@ -5,9 +5,9 @@ describe('chargesConfig', function() {
     module('calculator');
   });
 
-  beforeEach(inject(function (_chargesTranchesCalculatorService_, _chargesConfig_) {
+  beforeEach(inject(function (_chargesTranchesCalculatorService_, _chargesConfig2016_) {
     chargesCalculatorService = _chargesTranchesCalculatorService_;
-    chargesConfig = _chargesConfig_;
+    chargesConfig = _chargesConfig2016_;
   }));
 
 
@@ -23,6 +23,9 @@ describe('chargesConfig', function() {
 
   });
 
-
+  it("Les plafonds de la sécurité sociale doivent être définis", function() {
+    expect(chargesConfig.plafond_securite_sociale).toEqual(38616);
+    expect(chargesConfig.plafond_securite_sociale_precedent).toEqual(38040);
+  });
 
 });

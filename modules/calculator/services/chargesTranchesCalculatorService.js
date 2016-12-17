@@ -3,7 +3,7 @@
  * - le montant global à payer en fonction de la base de calcul
  * - les "tranches actives" : le détail du montant par tranche
  */
-angular.module('calculator').service('chargesTranchesCalculatorService',['chargesConfig', function(chargesConfig){
+angular.module('calculator').service('chargesTranchesCalculatorService',['chargesConfig2016', function(chargesConfig2016){
 
   const service = {};
 

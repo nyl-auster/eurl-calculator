@@ -39,7 +39,7 @@
  * la retraite et l'invalidité décès sont assurées par la CNAVPL ou la CNBF
  * les cotisations d'allocations familiales, les contributions sociales (CSG/CRDS) et les contributions à la formation professionnelle sont à verser à l'Urssaf
  */
-angular.module('calculator').service('chargesConfig', function(){
+angular.module('calculator').service('chargesConfig2016', function(){
 
   const max = 999999999999999;
 

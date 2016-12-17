@@ -1,7 +1,7 @@
 /**
  * Calculs des charges d'une EULR en fonction des paramètres
  */
-angular.module('calculator').service('chargesCalculatorService',['chargesConfig', 'chargesTranchesCalculatorService', function(chargesConfig, chargesTranchesCalculatorService){
+angular.module('calculator').service('chargesCalculatorService',['chargesConfig2016', 'chargesTranchesCalculatorService', function(chargesConfig2016, chargesTranchesCalculatorService){
 
   /**
    * @param params object avec les propriétés suivantes:
