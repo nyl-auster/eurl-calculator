@@ -63727,8 +63727,8 @@
 	  $scope.totalAProvisionner = 0;
 	  $scope.benefice = 0;
 	  $scope.form = {
-	    chiffreAffaireHt: 35000,
-	    remuneration: 15000,
+	    chiffreAffaireHt: 0,
+	    remuneration: 0,
 	    tva: 0,
 	    frais: 0,
 	    cfe: 500
@@ -63758,7 +63758,7 @@
 	    charges = charges.concat(calculator.getCotisationsSocialesArray()).concat(calculator.getImpotSurLesSocietes()).concat(calculator.getTva()).concat(calculator.getCfe()).concat(calculator.getFrais());
 	
 	    var aProvisionner = [];
-	    aProvisionner = aProvisionner.concat(calculator.getTotalAProvisionner()).concat(calculator.getTotalCotisationsSociales()).concat(calculator.getImpotSurLesSocietes()).concat(calculator.getCfe()).concat(calculator.getTva()).concat(calculator.getBenefice());
+	    aProvisionner = aProvisionner.concat(calculator.getTotalAProvisionner()).concat(calculator.getBenefice());
 	
 	    $scope.pie = { labels: [], data: [] };
 	    $scope.pie.labels = ["Bénéfice", "Chiffre d'affaire TTC"];
