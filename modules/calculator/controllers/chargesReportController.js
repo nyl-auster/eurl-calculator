@@ -13,12 +13,14 @@ angular.module('calculator').controller('chargesReportController', ['$scope', 'c
     remuneration: 0,
     tva:0,
     frais: 0,
-    cfe: 500
+    cfe: 500,
+    prevoyance:'B'
   };
   $scope.showDetails = 0;
   $scope.showFormHelp = 1;
 
   $scope.plafondMax = chargesConfig2016.plafondMax;
+  $scope.chargesConfig = chargesConfig2016;
 
   // rafraichir les résultats
   $scope.refreshResults = () => {
@@ -54,6 +56,7 @@ angular.module('calculator').controller('chargesReportController', ['$scope', 'c
     charges.push(calculator.getImpotSurLesSocietes());
     charges.push(calculator.getTva());
     charges.push(calculator.getCfe());
+    charges.push(calculator.getPrevoyance());
 
     // ajout du total à provisionner
     charges.push(getChargesTotal(charges));

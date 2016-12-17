@@ -295,21 +295,25 @@ angular.module('calculator').service('chargesConfig2016', function(){
     ]
   };
 
-  parametres.charges.invaliditeDeces = {
+  parametres.charges.prevoyance = {
     organisme:'CIPAV',
     label: "Invalidité Décès",
     type_tranches:'exclusive',
-    tranches:[
+    commentaire:"de 76 à 380 euros selon votre choix de classe A, B ou C",
+    classes: [
       {
-        label: 'A',
+        classe: 'A',
+        label: 'Classe A',
         montant_forfaitaire: 76
       },
       {
-        label: 'B',
+        classe: 'B',
+        label: 'Classe B',
         montant_forfaitaire: 228
       },
       {
-        label: 'C',
+        classe: 'C',
+        label: 'Classe C',
         montant_forfaitaire: 380
       }
     ]

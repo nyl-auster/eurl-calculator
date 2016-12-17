@@ -22,6 +22,27 @@ angular.module('calculator').service('chargesCalculatorService',['chargesConfig2
     service.frais = params.frais;
     service.cfe = params.cfe;
     service.tva = params.tva;
+    service.prevoyance = params.prevoyance;
+
+    service.getPrevoyance = () => {
+
+      let classeChoisie = null;
+      chargesConfig2016.charges.prevoyance.classes.forEach((classe) => {
+        if (classe.classe == service.prevoyance) {
+          classeChoisie = classe;
+        }
+      });
+
+      let charge = chargesConfig2016.charges.prevoyance;
+      if (classeChoisie) {
+        charge.montant = classeChoisie.montant_forfaitaire;
+      }
+      else {
+        charge.montant = chargesConfig2016.charges.prevoyance.classes[0].montant_forfaitaire;
+      }
+
+      return charge;
+    };
 
     service.getBaseCalculIs = () => {
       return service.chiffreAffaireHt - service.remuneration - service.frais;
@@ -108,6 +129,7 @@ angular.module('calculator').service('chargesCalculatorService',['chargesConfig2
         + service.tva
         + totalCotisationsSociales
         + service.getCgsCrds().montant
+        + service.getPrevoyance().montant
         + service.getImpotSurLesSocietes().montant;
       return {
         id:'totalAProvisionner',

@@ -63353,18 +63353,22 @@
 	    }]
 	  };
 	
-	  parametres.charges.invaliditeDeces = {
+	  parametres.charges.prevoyance = {
 	    organisme: 'CIPAV',
 	    label: "Invalidité Décès",
 	    type_tranches: 'exclusive',
-	    tranches: [{
-	      label: 'A',
+	    commentaire: "de 76 à 380 euros selon votre choix de classe A, B ou C",
+	    classes: [{
+	      classe: 'A',
+	      label: 'Classe A',
 	      montant_forfaitaire: 76
 	    }, {
-	      label: 'B',
+	      classe: 'B',
+	      label: 'Classe B',
 	      montant_forfaitaire: 228
 	    }, {
-	      label: 'C',
+	      classe: 'C',
+	      label: 'Classe C',
 	      montant_forfaitaire: 380
 	    }]
 	  };
@@ -63545,6 +63549,26 @@
 	    service.frais = params.frais;
 	    service.cfe = params.cfe;
 	    service.tva = params.tva;
+	    service.prevoyance = params.prevoyance;
+	
+	    service.getPrevoyance = function () {
+	
+	      var classeChoisie = null;
+	      chargesConfig2016.charges.prevoyance.classes.forEach(function (classe) {
+	        if (classe.classe == service.prevoyance) {
+	          classeChoisie = classe;
+	        }
+	      });
+	
+	      var charge = chargesConfig2016.charges.prevoyance;
+	      if (classeChoisie) {
+	        charge.montant = classeChoisie.montant_forfaitaire;
+	      } else {
+	        charge.montant = chargesConfig2016.charges.prevoyance.classes[0].montant_forfaitaire;
+	      }
+	
+	      return charge;
+	    };
 	
 	    service.getBaseCalculIs = function () {
 	      return service.chiffreAffaireHt - service.remuneration - service.frais;
@@ -63621,7 +63645,7 @@
 	     */
 	    service.getTotalAProvisionner = function () {
 	      var totalCotisationsSociales = service.calculerTotalCotisationsSociales();
-	      var total = service.cfe + service.tva + totalCotisationsSociales + service.getCgsCrds().montant + service.getImpotSurLesSocietes().montant;
+	      var total = service.cfe + service.tva + totalCotisationsSociales + service.getCgsCrds().montant + service.getPrevoyance().montant + service.getImpotSurLesSocietes().montant;
 	      return {
 	        id: 'totalAProvisionner',
 	        label: 'Total à provisionner',
@@ -63742,12 +63766,14 @@
 	    remuneration: 0,
 	    tva: 0,
 	    frais: 0,
-	    cfe: 500
+	    cfe: 500,
+	    prevoyance: 'B'
 	  };
 	  $scope.showDetails = 0;
 	  $scope.showFormHelp = 1;
 	
 	  $scope.plafondMax = chargesConfig2016.plafondMax;
+	  $scope.chargesConfig = chargesConfig2016;
 	
 	  // rafraichir les résultats
 	  $scope.refreshResults = function () {
@@ -63783,6 +63809,7 @@
 	    charges.push(calculator.getImpotSurLesSocietes());
 	    charges.push(calculator.getTva());
 	    charges.push(calculator.getCfe());
+	    charges.push(calculator.getPrevoyance());
 	
 	    // ajout du total à provisionner
 	    charges.push(getChargesTotal(charges));

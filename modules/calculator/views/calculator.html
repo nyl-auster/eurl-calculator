@@ -88,7 +88,18 @@
     </div>
 
     <div class="large-2 columns">
-
+      <label> Prévoyance </label>
+      <select
+              ng-change="refreshResults()"
+              ng-model="form.prevoyance"
+              type="number"
+              class="form-control"
+              placeholder="Prévoyance"
+      >
+        <option ng-value="tranche.classe" ng-repeat="tranche in chargesConfig.charges.prevoyance.classes">{{tranche.label}}</option>
+      </select>
+      <div ng-show="showFormHelp"  class="charges-form__field__descripton show-for-large">
+      </div>
     </div>
 
   </div>
