@@ -12,7 +12,7 @@
               class="form-control"
               placeholder="Chiffre d'affaire"
       >
-      <div class="charges-form__field__descripton show-for-large">
+      <div ng-show="showFormHelp" class="charges-form__field__descripton show-for-large">
         Votre chiffre d'affaire <strong>Hors Taxe</strong>
       </div>
     </div>
@@ -23,12 +23,13 @@
       <input
               ng-change="refreshResults()"
               ng-model="form.tva"
+              id="chiffre_affaire"
               ng-model-options="{ debounce: 300 }"
               type="number"
               class="form-control"
               placeholder="Chiffre d'affaire"
       >
-      <div class="charges-form__field__descripton show-for-large">
+      <div ng-show="showFormHelp" class="charges-form__field__descripton show-for-large">
         La TVA que vous devez reverser à l'état par rapport au chiffre d'affaire hors-taxe. Pensez à retrancher la TVA de vos achats.
         <br />20% du chiffre d'affaire = <a title="cliquer pour reporter ce chiffre dans le champ TVA" ng-click="reportTvaHelper()">
         {{form.chiffreAffaireHt * 0.20 | currency }}
@@ -42,11 +43,12 @@
       <input
               ng-change="refreshResults()"
               ng-model="form.remuneration"
+              id="remuneration"
               ng-model-options="{ debounce: 300 }"
               type="number" class="form-control"
               placeholder="Rémunération"
       >
-      <div class="charges-form__field__descripton show-for-large">
+      <div ng-show="showFormHelp"  class="charges-form__field__descripton show-for-large">
         Votre rémunération de gérant. Les cotisations sociales sont calculées sur cette base.
       </div>
     </div>
@@ -59,27 +61,28 @@
               ng-model="form.frais"
               ng-model-options="{ debounce: 300 }"
               type="number"
+              id="frais"
               class="form-control"
               placeholder="Frais"
       >
-      <div class="charges-form__field__descripton show-for-large">
+      <div ng-show="showFormHelp"  class="charges-form__field__descripton show-for-large">
         Vos achats et frais de sociétés <strong>Hors taxe</strong> : expertise comtpables, achats, déplacements etc ...
       </div>
     </div>
 
     <!-- CFE -->
     <div class="large-2 columns">
-      <label for="frais"> CFE à verser </label>
+      <label for="cfe"> CFE à verser </label>
       <input
               ng-change="refreshResults()"
               ng-model="form.cfe"
               ng-model-options="{ debounce: 300 }"
               type="number"
               class="form-control"
-              id="form.cfe"
+              id="cfe"
               placeholder="CFE"
       >
-      <div class="charges-form__field__descripton show-for-large">
+      <div ng-show="showFormHelp"  class="charges-form__field__descripton show-for-large">
         Le montant de la cotisation foncière des entreprises dépend de votre commune
       </div>
     </div>
@@ -91,6 +94,14 @@
   </div>
 </form>
 
+<div class="row">
+  <div class="small-12 columns text-center">
+    <a class="secondary" ng-click="showFormHelp=!showFormHelp">
+      <span ng-show="!showFormHelp">Montrer l'aide</span>
+      <span ng-show="showFormHelp">Cacher l'aide</span>
+    </a>
+  </div>
+</div>
 
 <div class="row">
 
@@ -141,9 +152,9 @@
   <div class="small-12 medium-6 columns">
     <div class="report-charts">
       <h5 class="report-charts__title">Rémunération / cotisations sociales</h5>
-        <canvas id="pieCotisations" class="chart chart-pie"
-                chart-data="pieCotisations.data" chart-labels="pieCotisations.labels" chart-options="pieCotisations.options">
-        </canvas>
+      <canvas id="pieCotisations" class="chart chart-pie"
+              chart-data="pieCotisations.data" chart-labels="pieCotisations.labels" chart-options="pieCotisations.options">
+      </canvas>
     </div>
   </div>
 </div>

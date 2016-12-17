@@ -16,6 +16,7 @@ angular.module('calculator').controller('chargesReportController', ['$scope', 'c
     cfe: 500
   };
   $scope.showDetails = 1;
+  $scope.showFormHelp = 1;
 
   $scope.plafondMax = chargesConfig2016.plafondMax;
 
