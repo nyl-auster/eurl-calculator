@@ -63807,10 +63807,10 @@
 	    var charges = [];
 	    charges = charges.concat(calculator.getCotisationsSocialesArray());
 	    charges.push(calculator.getCgsCrds());
+	    charges.push(calculator.getPrevoyance());
 	    charges.push(calculator.getImpotSurLesSocietes());
 	    charges.push(calculator.getTva());
 	    charges.push(calculator.getCfe());
-	    charges.push(calculator.getPrevoyance());
 	
 	    // ajout du total à provisionner
 	    charges.push(getChargesTotal(charges));
