@@ -10,15 +10,19 @@ describe('chargesConfig', function() {
     chargesConfig = _chargesConfig_;
   }));
 
-  /*
-  it("calculerMontantTranche doit retourner le montant pour d'une tranche avec taux", function() {
 
-    chargesConfig.charges.forEach((charge) => {
-      expect(charge.montant).not.toBeDefined();
-    });
-    expect(chargesCalculatorService.calculerMontantTranche(trancheA, baseCalcul)).toEqual(100);
+  it("les charges doivent avoir les clefs attendues", function() {
+    for(charge in chargesConfig.charges) {
+      expect(chargesConfig.charges[charge].organisme).toBeDefined(`propriété "organisme" manquante pour la charge ${charge}`);
+      expect(chargesConfig.charges[charge].label).toBeDefined(`propriété "label" manquante pour la charge ${charge}`);
+      if (charge != 'invaliditeDeces') {
+        expect(chargesConfig.charges[charge].tranches).toBeDefined(
+          `propriété "tranches" manquante pour la charge ${charge}`);
+      }
+    }
+
   });
-  */
+
 
 
 });

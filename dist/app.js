@@ -37063,6 +37063,7 @@
 	    type_tranches: 'tranche_exclusive',
 	    tranches: [
 	      {
+	        label: "Tranche 1",
 	        taux: 6.50,
 	        plafond: max
 	      }
@@ -37097,6 +37098,7 @@
 	    type_tranches: 'exclusive',
 	    tranches: [
 	      {
+	        label:"Tranche 1",
 	        taux: 8,
 	        plafond: max
 	      }
@@ -37111,6 +37113,7 @@
 	    type_tranches: 'exclusive',
 	    tranches: [
 	      {
+	        label: "Tranche 1",
 	        taux: 25,
 	        plafond: max
 	      }
@@ -37129,6 +37132,7 @@
 	    tranches: [
 	      // sous 4441, montant forfaitaire
 	      {
+	        label:"Tranche 1",
 	        plafond:  4441,
 	        montant_forfaitaire: 448
 	      },
@@ -37136,10 +37140,12 @@
 	      // puis on y ajoutera la seconde tranche en reprenant la base de calcul en entier.
 	      // WTF ?
 	      {
+	        label:"Tranche 2",
 	        plafond: parametres.plafond_securite_sociale,
 	        taux: 8.23
 	      },
 	      {
+	        label: "Tranche 3",
 	        plafond: 193080,
 	        taux: 1.87
 	      }
@@ -37153,10 +37159,12 @@
 	    type_tranches: 'cumulatives',
 	    tranches:[
 	      {
+	        label: "tranche 1",
 	        plafond: 38120,
 	        taux: 15
 	      },
 	      {
+	        label: "tranche 2",
 	        plafond: max,
 	        taux: 33
 	      }
@@ -37170,6 +37178,7 @@
 	    type_tranches: "exclusive",
 	    tranches: [
 	      {
+	        label:"TVA 20%",
 	        plafond:max,
 	        taux:20
 	      }
@@ -37183,6 +37192,7 @@
 	    type_tranches: "exclusive",
 	    tranches: [
 	      {
+	        label: "Tranche 1",
 	        plafond:max,
 	        montant_forfaitaire: null
 	      }
@@ -37198,49 +37208,49 @@
 	    type_tranches : "exclusive",
 	    tranches : [
 	      {
-	        nom : 'A',
+	        label : 'A',
 	        plafond : 26580,
 	        montant_forfaitaire : 1214,
 	        points_retraite : 36
 	      },
 	      {
-	        nom : 'B',
+	        label : 'B',
 	        plafond : 49280,
 	        montant_forfaitaire : 2427,
 	        points_retraite : 72
 	      },
 	      {
-	        nom : 'C',
+	        label : 'C',
 	        plafond : 57850,
 	        montant_forfaitaire : 3641,
 	        points_retraite : 108
 	      },
 	      {
-	        nom : 'D',
+	        label : 'D',
 	        plafond : 66400,
 	        montant_forfaitaire : 6068,
 	        points_retraite : 180
 	      },
 	      {
-	        nom : 'E',
+	        label : 'E',
 	        plafond : 83060,
 	        montant_forfaitaire : 8495,
 	        points_retraite :  252
 	      },
 	      {
-	        nom : 'F',
+	        label : 'F',
 	        plafond : 103180,
 	        montant_forfaitaire : 13349,
 	        points_retraite : 396
 	      },
 	      {
-	        nom : 'G',
+	        label : 'G',
 	        plafond : 123300,
 	        montant_forfaitaire : 14563,
 	        points_retraite : 432
 	      },
 	      {
-	        nom : 'H',
+	        label : 'H',
 	        plafond : max,
 	        montant_forfaitaire : 15776,
 	        points_retraite : 468
@@ -37251,52 +37261,64 @@
 	  // Réduction assurance vieillesse complémentaire
 	  // @pas appliquée dans le calculateur pour le moment
 	  parametres.charges.AssuranceVieillesseComplementaireReduction = {
+	    organisme:'CIPAV',
 	    label: "Réduction assurance vieillesse complémentaire",
 	    type_tranches: "exclusive",
 	    tranches: [
 	      {
+	        label: "Tranche 1",
 	        plafond : 5792,
 	        taux : 100,
-	        points_retraite:0
+	        points_retraite:0,
+	        commentaire:"aucun point retraite",
 	      },
 	      {
+	        label: "Tranche 2",
 	        plafond : 11585,
 	        taux : 75,
-	        points_retraite:9
+	        points_retraite:9,
+	        commentaire:"9 points retraite",
 	      },
 	      {
+	        label: "Tranche 3",
 	        plafond :  17377,
 	        taux :50,
+	        commentaire:"18 points retraite",
 	        points_retraite:18
 	      },
 	      {
+	        label: "Tranche 4",
 	        plafond : 23170,
 	        taux : 25,
-	        points_retraite:27
+	        points_retraite:27,
+	        commentaire:"27 points retraite"
 	      }
 	    ]
 	  };
 	
 	  parametres.charges.invaliditeDeces = {
-	    classes:{
-	      a:{
-	        nom: 'A',
+	    organisme:'CIPAV',
+	    label: "Invalidité Décès",
+	    type_tranches:'exclusive',
+	    tranches:[
+	      {
+	        label: 'A',
 	        montant_forfaitaire: 76
 	      },
-	      b:{
-	        nom: 'B',
+	      {
+	        label: 'B',
 	        montant_forfaitaire: 228
 	      },
-	      c:{
-	        nom: 'C',
+	      {
+	        label: 'C',
 	        montant_forfaitaire: 380
 	      }
-	    }
+	    ]
 	  };
 	
 	  // les professions libérales ne cotisent pas pour les indemnités journalières
 	  // source : http://www.rsi.fr/baremes/charges.html
-	  parametres.charges.indemnitesJournalieres = {};
+	  //parametres.charges.indemnitesJournalieres = {};
 	
 	  return parametres;
 	
@@ -37458,7 +37480,6 @@
 	     */
 	    service.getTotalAProvisionner = function() {
 	      let totalCotisationsSociales = service.getTotalCotisationsSociales();
-	      console.log(totalCotisationsSociales);
 	      let TVA = service.getTva20().montant;
 	      let total = cfe + TVA + totalCotisationsSociales;
 	      return total;

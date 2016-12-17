@@ -71,7 +71,6 @@ angular.module('calculator').service('chargesCalculatorService',['chargesConfig'
      */
     service.getTotalAProvisionner = function() {
       let totalCotisationsSociales = service.getTotalCotisationsSociales();
-      console.log(totalCotisationsSociales);
       let TVA = service.getTva20().montant;
       let total = cfe + TVA + totalCotisationsSociales;
       return total;
