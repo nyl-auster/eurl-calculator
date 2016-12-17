@@ -33,8 +33,8 @@ angular.module('calculator').controller('chargesReportController', ['$scope', 'c
 
   function getResults() {
 
-    $scope.calculator = calculator = chargesCalculatorService($scope.form);
-
+    let calculator = chargesCalculatorService($scope.form);
+    $scope.calculator = calculator;
 
     let charges = [];
     charges = charges
@@ -44,7 +44,7 @@ angular.module('calculator').controller('chargesReportController', ['$scope', 'c
       .concat(calculator.getCfe())
       .concat(calculator.getFrais());
 
-    aProvisionner = [];
+    let aProvisionner = [];
     aProvisionner = aProvisionner
       .concat(calculator.getTotalAProvisionner())
       .concat(calculator.getTotalCotisationsSociales())
@@ -52,8 +52,6 @@ angular.module('calculator').controller('chargesReportController', ['$scope', 'c
       .concat(calculator.getCfe())
       .concat(calculator.getTva())
       .concat(calculator.getBenefice());
-
-    console.log(aProvisionner);
 
     $scope.pie = {labels:[], data:[]};
     $scope.pie.labels = [

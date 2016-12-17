@@ -13,9 +13,9 @@ angular.module('calculator').service('chargesCalculatorService',['chargesConfig2
    */
   return (params) => {
 
-    service = {};
+    const service = {};
 
-    chargesConfig = chargesConfig2016;
+    const chargesConfig = chargesConfig2016;
 
     service.chiffreAffaireHt = params.chiffreAffaireHt;
     service.remuneration = params.remuneration;

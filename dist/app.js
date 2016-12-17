@@ -44,34 +44,33 @@
 /* 0 */
 /***/ function(module, exports, __webpack_require__) {
 
+	'use strict';
+	
 	/**
 	 * Assemblage des fichiers de notre application javascript
 	 */
 	
 	// contrib
+	__webpack_require__(1);
 	__webpack_require__(3);
+	__webpack_require__(4);
 	__webpack_require__(5);
-	__webpack_require__(6);
 	__webpack_require__(7);
-	__webpack_require__(166);
 	
 	// nos modules custom angular
-	__webpack_require__(9);
-	__webpack_require__(11);
-
+	__webpack_require__(162);
+	__webpack_require__(164);
 
 /***/ },
-/* 1 */,
-/* 2 */,
-/* 3 */
+/* 1 */
 /***/ function(module, exports, __webpack_require__) {
 
-	__webpack_require__(4);
+	__webpack_require__(2);
 	module.exports = angular;
 
 
 /***/ },
-/* 4 */
+/* 2 */
 /***/ function(module, exports) {
 
 	/**
@@ -31844,7 +31843,7 @@
 	!window.angular.$$csp().noInlineStyle && window.angular.element(document.head).prepend('<style type="text/css">@charset "UTF-8";[ng\\:cloak],[ng-cloak],[data-ng-cloak],[x-ng-cloak],.ng-cloak,.x-ng-cloak,.ng-hide:not(.ng-hide-animate){display:none !important;}ng\\:form{display:block;}.ng-animate-shim{visibility:hidden;}.ng-anchor{position:absolute;}</style>');
 
 /***/ },
-/* 5 */
+/* 3 */
 /***/ function(module, exports) {
 
 	/**
@@ -36458,7 +36457,7 @@
 	})(window, window.angular);
 
 /***/ },
-/* 6 */
+/* 4 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -36589,15 +36588,15 @@
 
 
 /***/ },
-/* 7 */
+/* 5 */
 /***/ function(module, exports, __webpack_require__) {
 
-	__webpack_require__(8);
+	__webpack_require__(6);
 	module.exports = 'ngCookies';
 
 
 /***/ },
-/* 8 */
+/* 6 */
 /***/ function(module, exports) {
 
 	/**
@@ -36933,991 +36932,7 @@
 
 
 /***/ },
-/* 9 */
-/***/ function(module, exports, __webpack_require__) {
-
-	/**
-	 * Création du module eligibilityApp
-	 */
-	angular.module('core', ['ui.router', 'ngCookies']);
-	
-	// fichiers requis par notre module
-	__webpack_require__(10);
-	
-	
-	
-	
-	
-	
-	
-
-
-/***/ },
-/* 10 */
-/***/ function(module, exports) {
-
-	/**
-	 * Déclaration des status pour le module ui-router
-	 */
-	
-	angular.module('core').config(['$stateProvider', '$urlRouterProvider', function ($stateProvider, $urlRouterProvider) {
-	
-	  // en cas de route non trouvée, rediriger sur la page d'accueil
-	  $urlRouterProvider.otherwise('/');
-	
-	}]);
-
-
-/***/ },
-/* 11 */
-/***/ function(module, exports, __webpack_require__) {
-
-	/**
-	 * Création du module angular
-	 */
-	angular.module('calculator', ['core', 'chart.js']);
-	
-	// ajout des fichiers du module calculator
-	__webpack_require__(165);
-	__webpack_require__(163);
-	__webpack_require__(161);
-	__webpack_require__(14);
-	__webpack_require__(160);
-
-
-/***/ },
-/* 12 */,
-/* 13 */,
-/* 14 */
-/***/ function(module, exports) {
-
-	/**
-	 * Nos routes ui-router
-	 */
-	angular.module('calculator').config(['$stateProvider', '$urlRouterProvider', "ChartJsProvider", function ($stateProvider, $urlRouterProvider) {
-	
-	  $stateProvider.state('calculator', {
-	    url: '/',
-	    templateUrl: "modules/calculator/views/calculator.html",
-	    controller:'chargesReportController'
-	  });
-	
-	}]);
-	
-	
-	
-
-
-/***/ },
-/* 15 */,
-/* 16 */,
-/* 17 */,
-/* 18 */,
-/* 19 */,
-/* 20 */,
-/* 21 */,
-/* 22 */,
-/* 23 */,
-/* 24 */,
-/* 25 */,
-/* 26 */,
-/* 27 */,
-/* 28 */,
-/* 29 */,
-/* 30 */,
-/* 31 */,
-/* 32 */,
-/* 33 */,
-/* 34 */,
-/* 35 */,
-/* 36 */,
-/* 37 */,
-/* 38 */,
-/* 39 */,
-/* 40 */,
-/* 41 */,
-/* 42 */,
-/* 43 */,
-/* 44 */,
-/* 45 */,
-/* 46 */,
-/* 47 */,
-/* 48 */,
-/* 49 */,
-/* 50 */,
-/* 51 */,
-/* 52 */,
-/* 53 */,
-/* 54 */,
-/* 55 */,
-/* 56 */,
-/* 57 */,
-/* 58 */,
-/* 59 */,
-/* 60 */,
-/* 61 */,
-/* 62 */,
-/* 63 */,
-/* 64 */,
-/* 65 */,
-/* 66 */,
-/* 67 */,
-/* 68 */,
-/* 69 */,
-/* 70 */,
-/* 71 */,
-/* 72 */,
-/* 73 */,
-/* 74 */,
-/* 75 */,
-/* 76 */,
-/* 77 */,
-/* 78 */,
-/* 79 */,
-/* 80 */,
-/* 81 */,
-/* 82 */,
-/* 83 */,
-/* 84 */,
-/* 85 */,
-/* 86 */,
-/* 87 */,
-/* 88 */,
-/* 89 */,
-/* 90 */,
-/* 91 */,
-/* 92 */
-/***/ function(module, exports) {
-
-	module.exports = function(module) {
-		if(!module.webpackPolyfill) {
-			module.deprecate = function() {};
-			module.paths = [];
-			// module.parent = undefined by default
-			module.children = [];
-			module.webpackPolyfill = 1;
-		}
-		return module;
-	}
-
-
-/***/ },
-/* 93 */,
-/* 94 */,
-/* 95 */,
-/* 96 */,
-/* 97 */,
-/* 98 */,
-/* 99 */,
-/* 100 */,
-/* 101 */,
-/* 102 */,
-/* 103 */,
-/* 104 */,
-/* 105 */,
-/* 106 */,
-/* 107 */,
-/* 108 */,
-/* 109 */,
-/* 110 */,
-/* 111 */,
-/* 112 */,
-/* 113 */,
-/* 114 */,
-/* 115 */,
-/* 116 */,
-/* 117 */,
-/* 118 */,
-/* 119 */,
-/* 120 */,
-/* 121 */,
-/* 122 */,
-/* 123 */,
-/* 124 */,
-/* 125 */,
-/* 126 */,
-/* 127 */,
-/* 128 */,
-/* 129 */,
-/* 130 */,
-/* 131 */,
-/* 132 */,
-/* 133 */,
-/* 134 */,
-/* 135 */,
-/* 136 */,
-/* 137 */,
-/* 138 */,
-/* 139 */,
-/* 140 */,
-/* 141 */,
-/* 142 */,
-/* 143 */,
-/* 144 */,
-/* 145 */,
-/* 146 */,
-/* 147 */,
-/* 148 */,
-/* 149 */,
-/* 150 */,
-/* 151 */,
-/* 152 */,
-/* 153 */,
-/* 154 */,
-/* 155 */,
-/* 156 */,
-/* 157 */,
-/* 158 */,
-/* 159 */,
-/* 160 */
-/***/ function(module, exports) {
-
-	/**
-	 * @FIXME ajout CGS CRD, controle de toutes les charges
-	 *
-	 * Affichage du cout des charges d'une EURL à l'IS
-	 * Objet "charge" > objet "Resultat du calculator" > objet "ligne à afficher"
-	 */
-	angular.module('calculator').controller('chargesReportController', ['$scope', 'chargesCalculatorService', '$cookies','chargesConfig2016', function ($scope, chargesCalculatorService, $cookies, chargesConfig2016) {
-	
-	  $scope.totalAProvisionner = 0;
-	  $scope.benefice = 0;
-	  $scope.form = {
-	    chiffreAffaireHt: 35000,
-	    remuneration: 15000,
-	    tva:0,
-	    frais: 0,
-	    cfe: 500
-	  };
-	  $scope.showDetails = 1;
-	
-	  $scope.plafondMax = chargesConfig2016.plafondMax;
-	
-	  // rafraichir les résultats
-	  $scope.refreshResults = () => {
-	    getResults();
-	  };
-	
-	  $scope.reportTvaHelper = () => {
-	    $scope.form.tva = $scope.form.chiffreAffaireHt * 0.20;
-	    getResults();
-	  };
-	
-	  getResults();
-	
-	  function getResults() {
-	
-	    $scope.calculator = calculator = chargesCalculatorService($scope.form);
-	
-	
-	    let charges = [];
-	    charges = charges
-	      .concat(calculator.getCotisationsSocialesArray())
-	      .concat(calculator.getImpotSurLesSocietes())
-	      .concat(calculator.getTva())
-	      .concat(calculator.getCfe())
-	      .concat(calculator.getFrais());
-	
-	    aProvisionner = [];
-	    aProvisionner = aProvisionner
-	      .concat(calculator.getTotalAProvisionner())
-	      .concat(calculator.getTotalCotisationsSociales())
-	      .concat(calculator.getImpotSurLesSocietes())
-	      .concat(calculator.getCfe())
-	      .concat(calculator.getTva())
-	      .concat(calculator.getBenefice());
-	
-	    console.log(aProvisionner);
-	
-	    $scope.pie = {labels:[], data:[]};
-	    $scope.pie.labels = [
-	      "Bénéfice",
-	      "Chiffre d'affaire TTC"
-	    ];
-	    $scope.pie.data = [
-	      calculator.getBenefice().montant,
-	      calculator.getChiffreAffaireTtc().montant
-	    ];
-	
-	    // on rafraichit le scope avec les données retournées par le calculateur
-	    $scope.charges = charges;
-	    $scope.aProvisionner = aProvisionner;
-	
-	  }
-	
-	}]);
-	
-	
-	
-
-
-/***/ },
-/* 161 */
-/***/ function(module, exports) {
-
-	/**
-	 * Calculs des charges d'une EULR en fonction des paramètres
-	 */
-	angular.module('calculator').service('chargesCalculatorService',['chargesConfig2016', 'chargesTranchesCalculatorService', function(chargesConfig2016, chargesTranchesCalculatorService){
-	
-	  /**
-	   * @param params object avec les propriétés suivantes:
-	   *
-	   * - chiffreAffaire
-	   * - remuneration
-	   * - frais
-	   * - cfe
-	   */
-	  return (params) => {
-	
-	    service = {};
-	
-	    chargesConfig = chargesConfig2016;
-	
-	    service.chiffreAffaireHt = params.chiffreAffaireHt;
-	    service.remuneration = params.remuneration;
-	    service.frais = params.frais;
-	    service.cfe = params.cfe;
-	    service.tva = params.tva;
-	
-	    service.getBaseCalculIs = () => {
-	      return service.chiffreAffaireHt - service.remuneration - service.frais;
-	    };
-	
-	    service.getTva = () => {
-	      return {
-	        label: 'TVA',
-	        montant: service.tva
-	      }
-	    };
-	
-	    /**
-	     * Pseudo charge
-	     */
-	    service.getCfe = () => {
-	      // pseudo calcul : on fait ça juste pour récupérer les meta-données déjà définies
-	      // dans la configuration des charges (l'objet charge avec son label, son commentaire etc ...)
-	      const charge = chargesTranchesCalculatorService.calculerTrancheExclusive(0, chargesConfig.charges.cfe);
-	      // on fixe le montant manuellement.
-	      charge.montant = service.cfe;
-	      return charge;
-	    };
-	
-	    /**
-	     * pseudo charge
-	     * @returns {{label: string, montant: (number|*)}}
-	     */
-	    service.getFrais = () => {
-	      return {
-	        label: 'Frais',
-	        montant: service.frais
-	      };
-	    };
-	
-	    service.getBenefice = () => {
-	      // comme on compte la TVA dans notre total à provisionner, on doit partir
-	      // du CA TTC pour calculer notre restant une fois retranché
-	      // la rémunération et le total à provisionner
-	      let montant = service.chiffreAffaireHt
-	        - service.getTotalAProvisionner().montant
-	        - service.remuneration
-	        - service.frais;
-	      return {
-	        label: "Bénéfice après provisions",
-	        montant: montant
-	      };
-	    };
-	
-	    service.getCotisationsSocialesArray = () => {
-	      return [
-	        service.getAssuranceVieillesseBase(service.remuneration),
-	        service.getAssuranceVieillesseComplementaire(service.remuneration),
-	        service.getFormationProfessionnelle(service.remuneration),
-	        service.getAllocationsFamiliales(service.remuneration),
-	        service.getMaladiesMaternite(service.remuneration)
-	      ];
-	    };
-	
-	    service.caculerChiffreAffaireTtc = () => service.chiffreAffaireHt + service.tva;
-	
-	    /**
-	     * Obtenir le montant total des cotisations sociales
-	     * @returns {number}
-	     */
-	    service.calculerTotalCotisationsSociales = () => {
-	      var total = 0;
-	      service.getCotisationsSocialesArray().forEach(item => total += item.montant);
-	      return total;
-	    };
-	
-	    /**
-	     * Le total a provisionner, ce pour quoi j'ai créer l'application
-	     * c'est à dire ce qui sera payé à l'état
-	     * à un moement donné.
-	     * @returns {*}
-	     */
-	    service.getTotalAProvisionner = () => {
-	      let totalCotisationsSociales = service.calculerTotalCotisationsSociales();
-	      let total = service.cfe
-	        + service.tva
-	        + totalCotisationsSociales
-	        + service.getImpotSurLesSocietes().montant;
-	      return {
-	        id:'totalAProvisionner',
-	        label:'Total à provisionner',
-	        montant:total
-	      };
-	    };
-	
-	    service.getChiffreAffaireTtc = () => {
-	      return {
-	        label:"Chiffre d'affaire TTC",
-	        montant:service.chiffreAffaireHt + service.tva
-	      };
-	    };
-	
-	    service.getTotalCotisationsSociales = () => {
-	      return {
-	        label: 'Cotisations sociales',
-	        montant: service.calculerTotalCotisationsSociales()
-	      }
-	    };
-	
-	    /**
-	     * Calcul des cotisations maladie et maternité - URSSAF
-	     */
-	    service.getAssuranceVieillesseComplementaire = (baseCalcul) => {
-	      return chargesTranchesCalculatorService.calculerTrancheExclusive(baseCalcul, chargesConfig.charges.assuranceVieillesseComplementaire);
-	    };
-	
-	    /**
-	     * Calcul des cotisations pour la formation professionnelle
-	     */
-	    service.getFormationProfessionnelle = (baseCalcul) => {
-	      return chargesTranchesCalculatorService.calculerTrancheExclusive(baseCalcul, chargesConfig.charges.formationProfessionnelle);
-	    };
-	
-	    /**
-	     * Calcul des cotisations maladie et maternité - URSSAF
-	     */
-	    service.getAllocationsFamiliales = (baseCalcul) => {
-	      return chargesTranchesCalculatorService.calculerTrancheExclusive(baseCalcul, chargesConfig.charges.allocationsFamiliales);
-	    };
-	
-	    /**
-	     * Calcul des cotisations maladie et maternité - CIPAV
-	     * @FIXME calcul chelou, à vérifier
-	     */
-	    service.getAssuranceVieillesseBase = (baseCalcul) => {
-	      let assuranceVieillesseBase = angular.copy(chargesConfig.charges.assuranceVieillesseBase);
-	      if (baseCalcul > assuranceVieillesseBase.tranches[0].plafond) {
-	        delete assuranceVieillesseBase.tranches[0];
-	      }
-	      let result = chargesTranchesCalculatorService.calculerTranchesCumulatives(baseCalcul, assuranceVieillesseBase);
-	      return result;
-	    };
-	
-	    /**
-	     * Calcul des cotisations maladie et maternité - URSSAF
-	     */
-	    service.getMaladiesMaternite = (baseCalcul) => {
-	      return chargesTranchesCalculatorService.calculerTrancheExclusive(baseCalcul, chargesConfig.charges.maladiesMaternite);
-	    };
-	
-	    /**
-	     * Calcul de l'impot sur les bénéfices - Impots
-	     */
-	    service.getImpotSurLesSocietes = () => {
-	      return chargesTranchesCalculatorService.calculerTranchesCumulatives(service.getBaseCalculIs(), chargesConfig.charges.impotSurLesSocietes);
-	    };
-	
-	    return service;
-	
-	  }
-	
-	}]);
-	
-
-
-/***/ },
-/* 162 */,
-/* 163 */
-/***/ function(module, exports) {
-
-	/**
-	 * Augment les objets charges avec deux clefs :
-	 * - le montant global à payer en fonction de la base de calcul
-	 * - les "tranches actives" : le détail du montant par tranche
-	 */
-	angular.module('calculator').service('chargesTranchesCalculatorService',['chargesConfig2016', function(chargesConfig2016){
-	
-	  const service = {};
-	
-	  /**
-	   * Retourne le montant pour une tranche de charge.
-	   *
-	   * Une tranche est un objet qui peut contenir les clefs suivantes :
-	   * - montant : peut être déjà rempli pour les montants forfaitaires
-	   * - taux : le pourcentage à appliquer sur le montant
-	   * - montant_forfaitaire : si la tranche est un montant fixe en fonction du plafond.
-	   */
-	  service.calculerMontantTranche = (tranche, baseCalcul) => {
-	
-	    var montant = 0;
-	
-	    // si un montant forfaitaire est prédéfini pour cette tranche
-	    if (tranche.montant_forfaitaire) {
-	      montant = tranche.montant_forfaitaire;
-	    }
-	    // sinon on calcule le montant de la tranche en fonction du taux indiqué
-	    else if (tranche.taux) {
-	      montant = baseCalcul * (tranche.taux / 100);
-	    }
-	
-	    // on ajoute ou met à jour le montant à notre objet tranche
-	    tranche.montant = montant;
-	    tranche.baseCalcul = baseCalcul;
-	    return montant;
-	  };
-	
-	  /**
-	   * Calcul la tranche qui correspond à baseDeCalcul en fonction du tableau "tranches".
-	   * Pour les tranches exclusives, seule UNE tranche est conservé pour le calcul, les
-	   * tranches précédentes ou suivantes n'entrent donc en rien dans le calcul du montant
-	   * de la cotisation
-	   *
-	   * @param baseCalcul float | int :
-	   * @param charge array : tableau d'objet "charge"
-	   */
-	  service.calculerTrancheExclusive = (baseCalcul, charge) => {
-	
-	    charge.montant = 0;
-	
-	    // on recherche la tranche qui correspond à notre baseCalcul
-	    var trancheActive = null;
-	
-	    charge.tranches.forEach(function(tranche) {
-	      // tant que la base de calcul n'est pas supérieur au plafond en cours, on continue
-	      // d'itérer.
-	      if (!trancheActive && baseCalcul <= tranche.plafond) {
-	        // on a dépassé le plafond, on arrête de mettre à jour la variable trancheActive
-	        // qui contient maintenant notre réponse
-	        //tranche.baseCalcul = baseCalcul;
-	        trancheActive = tranche;
-	      }
-	    });
-	
-	    if (trancheActive) {
-	      charge.montant = service.calculerMontantTranche(trancheActive, baseCalcul);
-	      charge.tranchesActives= [trancheActive];
-	    }
-	
-	    return charge;
-	  };
-	
-	  /**
-	   * Calcul des charges à tranches cumulatives, tels que l'impot sur les bénéfices :
-	   * - 15% pour pour les 38120 premiers euros, puis 33,33% sur le reste des bénéfices
-	   *
-	   * @param baseCalcul float | int :
-	   * @param charge array : tableau d'objet "charges"
-	   */
-	  service.calculerTranchesCumulatives = (baseCalcul, charge) => {
-	
-	    charge.montant = 0;
-	
-	    // contiendra la liste des tranches qui seront appliquée
-	    // à notre base de calcul
-	    var tranches = [];
-	
-	    // montant total, toute tranches cumulées
-	    var montant = 0;
-	    var plancher = 0;
-	
-	    charge.tranches.forEach((tranche, index) => {
-	
-	      // on calcule le "planger" de la tranche, qui est soit égal
-	      // au plafond précédent, soit à zéro si c'est la première tranche.
-	      if (typeof tranches[index - 1] !== 'undefined') {
-	        plancher = tranches[index - 1].plafond;
-	      }
-	      // on calcule la différence entre le plafond et le plancher
-	      tranche.intervalle = tranche.plafond - plancher;
-	
-	      // si la somme est supérieure ou égale au plafond de la tranche courante ...
-	      if (baseCalcul >= tranche.plafond)
-	      {
-	        // ... on calcule le montant dû pour la tranche courante
-	        tranche.baseCalcul = tranche.intervalle;
-	        tranche.montant = service.calculerMontantTranche(tranche, tranche.baseCalcul);
-	        // on ajoute le montant de la cotisation de cette tranche au total.
-	        montant += tranche.montant;
-	        // ajout à la liste des tranches qui s'applique à notre cas.
-	        tranches.push(tranche);
-	      }
-	
-	      // mais si la somme est inférieure au plafond courant, c'est que nous sommes à la dernière tranche
-	      else
-	      {
-	        // on calcule le montant pour cette derniere tranche
-	        var depassement_plancher = baseCalcul - plancher;
-	        if (depassement_plancher > 0)
-	        {
-	          tranche.baseCalcul = depassement_plancher;
-	          montant += tranche.montant = service.calculerMontantTranche(tranche, tranche.baseCalcul);
-	          // ajout à la liste des tranches qui s'appliquent à notre cas.
-	          tranches.push(tranche);
-	        }
-	      }
-	
-	    });
-	
-	    charge.montant = montant;
-	    charge.tranchesActives= tranches;
-	
-	    return charge;
-	  };
-	
-	  return service;
-	
-	}]);
-	
-
-
-/***/ },
-/* 164 */,
-/* 165 */
-/***/ function(module, exports) {
-
-	/**
-	 * Les objets "charges" d'une EURL à l'IS en PL
-	 * qui seront consommés par le service "chargesCalculator",
-	 * qui permettra de calculer le montant des cotisations et impots à payer.
-	 *
-	 * Une "charge" *DOIT* contenir les propriétés suivantes :
-	 *
-	 * // l'organisme qui doit recueillir la charge
-	 * organisme: 'urssaf',
-	 *
-	 * // label de la charge à afficher dans le tableau de résultats
-	 * label: 'Allocations familiales',
-	 *
-	 * // remarque supplémentaire concernant le calcul de la charge
-	 * commentaire: 'Pour les revenus compris entre 42 478 € et 54 062 €, taux progressif : entre 2,15 % et 5,25 %',
-	 *
-	 * // Chaque charge contient une à plusieurs tranches. Le type de tranche
-	 * // indique comment une tranche doit être calculée : en cumulant les cotisations
-	 * // pour chaque tranche existante, on sélectionnant uniquement une des tranches etc...
-	 * // il existe les types suivants :
-	 * // - tranche_exclusive : une seule tranche sera choisie pour effectuer le calcul
-	 * // - tranches_cumulatives : le montant de chaque tranque se cumule pour créer un total
-	 * type_tranches: 'tranche_exclusive',
-	 *
-	 * // un tableau des tranches est obligatoire, même si une seule tranche existe.
-	 * tranches: [
-	 *   {
-	 *     taux: 0.0215, // le taux à appliquer. "0.0215" définit un pourcentage de 2,15%
-	 *     plafond: 32000 // le plafond au delà duquel on passe à la tranche suivante
-	 *   }
-	 * ]
-	 *
-	 * SOURCES pour le calcul des cotisations:
-	 *   http://www.cnavpl.fr/les-chiffres-cles/principaux-parametres-du-regime-de-base/principaux-parametres-variables-du-regime-de-base/
-	 *   https://www.urssaf.fr/portail/home/taux-et-baremes/taux-de-cotisations/les-professions-liberales/bases-de-calcul-et-taux-des-coti.html
-	 *   https://www.rsi.fr/cotisations/professions-liberales/presentation-des-cotisations.html
-	 *
-	 * Le RSI gère uniquement votre protection santé maladie-maternité.
-	 * la retraite et l'invalidité décès sont assurées par la CNAVPL ou la CNBF
-	 * les cotisations d'allocations familiales, les contributions sociales (CSG/CRDS) et les contributions à la formation professionnelle sont à verser à l'Urssaf
-	 */
-	angular.module('calculator').service('chargesConfig2016', function(){
-	
-	  const parametres = {
-	    general:{},
-	    charges:{},
-	    organismes:{}
-	  };
-	
-	  parametres.plafondMax =  Number.MAX_SAFE_INTEGER;
-	
-	  // paramètres généraux pour le calcul des montants et charges
-	  parametres.plafond_securite_sociale = 38616;
-	  parametres.plafond_securite_sociale_precedent = 38040;
-	
-	  // URSSAF : MALADIE-MATERNITE
-	  parametres.charges.maladiesMaternite = {
-	    organisme:'URSSAF',
-	    type_tranches: 'tranche_exclusive',
-	    label:'Maladie-maternité',
-	    commentaire:'Base de calcul : totalité des revenus professionnels',
-	    type_tranches: 'tranche_exclusive',
-	    tranches: [
-	      {
-	        label: "Tranche 1",
-	        taux: 6.50,
-	        plafond: parametres.plafondMax
-	      }
-	    ]
-	  };
-	
-	  // URSSAF : ALLOCATIONS FAMILIALES
-	  parametres.charges.allocationsFamiliales = {
-	    organisme:'URSSAF',
-	    label:'Allocations familiales',
-	    commentaire:"Pour les revenus compris entre 42 478 € et 54 062 €, taux progressif : entre 2,15 % et 5,25 %. Faute de détails, le calculateur passe à 5.25 dès qu'on dépasse 42 478 €",
-	    type_tranches: 'tranche_exclusive',
-	    tranches: [
-	      {
-	        taux: 2.15,
-	        plafond: 42478
-	      },
-	      // en fait, le taux est progressif entre 2,15 % et 5,25 %
-	      // pour les revenus compris entre 42 478 € et 54 062 €. On tire l'estimation vers le haut.
-	      {
-	        taux: 5.25,
-	        plafond: parametres.plafondMax
-	      }
-	    ]
-	  };
-	
-	  // URSSAF : CGS-CRDS
-	  parametres.charges.cgsCrds = {
-	    organisme:'URSSAF',
-	    label:'CGS-CRDS',
-	    commentaire:"Base de calcul : 	Totalité du revenu de l’activité non salariée + cotisations sociales obligatoires",
-	    type_tranches: 'exclusive',
-	    tranches: [
-	      {
-	        label:"Tranche 1",
-	        taux: 8,
-	        plafond: parametres.plafondMax
-	      }
-	    ]
-	  };
-	
-	  // URSSAF : FORMATION PROFESSIONNELLE
-	  parametres.charges.formationProfessionnelle = {
-	    organisme: 'URSSAF',
-	    label: 'Formation professionnelle',
-	    commentaire: "Base de calcul : Sur la base de " + parametres.plafond_securite_sociale + " €  . Cotisation à verser en 2016. Si votre conjoint a opté pour le statut de conjoint collaborateur, le taux est de 0,34 %",
-	    type_tranches: 'exclusive',
-	    tranches: [
-	      {
-	        label: "Tranche 1",
-	        taux: 25,
-	        plafond: parametres.plafondMax
-	      }
-	    ]
-	  };
-	
-	  // CIPAV - Retraite de base CNAVPL
-	  // http://service.cipav-retraite.fr/cipav/article-33-recapitulatif-des-options-de-montantmax04.htm
-	  // Voir le simulateur ici pour des exemples concrets : http://www.guide-tns.fr/simulateurs/chargesprofessionnelliberal.html
-	  parametres.charges.assuranceVieillesseBase = {
-	    label: 'Retraite de base',
-	    organisme: 'CIPAV',
-	    type_tranches: 'batarde',
-	    description: "Retraite de base CNAVPL",
-	    commentaire: "En cas de revenus non connus : 3 178 € (maximum de la tranche 1) ; 3 611 € (maximum de la tranche 2)",
-	    tranches: [
-	      // sous 4441, montant forfaitaire
-	      {
-	        label:"Tranche 1",
-	        plafond:  4441,
-	        montant_forfaitaire: 448
-	      },
-	      // d'abord on devra calcul le pourcentage sur cette tranche dans la limite du plafond,
-	      // puis on y ajoutera la seconde tranche en reprenant la base de calcul en entier.
-	      // WTF ?
-	      {
-	        label:"Tranche 2",
-	        plafond: parametres.plafond_securite_sociale,
-	        taux: 8.23
-	      },
-	      {
-	        label: "Tranche 3",
-	        plafond: 193080,
-	        taux: 1.87
-	      }
-	    ]
-	  };
-	
-	  // IMPOT
-	  parametres.charges.impotSurLesSocietes = {
-	    label: 'Impot sur les sociétés',
-	    organisme: "Impots",
-	    type_tranches: 'cumulatives',
-	    tranches:[
-	      {
-	        label: "tranche 1",
-	        plafond: 38120,
-	        taux: 15
-	      },
-	      {
-	        label: "tranche 2",
-	        plafond: parametres.plafondMax,
-	        taux: 33
-	      }
-	    ]
-	  };
-	
-	  // TVA 20%
-	  parametres.charges.tva20 = {
-	    label: "TVA",
-	    organisme: "Impots",
-	    type_tranches: "exclusive",
-	    tranches: [
-	      {
-	        label:"TVA 20%",
-	        plafond:parametres.plafondMax,
-	        taux:20
-	      }
-	    ]
-	  };
-	
-	  // La taxe foncière dont le montant forfaitaire dépend de la ville
-	  parametres.charges.cfe = {
-	    label: "CFE",
-	    organisme: "Impots locaux",
-	    type_tranches: "exclusive",
-	    tranches: [
-	      {
-	        label: "Tranche 1",
-	        plafond:parametres.plafondMax,
-	        montant_forfaitaire: null
-	      }
-	    ]
-	  };
-	
-	  // CIPAV: Assurance vieillesse "complémentaire" ( mais obligatoire :-p )
-	  // http://service.cipav-retraite.fr/cipav/article-28-principes-de-calcul-des-cotisations-103.htm
-	  // http://service.cipav-retraite.fr/cipav/article-33-recapitulatif-des-options-de-montantmax04.htm
-	  parametres.charges.assuranceVieillesseComplementaire = {
-	    label : 'Retraite complémentaire',
-	    organisme: 'CIPAV',
-	    type_tranches : "exclusive",
-	    tranches : [
-	      {
-	        label : 'A',
-	        plafond : 26580,
-	        montant_forfaitaire : 1214,
-	        points_retraite : 36
-	      },
-	      {
-	        label : 'B',
-	        plafond : 49280,
-	        montant_forfaitaire : 2427,
-	        points_retraite : 72
-	      },
-	      {
-	        label : 'C',
-	        plafond : 57850,
-	        montant_forfaitaire : 3641,
-	        points_retraite : 108
-	      },
-	      {
-	        label : 'D',
-	        plafond : 66400,
-	        montant_forfaitaire : 6068,
-	        points_retraite : 180
-	      },
-	      {
-	        label : 'E',
-	        plafond : 83060,
-	        montant_forfaitaire : 8495,
-	        points_retraite :  252
-	      },
-	      {
-	        label : 'F',
-	        plafond : 103180,
-	        montant_forfaitaire : 13349,
-	        points_retraite : 396
-	      },
-	      {
-	        label : 'G',
-	        plafond : 123300,
-	        montant_forfaitaire : 14563,
-	        points_retraite : 432
-	      },
-	      {
-	        label : 'H',
-	        plafond : parametres.plafondMax,
-	        montant_forfaitaire : 15776,
-	        points_retraite : 468
-	      }
-	    ]
-	  };
-	
-	  // Réduction assurance vieillesse complémentaire
-	  // @pas appliquée dans le calculateur pour le moment
-	  parametres.charges.AssuranceVieillesseComplementaireReduction = {
-	    organisme:'CIPAV',
-	    label: "Réduction assurance vieillesse complémentaire",
-	    type_tranches: "exclusive",
-	    tranches: [
-	      {
-	        label: "Tranche 1",
-	        plafond : 5792,
-	        taux : 100,
-	        points_retraite:0,
-	        commentaire:"aucun point retraite",
-	      },
-	      {
-	        label: "Tranche 2",
-	        plafond : 11585,
-	        taux : 75,
-	        points_retraite:9,
-	        commentaire:"9 points retraite",
-	      },
-	      {
-	        label: "Tranche 3",
-	        plafond :  17377,
-	        taux :50,
-	        commentaire:"18 points retraite",
-	        points_retraite:18
-	      },
-	      {
-	        label: "Tranche 4",
-	        plafond : 23170,
-	        taux : 25,
-	        points_retraite:27,
-	        commentaire:"27 points retraite"
-	      }
-	    ]
-	  };
-	
-	  parametres.charges.invaliditeDeces = {
-	    organisme:'CIPAV',
-	    label: "Invalidité Décès",
-	    type_tranches:'exclusive',
-	    tranches:[
-	      {
-	        label: 'A',
-	        montant_forfaitaire: 76
-	      },
-	      {
-	        label: 'B',
-	        montant_forfaitaire: 228
-	      },
-	      {
-	        label: 'C',
-	        montant_forfaitaire: 380
-	      }
-	    ]
-	  };
-	
-	  // les professions libérales ne cotisent pas pour les indemnités journalières
-	  // source : http://www.rsi.fr/baremes/charges.html
-	  //parametres.charges.indemnitesJournalieres = {};
-	
-	  return parametres;
-	
-	});
-	
-
-
-/***/ },
-/* 166 */
+/* 7 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/*!
@@ -37934,8 +36949,8 @@
 	  if (true) {
 	    // Node/CommonJS
 	    module.exports = factory(
-	      typeof angular !== 'undefined' ? angular : __webpack_require__(3),
-	      typeof Chart !== 'undefined' ? Chart : __webpack_require__(167));
+	      typeof angular !== 'undefined' ? angular : __webpack_require__(1),
+	      typeof Chart !== 'undefined' ? Chart : __webpack_require__(8));
 	  }  else if (typeof define === 'function' && define.amd) {
 	    // AMD. Register as an anonymous module.
 	    define(['angular', 'chart'], factory);
@@ -38323,62 +37338,62 @@
 
 
 /***/ },
-/* 167 */
+/* 8 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/**
 	 * @namespace Chart
 	 */
-	var Chart = __webpack_require__(168)();
+	var Chart = __webpack_require__(9)();
 	
-	__webpack_require__(169)(Chart);
-	__webpack_require__(175)(Chart);
-	__webpack_require__(176)(Chart);
-	__webpack_require__(177)(Chart);
-	__webpack_require__(178)(Chart);
-	__webpack_require__(179)(Chart);
-	__webpack_require__(180)(Chart);
-	__webpack_require__(181)(Chart);
-	__webpack_require__(182)(Chart);
-	__webpack_require__(183)(Chart);
-	__webpack_require__(184)(Chart);
-	__webpack_require__(185)(Chart);
-	__webpack_require__(186)(Chart);
+	__webpack_require__(10)(Chart);
+	__webpack_require__(16)(Chart);
+	__webpack_require__(17)(Chart);
+	__webpack_require__(18)(Chart);
+	__webpack_require__(19)(Chart);
+	__webpack_require__(20)(Chart);
+	__webpack_require__(21)(Chart);
+	__webpack_require__(22)(Chart);
+	__webpack_require__(23)(Chart);
+	__webpack_require__(24)(Chart);
+	__webpack_require__(25)(Chart);
+	__webpack_require__(26)(Chart);
+	__webpack_require__(27)(Chart);
 	
-	__webpack_require__(187)(Chart);
-	__webpack_require__(188)(Chart);
-	__webpack_require__(189)(Chart);
-	__webpack_require__(190)(Chart);
+	__webpack_require__(28)(Chart);
+	__webpack_require__(29)(Chart);
+	__webpack_require__(30)(Chart);
+	__webpack_require__(31)(Chart);
 	
-	__webpack_require__(191)(Chart);
-	__webpack_require__(192)(Chart);
-	__webpack_require__(193)(Chart);
-	__webpack_require__(194)(Chart);
-	__webpack_require__(195)(Chart);
-	__webpack_require__(196)(Chart);
+	__webpack_require__(32)(Chart);
+	__webpack_require__(33)(Chart);
+	__webpack_require__(34)(Chart);
+	__webpack_require__(35)(Chart);
+	__webpack_require__(36)(Chart);
+	__webpack_require__(37)(Chart);
 	
 	// Controllers must be loaded after elements
 	// See Chart.core.datasetController.dataElementType
-	__webpack_require__(307)(Chart);
-	__webpack_require__(308)(Chart);
-	__webpack_require__(309)(Chart);
-	__webpack_require__(310)(Chart);
-	__webpack_require__(311)(Chart);
-	__webpack_require__(312)(Chart);
+	__webpack_require__(149)(Chart);
+	__webpack_require__(150)(Chart);
+	__webpack_require__(151)(Chart);
+	__webpack_require__(152)(Chart);
+	__webpack_require__(153)(Chart);
+	__webpack_require__(154)(Chart);
 	
-	__webpack_require__(313)(Chart);
-	__webpack_require__(314)(Chart);
-	__webpack_require__(315)(Chart);
-	__webpack_require__(316)(Chart);
-	__webpack_require__(317)(Chart);
-	__webpack_require__(318)(Chart);
-	__webpack_require__(319)(Chart);
+	__webpack_require__(155)(Chart);
+	__webpack_require__(156)(Chart);
+	__webpack_require__(157)(Chart);
+	__webpack_require__(158)(Chart);
+	__webpack_require__(159)(Chart);
+	__webpack_require__(160)(Chart);
+	__webpack_require__(161)(Chart);
 	
 	window.Chart = module.exports = Chart;
 
 
 /***/ },
-/* 168 */
+/* 9 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -38494,14 +37509,14 @@
 
 
 /***/ },
-/* 169 */
+/* 10 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/* global window: false */
 	/* global document: false */
 	'use strict';
 	
-	var color = __webpack_require__(170);
+	var color = __webpack_require__(11);
 	
 	module.exports = function(Chart) {
 		// Global Chart helpers object for utility methods and classes
@@ -39544,12 +38559,12 @@
 
 
 /***/ },
-/* 170 */
+/* 11 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/* MIT license */
-	var convert = __webpack_require__(171);
-	var string = __webpack_require__(173);
+	var convert = __webpack_require__(12);
+	var string = __webpack_require__(14);
 	
 	var Color = function (obj) {
 		if (obj instanceof Color) {
@@ -40033,10 +39048,10 @@
 
 
 /***/ },
-/* 171 */
+/* 12 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var conversions = __webpack_require__(172);
+	var conversions = __webpack_require__(13);
 	
 	var convert = function() {
 	   return new Converter();
@@ -40130,7 +39145,7 @@
 	module.exports = convert;
 
 /***/ },
-/* 172 */
+/* 13 */
 /***/ function(module, exports) {
 
 	/* MIT license */
@@ -40834,11 +39849,11 @@
 
 
 /***/ },
-/* 173 */
+/* 14 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/* MIT license */
-	var colorNames = __webpack_require__(174);
+	var colorNames = __webpack_require__(15);
 	
 	module.exports = {
 	   getRgba: getRgba,
@@ -41061,7 +40076,7 @@
 
 
 /***/ },
-/* 174 */
+/* 15 */
 /***/ function(module, exports) {
 
 	module.exports = {
@@ -41216,7 +40231,7 @@
 	};
 
 /***/ },
-/* 175 */
+/* 16 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -41326,7 +40341,7 @@
 
 
 /***/ },
-/* 176 */
+/* 17 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -41428,7 +40443,7 @@
 
 
 /***/ },
-/* 177 */
+/* 18 */
 /***/ function(module, exports) {
 
 	/* global window: false */
@@ -41565,7 +40580,7 @@
 
 
 /***/ },
-/* 178 */
+/* 19 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -42261,7 +41276,7 @@
 
 
 /***/ },
-/* 179 */
+/* 20 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -42431,7 +41446,7 @@
 
 
 /***/ },
-/* 180 */
+/* 21 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -42758,7 +41773,7 @@
 
 
 /***/ },
-/* 181 */
+/* 22 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -42804,7 +41819,7 @@
 
 
 /***/ },
-/* 182 */
+/* 23 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -42939,7 +41954,7 @@
 
 
 /***/ },
-/* 183 */
+/* 24 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -43703,7 +42718,7 @@
 
 
 /***/ },
-/* 184 */
+/* 25 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -43913,7 +42928,7 @@
 
 
 /***/ },
-/* 185 */
+/* 26 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -44403,7 +43418,7 @@
 
 
 /***/ },
-/* 186 */
+/* 27 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -45123,7 +44138,7 @@
 
 
 /***/ },
-/* 187 */
+/* 28 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -45220,7 +44235,7 @@
 
 
 /***/ },
-/* 188 */
+/* 29 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -45401,7 +44416,7 @@
 
 
 /***/ },
-/* 189 */
+/* 30 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -45464,7 +44479,7 @@
 
 
 /***/ },
-/* 190 */
+/* 31 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -45565,7 +44580,7 @@
 
 
 /***/ },
-/* 191 */
+/* 32 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -45696,7 +44711,7 @@
 
 
 /***/ },
-/* 192 */
+/* 33 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -45831,7 +44846,7 @@
 
 
 /***/ },
-/* 193 */
+/* 34 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -46029,7 +45044,7 @@
 
 
 /***/ },
-/* 194 */
+/* 35 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -46301,7 +45316,7 @@
 
 
 /***/ },
-/* 195 */
+/* 36 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -46721,13 +45736,13 @@
 
 
 /***/ },
-/* 196 */
+/* 37 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/* global window: false */
 	'use strict';
 	
-	var moment = __webpack_require__(197);
+	var moment = __webpack_require__(38);
 	moment = typeof(moment) === 'function' ? moment : window.moment;
 	
 	module.exports = function(Chart) {
@@ -47187,7 +46202,7 @@
 
 
 /***/ },
-/* 197 */
+/* 38 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(module) {//! moment.js
@@ -49004,7 +48019,7 @@
 	            module && module.exports) {
 	        try {
 	            oldLocale = globalLocale._abbr;
-	            __webpack_require__(198)("./" + name);
+	            __webpack_require__(40)("./" + name);
 	            // because defineLocale currently also sets the global locale, we
 	            // want to undo that for lazy loaded locales
 	            getSetGlobalLocale(oldLocale);
@@ -51492,229 +50507,245 @@
 	
 	})));
 	
-	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(92)(module)))
+	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(39)(module)))
 
 /***/ },
-/* 198 */
+/* 39 */
+/***/ function(module, exports) {
+
+	module.exports = function(module) {
+		if(!module.webpackPolyfill) {
+			module.deprecate = function() {};
+			module.paths = [];
+			// module.parent = undefined by default
+			module.children = [];
+			module.webpackPolyfill = 1;
+		}
+		return module;
+	}
+
+
+/***/ },
+/* 40 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var map = {
-		"./af": 199,
-		"./af.js": 199,
-		"./ar": 200,
-		"./ar-dz": 201,
-		"./ar-dz.js": 201,
-		"./ar-ly": 202,
-		"./ar-ly.js": 202,
-		"./ar-ma": 203,
-		"./ar-ma.js": 203,
-		"./ar-sa": 204,
-		"./ar-sa.js": 204,
-		"./ar-tn": 205,
-		"./ar-tn.js": 205,
-		"./ar.js": 200,
-		"./az": 206,
-		"./az.js": 206,
-		"./be": 207,
-		"./be.js": 207,
-		"./bg": 208,
-		"./bg.js": 208,
-		"./bn": 209,
-		"./bn.js": 209,
-		"./bo": 210,
-		"./bo.js": 210,
-		"./br": 211,
-		"./br.js": 211,
-		"./bs": 212,
-		"./bs.js": 212,
-		"./ca": 213,
-		"./ca.js": 213,
-		"./cs": 214,
-		"./cs.js": 214,
-		"./cv": 215,
-		"./cv.js": 215,
-		"./cy": 216,
-		"./cy.js": 216,
-		"./da": 217,
-		"./da.js": 217,
-		"./de": 218,
-		"./de-at": 219,
-		"./de-at.js": 219,
-		"./de.js": 218,
-		"./dv": 220,
-		"./dv.js": 220,
-		"./el": 221,
-		"./el.js": 221,
-		"./en-au": 222,
-		"./en-au.js": 222,
-		"./en-ca": 223,
-		"./en-ca.js": 223,
-		"./en-gb": 224,
-		"./en-gb.js": 224,
-		"./en-ie": 225,
-		"./en-ie.js": 225,
-		"./en-nz": 226,
-		"./en-nz.js": 226,
-		"./eo": 227,
-		"./eo.js": 227,
-		"./es": 228,
-		"./es-do": 229,
-		"./es-do.js": 229,
-		"./es.js": 228,
-		"./et": 230,
-		"./et.js": 230,
-		"./eu": 231,
-		"./eu.js": 231,
-		"./fa": 232,
-		"./fa.js": 232,
-		"./fi": 233,
-		"./fi.js": 233,
-		"./fo": 234,
-		"./fo.js": 234,
-		"./fr": 235,
-		"./fr-ca": 236,
-		"./fr-ca.js": 236,
-		"./fr-ch": 237,
-		"./fr-ch.js": 237,
-		"./fr.js": 235,
-		"./fy": 238,
-		"./fy.js": 238,
-		"./gd": 239,
-		"./gd.js": 239,
-		"./gl": 240,
-		"./gl.js": 240,
-		"./he": 241,
-		"./he.js": 241,
-		"./hi": 242,
-		"./hi.js": 242,
-		"./hr": 243,
-		"./hr.js": 243,
-		"./hu": 244,
-		"./hu.js": 244,
-		"./hy-am": 245,
-		"./hy-am.js": 245,
-		"./id": 246,
-		"./id.js": 246,
-		"./is": 247,
-		"./is.js": 247,
-		"./it": 248,
-		"./it.js": 248,
-		"./ja": 249,
-		"./ja.js": 249,
-		"./jv": 250,
-		"./jv.js": 250,
-		"./ka": 251,
-		"./ka.js": 251,
-		"./kk": 252,
-		"./kk.js": 252,
-		"./km": 253,
-		"./km.js": 253,
-		"./ko": 254,
-		"./ko.js": 254,
-		"./ky": 255,
-		"./ky.js": 255,
-		"./lb": 256,
-		"./lb.js": 256,
-		"./lo": 257,
-		"./lo.js": 257,
-		"./lt": 258,
-		"./lt.js": 258,
-		"./lv": 259,
-		"./lv.js": 259,
-		"./me": 260,
-		"./me.js": 260,
-		"./mi": 261,
-		"./mi.js": 261,
-		"./mk": 262,
-		"./mk.js": 262,
-		"./ml": 263,
-		"./ml.js": 263,
-		"./mr": 264,
-		"./mr.js": 264,
-		"./ms": 265,
-		"./ms-my": 266,
-		"./ms-my.js": 266,
-		"./ms.js": 265,
-		"./my": 267,
-		"./my.js": 267,
-		"./nb": 268,
-		"./nb.js": 268,
-		"./ne": 269,
-		"./ne.js": 269,
-		"./nl": 270,
-		"./nl-be": 271,
-		"./nl-be.js": 271,
-		"./nl.js": 270,
-		"./nn": 272,
-		"./nn.js": 272,
-		"./pa-in": 273,
-		"./pa-in.js": 273,
-		"./pl": 274,
-		"./pl.js": 274,
-		"./pt": 275,
-		"./pt-br": 276,
-		"./pt-br.js": 276,
-		"./pt.js": 275,
-		"./ro": 277,
-		"./ro.js": 277,
-		"./ru": 278,
-		"./ru.js": 278,
-		"./se": 279,
-		"./se.js": 279,
-		"./si": 280,
-		"./si.js": 280,
-		"./sk": 281,
-		"./sk.js": 281,
-		"./sl": 282,
-		"./sl.js": 282,
-		"./sq": 283,
-		"./sq.js": 283,
-		"./sr": 284,
-		"./sr-cyrl": 285,
-		"./sr-cyrl.js": 285,
-		"./sr.js": 284,
-		"./ss": 286,
-		"./ss.js": 286,
-		"./sv": 287,
-		"./sv.js": 287,
-		"./sw": 288,
-		"./sw.js": 288,
-		"./ta": 289,
-		"./ta.js": 289,
-		"./te": 290,
-		"./te.js": 290,
-		"./tet": 291,
-		"./tet.js": 291,
-		"./th": 292,
-		"./th.js": 292,
-		"./tl-ph": 293,
-		"./tl-ph.js": 293,
-		"./tlh": 294,
-		"./tlh.js": 294,
-		"./tr": 295,
-		"./tr.js": 295,
-		"./tzl": 296,
-		"./tzl.js": 296,
-		"./tzm": 297,
-		"./tzm-latn": 298,
-		"./tzm-latn.js": 298,
-		"./tzm.js": 297,
-		"./uk": 299,
-		"./uk.js": 299,
-		"./uz": 300,
-		"./uz.js": 300,
-		"./vi": 301,
-		"./vi.js": 301,
-		"./x-pseudo": 302,
-		"./x-pseudo.js": 302,
-		"./yo": 303,
-		"./yo.js": 303,
-		"./zh-cn": 304,
-		"./zh-cn.js": 304,
-		"./zh-hk": 305,
-		"./zh-hk.js": 305,
-		"./zh-tw": 306,
-		"./zh-tw.js": 306
+		"./af": 41,
+		"./af.js": 41,
+		"./ar": 42,
+		"./ar-dz": 43,
+		"./ar-dz.js": 43,
+		"./ar-ly": 44,
+		"./ar-ly.js": 44,
+		"./ar-ma": 45,
+		"./ar-ma.js": 45,
+		"./ar-sa": 46,
+		"./ar-sa.js": 46,
+		"./ar-tn": 47,
+		"./ar-tn.js": 47,
+		"./ar.js": 42,
+		"./az": 48,
+		"./az.js": 48,
+		"./be": 49,
+		"./be.js": 49,
+		"./bg": 50,
+		"./bg.js": 50,
+		"./bn": 51,
+		"./bn.js": 51,
+		"./bo": 52,
+		"./bo.js": 52,
+		"./br": 53,
+		"./br.js": 53,
+		"./bs": 54,
+		"./bs.js": 54,
+		"./ca": 55,
+		"./ca.js": 55,
+		"./cs": 56,
+		"./cs.js": 56,
+		"./cv": 57,
+		"./cv.js": 57,
+		"./cy": 58,
+		"./cy.js": 58,
+		"./da": 59,
+		"./da.js": 59,
+		"./de": 60,
+		"./de-at": 61,
+		"./de-at.js": 61,
+		"./de.js": 60,
+		"./dv": 62,
+		"./dv.js": 62,
+		"./el": 63,
+		"./el.js": 63,
+		"./en-au": 64,
+		"./en-au.js": 64,
+		"./en-ca": 65,
+		"./en-ca.js": 65,
+		"./en-gb": 66,
+		"./en-gb.js": 66,
+		"./en-ie": 67,
+		"./en-ie.js": 67,
+		"./en-nz": 68,
+		"./en-nz.js": 68,
+		"./eo": 69,
+		"./eo.js": 69,
+		"./es": 70,
+		"./es-do": 71,
+		"./es-do.js": 71,
+		"./es.js": 70,
+		"./et": 72,
+		"./et.js": 72,
+		"./eu": 73,
+		"./eu.js": 73,
+		"./fa": 74,
+		"./fa.js": 74,
+		"./fi": 75,
+		"./fi.js": 75,
+		"./fo": 76,
+		"./fo.js": 76,
+		"./fr": 77,
+		"./fr-ca": 78,
+		"./fr-ca.js": 78,
+		"./fr-ch": 79,
+		"./fr-ch.js": 79,
+		"./fr.js": 77,
+		"./fy": 80,
+		"./fy.js": 80,
+		"./gd": 81,
+		"./gd.js": 81,
+		"./gl": 82,
+		"./gl.js": 82,
+		"./he": 83,
+		"./he.js": 83,
+		"./hi": 84,
+		"./hi.js": 84,
+		"./hr": 85,
+		"./hr.js": 85,
+		"./hu": 86,
+		"./hu.js": 86,
+		"./hy-am": 87,
+		"./hy-am.js": 87,
+		"./id": 88,
+		"./id.js": 88,
+		"./is": 89,
+		"./is.js": 89,
+		"./it": 90,
+		"./it.js": 90,
+		"./ja": 91,
+		"./ja.js": 91,
+		"./jv": 92,
+		"./jv.js": 92,
+		"./ka": 93,
+		"./ka.js": 93,
+		"./kk": 94,
+		"./kk.js": 94,
+		"./km": 95,
+		"./km.js": 95,
+		"./ko": 96,
+		"./ko.js": 96,
+		"./ky": 97,
+		"./ky.js": 97,
+		"./lb": 98,
+		"./lb.js": 98,
+		"./lo": 99,
+		"./lo.js": 99,
+		"./lt": 100,
+		"./lt.js": 100,
+		"./lv": 101,
+		"./lv.js": 101,
+		"./me": 102,
+		"./me.js": 102,
+		"./mi": 103,
+		"./mi.js": 103,
+		"./mk": 104,
+		"./mk.js": 104,
+		"./ml": 105,
+		"./ml.js": 105,
+		"./mr": 106,
+		"./mr.js": 106,
+		"./ms": 107,
+		"./ms-my": 108,
+		"./ms-my.js": 108,
+		"./ms.js": 107,
+		"./my": 109,
+		"./my.js": 109,
+		"./nb": 110,
+		"./nb.js": 110,
+		"./ne": 111,
+		"./ne.js": 111,
+		"./nl": 112,
+		"./nl-be": 113,
+		"./nl-be.js": 113,
+		"./nl.js": 112,
+		"./nn": 114,
+		"./nn.js": 114,
+		"./pa-in": 115,
+		"./pa-in.js": 115,
+		"./pl": 116,
+		"./pl.js": 116,
+		"./pt": 117,
+		"./pt-br": 118,
+		"./pt-br.js": 118,
+		"./pt.js": 117,
+		"./ro": 119,
+		"./ro.js": 119,
+		"./ru": 120,
+		"./ru.js": 120,
+		"./se": 121,
+		"./se.js": 121,
+		"./si": 122,
+		"./si.js": 122,
+		"./sk": 123,
+		"./sk.js": 123,
+		"./sl": 124,
+		"./sl.js": 124,
+		"./sq": 125,
+		"./sq.js": 125,
+		"./sr": 126,
+		"./sr-cyrl": 127,
+		"./sr-cyrl.js": 127,
+		"./sr.js": 126,
+		"./ss": 128,
+		"./ss.js": 128,
+		"./sv": 129,
+		"./sv.js": 129,
+		"./sw": 130,
+		"./sw.js": 130,
+		"./ta": 131,
+		"./ta.js": 131,
+		"./te": 132,
+		"./te.js": 132,
+		"./tet": 133,
+		"./tet.js": 133,
+		"./th": 134,
+		"./th.js": 134,
+		"./tl-ph": 135,
+		"./tl-ph.js": 135,
+		"./tlh": 136,
+		"./tlh.js": 136,
+		"./tr": 137,
+		"./tr.js": 137,
+		"./tzl": 138,
+		"./tzl.js": 138,
+		"./tzm": 139,
+		"./tzm-latn": 140,
+		"./tzm-latn.js": 140,
+		"./tzm.js": 139,
+		"./uk": 141,
+		"./uk.js": 141,
+		"./uz": 142,
+		"./uz.js": 142,
+		"./vi": 143,
+		"./vi.js": 143,
+		"./x-pseudo": 144,
+		"./x-pseudo.js": 144,
+		"./yo": 145,
+		"./yo.js": 145,
+		"./zh-cn": 146,
+		"./zh-cn.js": 146,
+		"./zh-hk": 147,
+		"./zh-hk.js": 147,
+		"./zh-tw": 148,
+		"./zh-tw.js": 148
 	};
 	function webpackContext(req) {
 		return __webpack_require__(webpackContextResolve(req));
@@ -51727,11 +50758,11 @@
 	};
 	webpackContext.resolve = webpackContextResolve;
 	module.exports = webpackContext;
-	webpackContext.id = 198;
+	webpackContext.id = 40;
 
 
 /***/ },
-/* 199 */
+/* 41 */
 /***/ function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -51739,7 +50770,7 @@
 	//! author : Werner Mollentze : https://github.com/wernerm
 	
 	;(function (global, factory) {
-	    true ? factory(__webpack_require__(197)) :
+	    true ? factory(__webpack_require__(38)) :
 	   typeof define === 'function' && define.amd ? define(['../moment'], factory) :
 	   factory(global.moment)
 	}(this, (function (moment) { 'use strict';
@@ -51809,7 +50840,7 @@
 
 
 /***/ },
-/* 200 */
+/* 42 */
 /***/ function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -51819,7 +50850,7 @@
 	//! author : forabi https://github.com/forabi
 	
 	;(function (global, factory) {
-	    true ? factory(__webpack_require__(197)) :
+	    true ? factory(__webpack_require__(38)) :
 	   typeof define === 'function' && define.amd ? define(['../moment'], factory) :
 	   factory(global.moment)
 	}(this, (function (moment) { 'use strict';
@@ -51956,7 +50987,7 @@
 
 
 /***/ },
-/* 201 */
+/* 43 */
 /***/ function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -51964,7 +50995,7 @@
 	//! author : Noureddine LOUAHEDJ : https://github.com/noureddineme
 	
 	;(function (global, factory) {
-	    true ? factory(__webpack_require__(197)) :
+	    true ? factory(__webpack_require__(38)) :
 	   typeof define === 'function' && define.amd ? define(['../moment'], factory) :
 	   factory(global.moment)
 	}(this, (function (moment) { 'use strict';
@@ -52020,7 +51051,7 @@
 
 
 /***/ },
-/* 202 */
+/* 44 */
 /***/ function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -52028,7 +51059,7 @@
 	//! author : Ali Hmer: https://github.com/kikoanis
 	
 	;(function (global, factory) {
-	    true ? factory(__webpack_require__(197)) :
+	    true ? factory(__webpack_require__(38)) :
 	   typeof define === 'function' && define.amd ? define(['../moment'], factory) :
 	   factory(global.moment)
 	}(this, (function (moment) { 'use strict';
@@ -52151,7 +51182,7 @@
 
 
 /***/ },
-/* 203 */
+/* 45 */
 /***/ function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -52160,7 +51191,7 @@
 	//! author : Abdel Said : https://github.com/abdelsaid
 	
 	;(function (global, factory) {
-	    true ? factory(__webpack_require__(197)) :
+	    true ? factory(__webpack_require__(38)) :
 	   typeof define === 'function' && define.amd ? define(['../moment'], factory) :
 	   factory(global.moment)
 	}(this, (function (moment) { 'use strict';
@@ -52216,7 +51247,7 @@
 
 
 /***/ },
-/* 204 */
+/* 46 */
 /***/ function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -52224,7 +51255,7 @@
 	//! author : Suhail Alkowaileet : https://github.com/xsoh
 	
 	;(function (global, factory) {
-	    true ? factory(__webpack_require__(197)) :
+	    true ? factory(__webpack_require__(38)) :
 	   typeof define === 'function' && define.amd ? define(['../moment'], factory) :
 	   factory(global.moment)
 	}(this, (function (moment) { 'use strict';
@@ -52326,7 +51357,7 @@
 
 
 /***/ },
-/* 205 */
+/* 47 */
 /***/ function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -52334,7 +51365,7 @@
 	//! author : Nader Toukabri : https://github.com/naderio
 	
 	;(function (global, factory) {
-	    true ? factory(__webpack_require__(197)) :
+	    true ? factory(__webpack_require__(38)) :
 	   typeof define === 'function' && define.amd ? define(['../moment'], factory) :
 	   factory(global.moment)
 	}(this, (function (moment) { 'use strict';
@@ -52390,7 +51421,7 @@
 
 
 /***/ },
-/* 206 */
+/* 48 */
 /***/ function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -52398,7 +51429,7 @@
 	//! author : topchiyev : https://github.com/topchiyev
 	
 	;(function (global, factory) {
-	    true ? factory(__webpack_require__(197)) :
+	    true ? factory(__webpack_require__(38)) :
 	   typeof define === 'function' && define.amd ? define(['../moment'], factory) :
 	   factory(global.moment)
 	}(this, (function (moment) { 'use strict';
@@ -52500,7 +51531,7 @@
 
 
 /***/ },
-/* 207 */
+/* 49 */
 /***/ function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -52510,7 +51541,7 @@
 	//! Author : Menelion Elensúle : https://github.com/Oire
 	
 	;(function (global, factory) {
-	    true ? factory(__webpack_require__(197)) :
+	    true ? factory(__webpack_require__(38)) :
 	   typeof define === 'function' && define.amd ? define(['../moment'], factory) :
 	   factory(global.moment)
 	}(this, (function (moment) { 'use strict';
@@ -52639,7 +51670,7 @@
 
 
 /***/ },
-/* 208 */
+/* 50 */
 /***/ function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -52647,7 +51678,7 @@
 	//! author : Krasen Borisov : https://github.com/kraz
 	
 	;(function (global, factory) {
-	    true ? factory(__webpack_require__(197)) :
+	    true ? factory(__webpack_require__(38)) :
 	   typeof define === 'function' && define.amd ? define(['../moment'], factory) :
 	   factory(global.moment)
 	}(this, (function (moment) { 'use strict';
@@ -52734,7 +51765,7 @@
 
 
 /***/ },
-/* 209 */
+/* 51 */
 /***/ function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -52742,7 +51773,7 @@
 	//! author : Kaushik Gandhi : https://github.com/kaushikgandhi
 	
 	;(function (global, factory) {
-	    true ? factory(__webpack_require__(197)) :
+	    true ? factory(__webpack_require__(38)) :
 	   typeof define === 'function' && define.amd ? define(['../moment'], factory) :
 	   factory(global.moment)
 	}(this, (function (moment) { 'use strict';
@@ -52858,7 +51889,7 @@
 
 
 /***/ },
-/* 210 */
+/* 52 */
 /***/ function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -52866,7 +51897,7 @@
 	//! author : Thupten N. Chakrishar : https://github.com/vajradog
 	
 	;(function (global, factory) {
-	    true ? factory(__webpack_require__(197)) :
+	    true ? factory(__webpack_require__(38)) :
 	   typeof define === 'function' && define.amd ? define(['../moment'], factory) :
 	   factory(global.moment)
 	}(this, (function (moment) { 'use strict';
@@ -52982,7 +52013,7 @@
 
 
 /***/ },
-/* 211 */
+/* 53 */
 /***/ function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -52990,7 +52021,7 @@
 	//! author : Jean-Baptiste Le Duigou : https://github.com/jbleduigou
 	
 	;(function (global, factory) {
-	    true ? factory(__webpack_require__(197)) :
+	    true ? factory(__webpack_require__(38)) :
 	   typeof define === 'function' && define.amd ? define(['../moment'], factory) :
 	   factory(global.moment)
 	}(this, (function (moment) { 'use strict';
@@ -53095,7 +52126,7 @@
 
 
 /***/ },
-/* 212 */
+/* 54 */
 /***/ function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -53104,7 +52135,7 @@
 	//! based on (hr) translation by Bojan Marković
 	
 	;(function (global, factory) {
-	    true ? factory(__webpack_require__(197)) :
+	    true ? factory(__webpack_require__(38)) :
 	   typeof define === 'function' && define.amd ? define(['../moment'], factory) :
 	   factory(global.moment)
 	}(this, (function (moment) { 'use strict';
@@ -53243,7 +52274,7 @@
 
 
 /***/ },
-/* 213 */
+/* 55 */
 /***/ function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -53251,7 +52282,7 @@
 	//! author : Juan G. Hurtado : https://github.com/juanghurtado
 	
 	;(function (global, factory) {
-	    true ? factory(__webpack_require__(197)) :
+	    true ? factory(__webpack_require__(38)) :
 	   typeof define === 'function' && define.amd ? define(['../moment'], factory) :
 	   factory(global.moment)
 	}(this, (function (moment) { 'use strict';
@@ -53329,7 +52360,7 @@
 
 
 /***/ },
-/* 214 */
+/* 56 */
 /***/ function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -53337,7 +52368,7 @@
 	//! author : petrbela : https://github.com/petrbela
 	
 	;(function (global, factory) {
-	    true ? factory(__webpack_require__(197)) :
+	    true ? factory(__webpack_require__(38)) :
 	   typeof define === 'function' && define.amd ? define(['../moment'], factory) :
 	   factory(global.moment)
 	}(this, (function (moment) { 'use strict';
@@ -53506,7 +52537,7 @@
 
 
 /***/ },
-/* 215 */
+/* 57 */
 /***/ function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -53514,7 +52545,7 @@
 	//! author : Anatoly Mironov : https://github.com/mirontoli
 	
 	;(function (global, factory) {
-	    true ? factory(__webpack_require__(197)) :
+	    true ? factory(__webpack_require__(38)) :
 	   typeof define === 'function' && define.amd ? define(['../moment'], factory) :
 	   factory(global.moment)
 	}(this, (function (moment) { 'use strict';
@@ -53574,7 +52605,7 @@
 
 
 /***/ },
-/* 216 */
+/* 58 */
 /***/ function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -53583,7 +52614,7 @@
 	//! author : https://github.com/ryangreaves
 	
 	;(function (global, factory) {
-	    true ? factory(__webpack_require__(197)) :
+	    true ? factory(__webpack_require__(38)) :
 	   typeof define === 'function' && define.amd ? define(['../moment'], factory) :
 	   factory(global.moment)
 	}(this, (function (moment) { 'use strict';
@@ -53660,7 +52691,7 @@
 
 
 /***/ },
-/* 217 */
+/* 59 */
 /***/ function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -53668,7 +52699,7 @@
 	//! author : Ulrik Nielsen : https://github.com/mrbase
 	
 	;(function (global, factory) {
-	    true ? factory(__webpack_require__(197)) :
+	    true ? factory(__webpack_require__(38)) :
 	   typeof define === 'function' && define.amd ? define(['../moment'], factory) :
 	   factory(global.moment)
 	}(this, (function (moment) { 'use strict';
@@ -53725,7 +52756,7 @@
 
 
 /***/ },
-/* 218 */
+/* 60 */
 /***/ function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -53735,7 +52766,7 @@
 	//! author : Mikolaj Dadela : https://github.com/mik01aj
 	
 	;(function (global, factory) {
-	    true ? factory(__webpack_require__(197)) :
+	    true ? factory(__webpack_require__(38)) :
 	   typeof define === 'function' && define.amd ? define(['../moment'], factory) :
 	   factory(global.moment)
 	}(this, (function (moment) { 'use strict';
@@ -53808,7 +52839,7 @@
 
 
 /***/ },
-/* 219 */
+/* 61 */
 /***/ function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -53819,7 +52850,7 @@
 	//! author : Mikolaj Dadela : https://github.com/mik01aj
 	
 	;(function (global, factory) {
-	    true ? factory(__webpack_require__(197)) :
+	    true ? factory(__webpack_require__(38)) :
 	   typeof define === 'function' && define.amd ? define(['../moment'], factory) :
 	   factory(global.moment)
 	}(this, (function (moment) { 'use strict';
@@ -53892,7 +52923,7 @@
 
 
 /***/ },
-/* 220 */
+/* 62 */
 /***/ function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -53900,7 +52931,7 @@
 	//! author : Jawish Hameed : https://github.com/jawish
 	
 	;(function (global, factory) {
-	    true ? factory(__webpack_require__(197)) :
+	    true ? factory(__webpack_require__(38)) :
 	   typeof define === 'function' && define.amd ? define(['../moment'], factory) :
 	   factory(global.moment)
 	}(this, (function (moment) { 'use strict';
@@ -53997,7 +53028,7 @@
 
 
 /***/ },
-/* 221 */
+/* 63 */
 /***/ function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -54005,7 +53036,7 @@
 	//! author : Aggelos Karalias : https://github.com/mehiel
 	
 	;(function (global, factory) {
-	    true ? factory(__webpack_require__(197)) :
+	    true ? factory(__webpack_require__(38)) :
 	   typeof define === 'function' && define.amd ? define(['../moment'], factory) :
 	   factory(global.moment)
 	}(this, (function (moment) { 'use strict';
@@ -54100,7 +53131,7 @@
 
 
 /***/ },
-/* 222 */
+/* 64 */
 /***/ function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -54108,7 +53139,7 @@
 	//! author : Jared Morse : https://github.com/jarcoal
 	
 	;(function (global, factory) {
-	    true ? factory(__webpack_require__(197)) :
+	    true ? factory(__webpack_require__(38)) :
 	   typeof define === 'function' && define.amd ? define(['../moment'], factory) :
 	   factory(global.moment)
 	}(this, (function (moment) { 'use strict';
@@ -54172,7 +53203,7 @@
 
 
 /***/ },
-/* 223 */
+/* 65 */
 /***/ function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -54180,7 +53211,7 @@
 	//! author : Jonathan Abourbih : https://github.com/jonbca
 	
 	;(function (global, factory) {
-	    true ? factory(__webpack_require__(197)) :
+	    true ? factory(__webpack_require__(38)) :
 	   typeof define === 'function' && define.amd ? define(['../moment'], factory) :
 	   factory(global.moment)
 	}(this, (function (moment) { 'use strict';
@@ -54240,7 +53271,7 @@
 
 
 /***/ },
-/* 224 */
+/* 66 */
 /***/ function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -54248,7 +53279,7 @@
 	//! author : Chris Gedrim : https://github.com/chrisgedrim
 	
 	;(function (global, factory) {
-	    true ? factory(__webpack_require__(197)) :
+	    true ? factory(__webpack_require__(38)) :
 	   typeof define === 'function' && define.amd ? define(['../moment'], factory) :
 	   factory(global.moment)
 	}(this, (function (moment) { 'use strict';
@@ -54312,7 +53343,7 @@
 
 
 /***/ },
-/* 225 */
+/* 67 */
 /***/ function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -54320,7 +53351,7 @@
 	//! author : Chris Cartlidge : https://github.com/chriscartlidge
 	
 	;(function (global, factory) {
-	    true ? factory(__webpack_require__(197)) :
+	    true ? factory(__webpack_require__(38)) :
 	   typeof define === 'function' && define.amd ? define(['../moment'], factory) :
 	   factory(global.moment)
 	}(this, (function (moment) { 'use strict';
@@ -54384,7 +53415,7 @@
 
 
 /***/ },
-/* 226 */
+/* 68 */
 /***/ function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -54392,7 +53423,7 @@
 	//! author : Luke McGregor : https://github.com/lukemcgregor
 	
 	;(function (global, factory) {
-	    true ? factory(__webpack_require__(197)) :
+	    true ? factory(__webpack_require__(38)) :
 	   typeof define === 'function' && define.amd ? define(['../moment'], factory) :
 	   factory(global.moment)
 	}(this, (function (moment) { 'use strict';
@@ -54456,7 +53487,7 @@
 
 
 /***/ },
-/* 227 */
+/* 69 */
 /***/ function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -54466,7 +53497,7 @@
 	//!          Se ne, bonvolu korekti kaj avizi min por ke mi povas lerni!
 	
 	;(function (global, factory) {
-	    true ? factory(__webpack_require__(197)) :
+	    true ? factory(__webpack_require__(38)) :
 	   typeof define === 'function' && define.amd ? define(['../moment'], factory) :
 	   factory(global.moment)
 	}(this, (function (moment) { 'use strict';
@@ -54534,7 +53565,7 @@
 
 
 /***/ },
-/* 228 */
+/* 70 */
 /***/ function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -54542,7 +53573,7 @@
 	//! author : Julio Napurí : https://github.com/julionc
 	
 	;(function (global, factory) {
-	    true ? factory(__webpack_require__(197)) :
+	    true ? factory(__webpack_require__(38)) :
 	   typeof define === 'function' && define.amd ? define(['../moment'], factory) :
 	   factory(global.moment)
 	}(this, (function (moment) { 'use strict';
@@ -54620,14 +53651,14 @@
 
 
 /***/ },
-/* 229 */
+/* 71 */
 /***/ function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
 	//! locale : Spanish (Dominican Republic) [es-do]
 	
 	;(function (global, factory) {
-	    true ? factory(__webpack_require__(197)) :
+	    true ? factory(__webpack_require__(38)) :
 	   typeof define === 'function' && define.amd ? define(['../moment'], factory) :
 	   factory(global.moment)
 	}(this, (function (moment) { 'use strict';
@@ -54705,7 +53736,7 @@
 
 
 /***/ },
-/* 230 */
+/* 72 */
 /***/ function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -54714,7 +53745,7 @@
 	//! improvements : Illimar Tambek : https://github.com/ragulka
 	
 	;(function (global, factory) {
-	    true ? factory(__webpack_require__(197)) :
+	    true ? factory(__webpack_require__(38)) :
 	   typeof define === 'function' && define.amd ? define(['../moment'], factory) :
 	   factory(global.moment)
 	}(this, (function (moment) { 'use strict';
@@ -54790,7 +53821,7 @@
 
 
 /***/ },
-/* 231 */
+/* 73 */
 /***/ function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -54798,7 +53829,7 @@
 	//! author : Eneko Illarramendi : https://github.com/eillarra
 	
 	;(function (global, factory) {
-	    true ? factory(__webpack_require__(197)) :
+	    true ? factory(__webpack_require__(38)) :
 	   typeof define === 'function' && define.amd ? define(['../moment'], factory) :
 	   factory(global.moment)
 	}(this, (function (moment) { 'use strict';
@@ -54861,7 +53892,7 @@
 
 
 /***/ },
-/* 232 */
+/* 74 */
 /***/ function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -54869,7 +53900,7 @@
 	//! author : Ebrahim Byagowi : https://github.com/ebraminio
 	
 	;(function (global, factory) {
-	    true ? factory(__webpack_require__(197)) :
+	    true ? factory(__webpack_require__(38)) :
 	   typeof define === 'function' && define.amd ? define(['../moment'], factory) :
 	   factory(global.moment)
 	}(this, (function (moment) { 'use strict';
@@ -54973,7 +54004,7 @@
 
 
 /***/ },
-/* 233 */
+/* 75 */
 /***/ function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -54981,7 +54012,7 @@
 	//! author : Tarmo Aidantausta : https://github.com/bleadof
 	
 	;(function (global, factory) {
-	    true ? factory(__webpack_require__(197)) :
+	    true ? factory(__webpack_require__(38)) :
 	   typeof define === 'function' && define.amd ? define(['../moment'], factory) :
 	   factory(global.moment)
 	}(this, (function (moment) { 'use strict';
@@ -55085,7 +54116,7 @@
 
 
 /***/ },
-/* 234 */
+/* 76 */
 /***/ function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -55093,7 +54124,7 @@
 	//! author : Ragnar Johannesen : https://github.com/ragnar123
 	
 	;(function (global, factory) {
-	    true ? factory(__webpack_require__(197)) :
+	    true ? factory(__webpack_require__(38)) :
 	   typeof define === 'function' && define.amd ? define(['../moment'], factory) :
 	   factory(global.moment)
 	}(this, (function (moment) { 'use strict';
@@ -55150,7 +54181,7 @@
 
 
 /***/ },
-/* 235 */
+/* 77 */
 /***/ function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -55158,7 +54189,7 @@
 	//! author : John Fischer : https://github.com/jfroffice
 	
 	;(function (global, factory) {
-	    true ? factory(__webpack_require__(197)) :
+	    true ? factory(__webpack_require__(38)) :
 	   typeof define === 'function' && define.amd ? define(['../moment'], factory) :
 	   factory(global.moment)
 	}(this, (function (moment) { 'use strict';
@@ -55219,7 +54250,7 @@
 
 
 /***/ },
-/* 236 */
+/* 78 */
 /***/ function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -55227,7 +54258,7 @@
 	//! author : Jonathan Abourbih : https://github.com/jonbca
 	
 	;(function (global, factory) {
-	    true ? factory(__webpack_require__(197)) :
+	    true ? factory(__webpack_require__(38)) :
 	   typeof define === 'function' && define.amd ? define(['../moment'], factory) :
 	   factory(global.moment)
 	}(this, (function (moment) { 'use strict';
@@ -55284,7 +54315,7 @@
 
 
 /***/ },
-/* 237 */
+/* 79 */
 /***/ function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -55292,7 +54323,7 @@
 	//! author : Gaspard Bucher : https://github.com/gaspard
 	
 	;(function (global, factory) {
-	    true ? factory(__webpack_require__(197)) :
+	    true ? factory(__webpack_require__(38)) :
 	   typeof define === 'function' && define.amd ? define(['../moment'], factory) :
 	   factory(global.moment)
 	}(this, (function (moment) { 'use strict';
@@ -55353,7 +54384,7 @@
 
 
 /***/ },
-/* 238 */
+/* 80 */
 /***/ function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -55361,7 +54392,7 @@
 	//! author : Robin van der Vliet : https://github.com/robin0van0der0v
 	
 	;(function (global, factory) {
-	    true ? factory(__webpack_require__(197)) :
+	    true ? factory(__webpack_require__(38)) :
 	   typeof define === 'function' && define.amd ? define(['../moment'], factory) :
 	   factory(global.moment)
 	}(this, (function (moment) { 'use strict';
@@ -55431,7 +54462,7 @@
 
 
 /***/ },
-/* 239 */
+/* 81 */
 /***/ function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -55439,7 +54470,7 @@
 	//! author : Jon Ashdown : https://github.com/jonashdown
 	
 	;(function (global, factory) {
-	    true ? factory(__webpack_require__(197)) :
+	    true ? factory(__webpack_require__(38)) :
 	   typeof define === 'function' && define.amd ? define(['../moment'], factory) :
 	   factory(global.moment)
 	}(this, (function (moment) { 'use strict';
@@ -55512,7 +54543,7 @@
 
 
 /***/ },
-/* 240 */
+/* 82 */
 /***/ function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -55520,7 +54551,7 @@
 	//! author : Juan G. Hurtado : https://github.com/juanghurtado
 	
 	;(function (global, factory) {
-	    true ? factory(__webpack_require__(197)) :
+	    true ? factory(__webpack_require__(38)) :
 	   typeof define === 'function' && define.amd ? define(['../moment'], factory) :
 	   factory(global.moment)
 	}(this, (function (moment) { 'use strict';
@@ -55594,7 +54625,7 @@
 
 
 /***/ },
-/* 241 */
+/* 83 */
 /***/ function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -55604,7 +54635,7 @@
 	//! author : Tal Ater : https://github.com/TalAter
 	
 	;(function (global, factory) {
-	    true ? factory(__webpack_require__(197)) :
+	    true ? factory(__webpack_require__(38)) :
 	   typeof define === 'function' && define.amd ? define(['../moment'], factory) :
 	   factory(global.moment)
 	}(this, (function (moment) { 'use strict';
@@ -55698,7 +54729,7 @@
 
 
 /***/ },
-/* 242 */
+/* 84 */
 /***/ function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -55706,7 +54737,7 @@
 	//! author : Mayank Singhal : https://github.com/mayanksinghal
 	
 	;(function (global, factory) {
-	    true ? factory(__webpack_require__(197)) :
+	    true ? factory(__webpack_require__(38)) :
 	   typeof define === 'function' && define.amd ? define(['../moment'], factory) :
 	   factory(global.moment)
 	}(this, (function (moment) { 'use strict';
@@ -55827,7 +54858,7 @@
 
 
 /***/ },
-/* 243 */
+/* 85 */
 /***/ function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -55835,7 +54866,7 @@
 	//! author : Bojan Marković : https://github.com/bmarkovic
 	
 	;(function (global, factory) {
-	    true ? factory(__webpack_require__(197)) :
+	    true ? factory(__webpack_require__(38)) :
 	   typeof define === 'function' && define.amd ? define(['../moment'], factory) :
 	   factory(global.moment)
 	}(this, (function (moment) { 'use strict';
@@ -55977,7 +55008,7 @@
 
 
 /***/ },
-/* 244 */
+/* 86 */
 /***/ function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -55985,7 +55016,7 @@
 	//! author : Adam Brunner : https://github.com/adambrunner
 	
 	;(function (global, factory) {
-	    true ? factory(__webpack_require__(197)) :
+	    true ? factory(__webpack_require__(38)) :
 	   typeof define === 'function' && define.amd ? define(['../moment'], factory) :
 	   factory(global.moment)
 	}(this, (function (moment) { 'use strict';
@@ -56091,7 +55122,7 @@
 
 
 /***/ },
-/* 245 */
+/* 87 */
 /***/ function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -56099,7 +55130,7 @@
 	//! author : Armendarabyan : https://github.com/armendarabyan
 	
 	;(function (global, factory) {
-	    true ? factory(__webpack_require__(197)) :
+	    true ? factory(__webpack_require__(38)) :
 	   typeof define === 'function' && define.amd ? define(['../moment'], factory) :
 	   factory(global.moment)
 	}(this, (function (moment) { 'use strict';
@@ -56191,7 +55222,7 @@
 
 
 /***/ },
-/* 246 */
+/* 88 */
 /***/ function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -56200,7 +55231,7 @@
 	//! reference: http://id.wikisource.org/wiki/Pedoman_Umum_Ejaan_Bahasa_Indonesia_yang_Disempurnakan
 	
 	;(function (global, factory) {
-	    true ? factory(__webpack_require__(197)) :
+	    true ? factory(__webpack_require__(38)) :
 	   typeof define === 'function' && define.amd ? define(['../moment'], factory) :
 	   factory(global.moment)
 	}(this, (function (moment) { 'use strict';
@@ -56279,7 +55310,7 @@
 
 
 /***/ },
-/* 247 */
+/* 89 */
 /***/ function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -56287,7 +55318,7 @@
 	//! author : Hinrik Örn Sigurðsson : https://github.com/hinrik
 	
 	;(function (global, factory) {
-	    true ? factory(__webpack_require__(197)) :
+	    true ? factory(__webpack_require__(38)) :
 	   typeof define === 'function' && define.amd ? define(['../moment'], factory) :
 	   factory(global.moment)
 	}(this, (function (moment) { 'use strict';
@@ -56411,7 +55442,7 @@
 
 
 /***/ },
-/* 248 */
+/* 90 */
 /***/ function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -56420,7 +55451,7 @@
 	//! author: Mattia Larentis: https://github.com/nostalgiaz
 	
 	;(function (global, factory) {
-	    true ? factory(__webpack_require__(197)) :
+	    true ? factory(__webpack_require__(38)) :
 	   typeof define === 'function' && define.amd ? define(['../moment'], factory) :
 	   factory(global.moment)
 	}(this, (function (moment) { 'use strict';
@@ -56486,7 +55517,7 @@
 
 
 /***/ },
-/* 249 */
+/* 91 */
 /***/ function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -56494,7 +55525,7 @@
 	//! author : LI Long : https://github.com/baryon
 	
 	;(function (global, factory) {
-	    true ? factory(__webpack_require__(197)) :
+	    true ? factory(__webpack_require__(38)) :
 	   typeof define === 'function' && define.amd ? define(['../moment'], factory) :
 	   factory(global.moment)
 	}(this, (function (moment) { 'use strict';
@@ -56567,7 +55598,7 @@
 
 
 /***/ },
-/* 250 */
+/* 92 */
 /***/ function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -56576,7 +55607,7 @@
 	//! reference: http://jv.wikipedia.org/wiki/Basa_Jawa
 	
 	;(function (global, factory) {
-	    true ? factory(__webpack_require__(197)) :
+	    true ? factory(__webpack_require__(38)) :
 	   typeof define === 'function' && define.amd ? define(['../moment'], factory) :
 	   factory(global.moment)
 	}(this, (function (moment) { 'use strict';
@@ -56655,7 +55686,7 @@
 
 
 /***/ },
-/* 251 */
+/* 93 */
 /***/ function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -56663,7 +55694,7 @@
 	//! author : Irakli Janiashvili : https://github.com/irakli-janiashvili
 	
 	;(function (global, factory) {
-	    true ? factory(__webpack_require__(197)) :
+	    true ? factory(__webpack_require__(38)) :
 	   typeof define === 'function' && define.amd ? define(['../moment'], factory) :
 	   factory(global.moment)
 	}(this, (function (moment) { 'use strict';
@@ -56749,7 +55780,7 @@
 
 
 /***/ },
-/* 252 */
+/* 94 */
 /***/ function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -56757,7 +55788,7 @@
 	//! authors : Nurlan Rakhimzhanov : https://github.com/nurlan
 	
 	;(function (global, factory) {
-	    true ? factory(__webpack_require__(197)) :
+	    true ? factory(__webpack_require__(38)) :
 	   typeof define === 'function' && define.amd ? define(['../moment'], factory) :
 	   factory(global.moment)
 	}(this, (function (moment) { 'use strict';
@@ -56841,7 +55872,7 @@
 
 
 /***/ },
-/* 253 */
+/* 95 */
 /***/ function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -56849,7 +55880,7 @@
 	//! author : Kruy Vanna : https://github.com/kruyvanna
 	
 	;(function (global, factory) {
-	    true ? factory(__webpack_require__(197)) :
+	    true ? factory(__webpack_require__(38)) :
 	   typeof define === 'function' && define.amd ? define(['../moment'], factory) :
 	   factory(global.moment)
 	}(this, (function (moment) { 'use strict';
@@ -56904,7 +55935,7 @@
 
 
 /***/ },
-/* 254 */
+/* 96 */
 /***/ function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -56913,7 +55944,7 @@
 	//! author : Jeeeyul Lee <jeeeyul@gmail.com>
 	
 	;(function (global, factory) {
-	    true ? factory(__webpack_require__(197)) :
+	    true ? factory(__webpack_require__(38)) :
 	   typeof define === 'function' && define.amd ? define(['../moment'], factory) :
 	   factory(global.moment)
 	}(this, (function (moment) { 'use strict';
@@ -56974,7 +56005,7 @@
 
 
 /***/ },
-/* 255 */
+/* 97 */
 /***/ function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -56982,7 +56013,7 @@
 	//! author : Chyngyz Arystan uulu : https://github.com/chyngyz
 	
 	;(function (global, factory) {
-	    true ? factory(__webpack_require__(197)) :
+	    true ? factory(__webpack_require__(38)) :
 	   typeof define === 'function' && define.amd ? define(['../moment'], factory) :
 	   factory(global.moment)
 	}(this, (function (moment) { 'use strict';
@@ -57067,7 +56098,7 @@
 
 
 /***/ },
-/* 256 */
+/* 98 */
 /***/ function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -57076,7 +56107,7 @@
 	//! author : David Raison : https://github.com/kwisatz
 	
 	;(function (global, factory) {
-	    true ? factory(__webpack_require__(197)) :
+	    true ? factory(__webpack_require__(38)) :
 	   typeof define === 'function' && define.amd ? define(['../moment'], factory) :
 	   factory(global.moment)
 	}(this, (function (moment) { 'use strict';
@@ -57209,7 +56240,7 @@
 
 
 /***/ },
-/* 257 */
+/* 99 */
 /***/ function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -57217,7 +56248,7 @@
 	//! author : Ryan Hart : https://github.com/ryanhart2
 	
 	;(function (global, factory) {
-	    true ? factory(__webpack_require__(197)) :
+	    true ? factory(__webpack_require__(38)) :
 	   typeof define === 'function' && define.amd ? define(['../moment'], factory) :
 	   factory(global.moment)
 	}(this, (function (moment) { 'use strict';
@@ -57284,7 +56315,7 @@
 
 
 /***/ },
-/* 258 */
+/* 100 */
 /***/ function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -57292,7 +56323,7 @@
 	//! author : Mindaugas Mozūras : https://github.com/mmozuras
 	
 	;(function (global, factory) {
-	    true ? factory(__webpack_require__(197)) :
+	    true ? factory(__webpack_require__(38)) :
 	   typeof define === 'function' && define.amd ? define(['../moment'], factory) :
 	   factory(global.moment)
 	}(this, (function (moment) { 'use strict';
@@ -57406,7 +56437,7 @@
 
 
 /***/ },
-/* 259 */
+/* 101 */
 /***/ function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -57415,7 +56446,7 @@
 	//! author : Jānis Elmeris : https://github.com/JanisE
 	
 	;(function (global, factory) {
-	    true ? factory(__webpack_require__(197)) :
+	    true ? factory(__webpack_require__(38)) :
 	   typeof define === 'function' && define.amd ? define(['../moment'], factory) :
 	   factory(global.moment)
 	}(this, (function (moment) { 'use strict';
@@ -57508,7 +56539,7 @@
 
 
 /***/ },
-/* 260 */
+/* 102 */
 /***/ function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -57516,7 +56547,7 @@
 	//! author : Miodrag Nikač <miodrag@restartit.me> : https://github.com/miodragnikac
 	
 	;(function (global, factory) {
-	    true ? factory(__webpack_require__(197)) :
+	    true ? factory(__webpack_require__(38)) :
 	   typeof define === 'function' && define.amd ? define(['../moment'], factory) :
 	   factory(global.moment)
 	}(this, (function (moment) { 'use strict';
@@ -57624,7 +56655,7 @@
 
 
 /***/ },
-/* 261 */
+/* 103 */
 /***/ function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -57632,7 +56663,7 @@
 	//! author : John Corrigan <robbiecloset@gmail.com> : https://github.com/johnideal
 	
 	;(function (global, factory) {
-	    true ? factory(__webpack_require__(197)) :
+	    true ? factory(__webpack_require__(38)) :
 	   typeof define === 'function' && define.amd ? define(['../moment'], factory) :
 	   factory(global.moment)
 	}(this, (function (moment) { 'use strict';
@@ -57693,7 +56724,7 @@
 
 
 /***/ },
-/* 262 */
+/* 104 */
 /***/ function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -57701,7 +56732,7 @@
 	//! author : Borislav Mickov : https://github.com/B0k0
 	
 	;(function (global, factory) {
-	    true ? factory(__webpack_require__(197)) :
+	    true ? factory(__webpack_require__(38)) :
 	   typeof define === 'function' && define.amd ? define(['../moment'], factory) :
 	   factory(global.moment)
 	}(this, (function (moment) { 'use strict';
@@ -57788,7 +56819,7 @@
 
 
 /***/ },
-/* 263 */
+/* 105 */
 /***/ function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -57796,7 +56827,7 @@
 	//! author : Floyd Pink : https://github.com/floydpink
 	
 	;(function (global, factory) {
-	    true ? factory(__webpack_require__(197)) :
+	    true ? factory(__webpack_require__(38)) :
 	   typeof define === 'function' && define.amd ? define(['../moment'], factory) :
 	   factory(global.moment)
 	}(this, (function (moment) { 'use strict';
@@ -57874,7 +56905,7 @@
 
 
 /***/ },
-/* 264 */
+/* 106 */
 /***/ function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -57883,7 +56914,7 @@
 	//! author : Vivek Athalye : https://github.com/vnathalye
 	
 	;(function (global, factory) {
-	    true ? factory(__webpack_require__(197)) :
+	    true ? factory(__webpack_require__(38)) :
 	   typeof define === 'function' && define.amd ? define(['../moment'], factory) :
 	   factory(global.moment)
 	}(this, (function (moment) { 'use strict';
@@ -58038,7 +57069,7 @@
 
 
 /***/ },
-/* 265 */
+/* 107 */
 /***/ function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -58046,7 +57077,7 @@
 	//! author : Weldan Jamili : https://github.com/weldan
 	
 	;(function (global, factory) {
-	    true ? factory(__webpack_require__(197)) :
+	    true ? factory(__webpack_require__(38)) :
 	   typeof define === 'function' && define.amd ? define(['../moment'], factory) :
 	   factory(global.moment)
 	}(this, (function (moment) { 'use strict';
@@ -58125,7 +57156,7 @@
 
 
 /***/ },
-/* 266 */
+/* 108 */
 /***/ function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -58134,7 +57165,7 @@
 	//! author : Weldan Jamili : https://github.com/weldan
 	
 	;(function (global, factory) {
-	    true ? factory(__webpack_require__(197)) :
+	    true ? factory(__webpack_require__(38)) :
 	   typeof define === 'function' && define.amd ? define(['../moment'], factory) :
 	   factory(global.moment)
 	}(this, (function (moment) { 'use strict';
@@ -58213,7 +57244,7 @@
 
 
 /***/ },
-/* 267 */
+/* 109 */
 /***/ function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -58223,7 +57254,7 @@
 	//! author : Tin Aung Lin : https://github.com/thanyawzinmin
 	
 	;(function (global, factory) {
-	    true ? factory(__webpack_require__(197)) :
+	    true ? factory(__webpack_require__(38)) :
 	   typeof define === 'function' && define.amd ? define(['../moment'], factory) :
 	   factory(global.moment)
 	}(this, (function (moment) { 'use strict';
@@ -58314,7 +57345,7 @@
 
 
 /***/ },
-/* 268 */
+/* 110 */
 /***/ function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -58323,7 +57354,7 @@
 	//!           Sigurd Gartmann : https://github.com/sigurdga
 	
 	;(function (global, factory) {
-	    true ? factory(__webpack_require__(197)) :
+	    true ? factory(__webpack_require__(38)) :
 	   typeof define === 'function' && define.amd ? define(['../moment'], factory) :
 	   factory(global.moment)
 	}(this, (function (moment) { 'use strict';
@@ -58382,7 +57413,7 @@
 
 
 /***/ },
-/* 269 */
+/* 111 */
 /***/ function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -58390,7 +57421,7 @@
 	//! author : suvash : https://github.com/suvash
 	
 	;(function (global, factory) {
-	    true ? factory(__webpack_require__(197)) :
+	    true ? factory(__webpack_require__(38)) :
 	   typeof define === 'function' && define.amd ? define(['../moment'], factory) :
 	   factory(global.moment)
 	}(this, (function (moment) { 'use strict';
@@ -58510,7 +57541,7 @@
 
 
 /***/ },
-/* 270 */
+/* 112 */
 /***/ function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -58519,7 +57550,7 @@
 	//! author : Jacob Middag : https://github.com/middagj
 	
 	;(function (global, factory) {
-	    true ? factory(__webpack_require__(197)) :
+	    true ? factory(__webpack_require__(38)) :
 	   typeof define === 'function' && define.amd ? define(['../moment'], factory) :
 	   factory(global.moment)
 	}(this, (function (moment) { 'use strict';
@@ -58601,7 +57632,7 @@
 
 
 /***/ },
-/* 271 */
+/* 113 */
 /***/ function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -58610,7 +57641,7 @@
 	//! author : Jacob Middag : https://github.com/middagj
 	
 	;(function (global, factory) {
-	    true ? factory(__webpack_require__(197)) :
+	    true ? factory(__webpack_require__(38)) :
 	   typeof define === 'function' && define.amd ? define(['../moment'], factory) :
 	   factory(global.moment)
 	}(this, (function (moment) { 'use strict';
@@ -58692,7 +57723,7 @@
 
 
 /***/ },
-/* 272 */
+/* 114 */
 /***/ function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -58700,7 +57731,7 @@
 	//! author : https://github.com/mechuwind
 	
 	;(function (global, factory) {
-	    true ? factory(__webpack_require__(197)) :
+	    true ? factory(__webpack_require__(38)) :
 	   typeof define === 'function' && define.amd ? define(['../moment'], factory) :
 	   factory(global.moment)
 	}(this, (function (moment) { 'use strict';
@@ -58757,7 +57788,7 @@
 
 
 /***/ },
-/* 273 */
+/* 115 */
 /***/ function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -58765,7 +57796,7 @@
 	//! author : Harpreet Singh : https://github.com/harpreetkhalsagtbit
 	
 	;(function (global, factory) {
-	    true ? factory(__webpack_require__(197)) :
+	    true ? factory(__webpack_require__(38)) :
 	   typeof define === 'function' && define.amd ? define(['../moment'], factory) :
 	   factory(global.moment)
 	}(this, (function (moment) { 'use strict';
@@ -58886,7 +57917,7 @@
 
 
 /***/ },
-/* 274 */
+/* 116 */
 /***/ function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -58894,7 +57925,7 @@
 	//! author : Rafal Hirsz : https://github.com/evoL
 	
 	;(function (global, factory) {
-	    true ? factory(__webpack_require__(197)) :
+	    true ? factory(__webpack_require__(38)) :
 	   typeof define === 'function' && define.amd ? define(['../moment'], factory) :
 	   factory(global.moment)
 	}(this, (function (moment) { 'use strict';
@@ -58996,7 +58027,7 @@
 
 
 /***/ },
-/* 275 */
+/* 117 */
 /***/ function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -59004,7 +58035,7 @@
 	//! author : Jefferson : https://github.com/jalex79
 	
 	;(function (global, factory) {
-	    true ? factory(__webpack_require__(197)) :
+	    true ? factory(__webpack_require__(38)) :
 	   typeof define === 'function' && define.amd ? define(['../moment'], factory) :
 	   factory(global.moment)
 	}(this, (function (moment) { 'use strict';
@@ -59066,7 +58097,7 @@
 
 
 /***/ },
-/* 276 */
+/* 118 */
 /***/ function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -59074,7 +58105,7 @@
 	//! author : Caio Ribeiro Pereira : https://github.com/caio-ribeiro-pereira
 	
 	;(function (global, factory) {
-	    true ? factory(__webpack_require__(197)) :
+	    true ? factory(__webpack_require__(38)) :
 	   typeof define === 'function' && define.amd ? define(['../moment'], factory) :
 	   factory(global.moment)
 	}(this, (function (moment) { 'use strict';
@@ -59132,7 +58163,7 @@
 
 
 /***/ },
-/* 277 */
+/* 119 */
 /***/ function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -59141,7 +58172,7 @@
 	//! author : Valentin Agachi : https://github.com/avaly
 	
 	;(function (global, factory) {
-	    true ? factory(__webpack_require__(197)) :
+	    true ? factory(__webpack_require__(38)) :
 	   typeof define === 'function' && define.amd ? define(['../moment'], factory) :
 	   factory(global.moment)
 	}(this, (function (moment) { 'use strict';
@@ -59212,7 +58243,7 @@
 
 
 /***/ },
-/* 278 */
+/* 120 */
 /***/ function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -59222,7 +58253,7 @@
 	//! author : Коренберг Марк : https://github.com/socketpair
 	
 	;(function (global, factory) {
-	    true ? factory(__webpack_require__(197)) :
+	    true ? factory(__webpack_require__(38)) :
 	   typeof define === 'function' && define.amd ? define(['../moment'], factory) :
 	   factory(global.moment)
 	}(this, (function (moment) { 'use strict';
@@ -59400,7 +58431,7 @@
 
 
 /***/ },
-/* 279 */
+/* 121 */
 /***/ function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -59408,7 +58439,7 @@
 	//! authors : Bård Rolstad Henriksen : https://github.com/karamell
 	
 	;(function (global, factory) {
-	    true ? factory(__webpack_require__(197)) :
+	    true ? factory(__webpack_require__(38)) :
 	   typeof define === 'function' && define.amd ? define(['../moment'], factory) :
 	   factory(global.moment)
 	}(this, (function (moment) { 'use strict';
@@ -59466,7 +58497,7 @@
 
 
 /***/ },
-/* 280 */
+/* 122 */
 /***/ function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -59474,7 +58505,7 @@
 	//! author : Sampath Sitinamaluwa : https://github.com/sampathsris
 	
 	;(function (global, factory) {
-	    true ? factory(__webpack_require__(197)) :
+	    true ? factory(__webpack_require__(38)) :
 	   typeof define === 'function' && define.amd ? define(['../moment'], factory) :
 	   factory(global.moment)
 	}(this, (function (moment) { 'use strict';
@@ -59542,7 +58573,7 @@
 
 
 /***/ },
-/* 281 */
+/* 123 */
 /***/ function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -59551,7 +58582,7 @@
 	//! based on work of petrbela : https://github.com/petrbela
 	
 	;(function (global, factory) {
-	    true ? factory(__webpack_require__(197)) :
+	    true ? factory(__webpack_require__(38)) :
 	   typeof define === 'function' && define.amd ? define(['../moment'], factory) :
 	   factory(global.moment)
 	}(this, (function (moment) { 'use strict';
@@ -59697,7 +58728,7 @@
 
 
 /***/ },
-/* 282 */
+/* 124 */
 /***/ function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -59705,7 +58736,7 @@
 	//! author : Robert Sedovšek : https://github.com/sedovsek
 	
 	;(function (global, factory) {
-	    true ? factory(__webpack_require__(197)) :
+	    true ? factory(__webpack_require__(38)) :
 	   typeof define === 'function' && define.amd ? define(['../moment'], factory) :
 	   factory(global.moment)
 	}(this, (function (moment) { 'use strict';
@@ -59864,7 +58895,7 @@
 
 
 /***/ },
-/* 283 */
+/* 125 */
 /***/ function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -59874,7 +58905,7 @@
 	//! author : Oerd Cukalla : https://github.com/oerd
 	
 	;(function (global, factory) {
-	    true ? factory(__webpack_require__(197)) :
+	    true ? factory(__webpack_require__(38)) :
 	   typeof define === 'function' && define.amd ? define(['../moment'], factory) :
 	   factory(global.moment)
 	}(this, (function (moment) { 'use strict';
@@ -59939,7 +58970,7 @@
 
 
 /***/ },
-/* 284 */
+/* 126 */
 /***/ function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -59947,7 +58978,7 @@
 	//! author : Milan Janačković<milanjanackovic@gmail.com> : https://github.com/milan-j
 	
 	;(function (global, factory) {
-	    true ? factory(__webpack_require__(197)) :
+	    true ? factory(__webpack_require__(38)) :
 	   typeof define === 'function' && define.amd ? define(['../moment'], factory) :
 	   factory(global.moment)
 	}(this, (function (moment) { 'use strict';
@@ -60054,7 +59085,7 @@
 
 
 /***/ },
-/* 285 */
+/* 127 */
 /***/ function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -60062,7 +59093,7 @@
 	//! author : Milan Janačković<milanjanackovic@gmail.com> : https://github.com/milan-j
 	
 	;(function (global, factory) {
-	    true ? factory(__webpack_require__(197)) :
+	    true ? factory(__webpack_require__(38)) :
 	   typeof define === 'function' && define.amd ? define(['../moment'], factory) :
 	   factory(global.moment)
 	}(this, (function (moment) { 'use strict';
@@ -60169,7 +59200,7 @@
 
 
 /***/ },
-/* 286 */
+/* 128 */
 /***/ function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -60177,7 +59208,7 @@
 	//! author : Nicolai Davies<mail@nicolai.io> : https://github.com/nicolaidavies
 	
 	;(function (global, factory) {
-	    true ? factory(__webpack_require__(197)) :
+	    true ? factory(__webpack_require__(38)) :
 	   typeof define === 'function' && define.amd ? define(['../moment'], factory) :
 	   factory(global.moment)
 	}(this, (function (moment) { 'use strict';
@@ -60263,7 +59294,7 @@
 
 
 /***/ },
-/* 287 */
+/* 129 */
 /***/ function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -60271,7 +59302,7 @@
 	//! author : Jens Alm : https://github.com/ulmus
 	
 	;(function (global, factory) {
-	    true ? factory(__webpack_require__(197)) :
+	    true ? factory(__webpack_require__(38)) :
 	   typeof define === 'function' && define.amd ? define(['../moment'], factory) :
 	   factory(global.moment)
 	}(this, (function (moment) { 'use strict';
@@ -60337,7 +59368,7 @@
 
 
 /***/ },
-/* 288 */
+/* 130 */
 /***/ function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -60345,7 +59376,7 @@
 	//! author : Fahad Kassim : https://github.com/fadsel
 	
 	;(function (global, factory) {
-	    true ? factory(__webpack_require__(197)) :
+	    true ? factory(__webpack_require__(38)) :
 	   typeof define === 'function' && define.amd ? define(['../moment'], factory) :
 	   factory(global.moment)
 	}(this, (function (moment) { 'use strict';
@@ -60401,7 +59432,7 @@
 
 
 /***/ },
-/* 289 */
+/* 131 */
 /***/ function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -60409,7 +59440,7 @@
 	//! author : Arjunkumar Krishnamoorthy : https://github.com/tk120404
 	
 	;(function (global, factory) {
-	    true ? factory(__webpack_require__(197)) :
+	    true ? factory(__webpack_require__(38)) :
 	   typeof define === 'function' && define.amd ? define(['../moment'], factory) :
 	   factory(global.moment)
 	}(this, (function (moment) { 'use strict';
@@ -60536,7 +59567,7 @@
 
 
 /***/ },
-/* 290 */
+/* 132 */
 /***/ function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -60544,7 +59575,7 @@
 	//! author : Krishna Chaitanya Thota : https://github.com/kcthota
 	
 	;(function (global, factory) {
-	    true ? factory(__webpack_require__(197)) :
+	    true ? factory(__webpack_require__(38)) :
 	   typeof define === 'function' && define.amd ? define(['../moment'], factory) :
 	   factory(global.moment)
 	}(this, (function (moment) { 'use strict';
@@ -60630,7 +59661,7 @@
 
 
 /***/ },
-/* 291 */
+/* 133 */
 /***/ function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -60639,7 +59670,7 @@
 	//! author : Onorio De J. Afonso : https://github.com/marobo
 	
 	;(function (global, factory) {
-	    true ? factory(__webpack_require__(197)) :
+	    true ? factory(__webpack_require__(38)) :
 	   typeof define === 'function' && define.amd ? define(['../moment'], factory) :
 	   factory(global.moment)
 	}(this, (function (moment) { 'use strict';
@@ -60703,7 +59734,7 @@
 
 
 /***/ },
-/* 292 */
+/* 134 */
 /***/ function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -60711,7 +59742,7 @@
 	//! author : Kridsada Thanabulpong : https://github.com/sirn
 	
 	;(function (global, factory) {
-	    true ? factory(__webpack_require__(197)) :
+	    true ? factory(__webpack_require__(38)) :
 	   typeof define === 'function' && define.amd ? define(['../moment'], factory) :
 	   factory(global.moment)
 	}(this, (function (moment) { 'use strict';
@@ -60775,7 +59806,7 @@
 
 
 /***/ },
-/* 293 */
+/* 135 */
 /***/ function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -60783,7 +59814,7 @@
 	//! author : Dan Hagman : https://github.com/hagmandan
 	
 	;(function (global, factory) {
-	    true ? factory(__webpack_require__(197)) :
+	    true ? factory(__webpack_require__(38)) :
 	   typeof define === 'function' && define.amd ? define(['../moment'], factory) :
 	   factory(global.moment)
 	}(this, (function (moment) { 'use strict';
@@ -60842,7 +59873,7 @@
 
 
 /***/ },
-/* 294 */
+/* 136 */
 /***/ function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -60850,7 +59881,7 @@
 	//! author : Dominika Kruk : https://github.com/amaranthrose
 	
 	;(function (global, factory) {
-	    true ? factory(__webpack_require__(197)) :
+	    true ? factory(__webpack_require__(38)) :
 	   typeof define === 'function' && define.amd ? define(['../moment'], factory) :
 	   factory(global.moment)
 	}(this, (function (moment) { 'use strict';
@@ -60967,7 +59998,7 @@
 
 
 /***/ },
-/* 295 */
+/* 137 */
 /***/ function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -60976,7 +60007,7 @@
 	//!           Burak Yiğit Kaya: https://github.com/BYK
 	
 	;(function (global, factory) {
-	    true ? factory(__webpack_require__(197)) :
+	    true ? factory(__webpack_require__(38)) :
 	   typeof define === 'function' && define.amd ? define(['../moment'], factory) :
 	   factory(global.moment)
 	}(this, (function (moment) { 'use strict';
@@ -61062,7 +60093,7 @@
 
 
 /***/ },
-/* 296 */
+/* 138 */
 /***/ function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -61071,7 +60102,7 @@
 	//! author : Iustì Canun
 	
 	;(function (global, factory) {
-	    true ? factory(__webpack_require__(197)) :
+	    true ? factory(__webpack_require__(38)) :
 	   typeof define === 'function' && define.amd ? define(['../moment'], factory) :
 	   factory(global.moment)
 	}(this, (function (moment) { 'use strict';
@@ -61158,7 +60189,7 @@
 
 
 /***/ },
-/* 297 */
+/* 139 */
 /***/ function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -61166,7 +60197,7 @@
 	//! author : Abdel Said : https://github.com/abdelsaid
 	
 	;(function (global, factory) {
-	    true ? factory(__webpack_require__(197)) :
+	    true ? factory(__webpack_require__(38)) :
 	   typeof define === 'function' && define.amd ? define(['../moment'], factory) :
 	   factory(global.moment)
 	}(this, (function (moment) { 'use strict';
@@ -61221,7 +60252,7 @@
 
 
 /***/ },
-/* 298 */
+/* 140 */
 /***/ function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -61229,7 +60260,7 @@
 	//! author : Abdel Said : https://github.com/abdelsaid
 	
 	;(function (global, factory) {
-	    true ? factory(__webpack_require__(197)) :
+	    true ? factory(__webpack_require__(38)) :
 	   typeof define === 'function' && define.amd ? define(['../moment'], factory) :
 	   factory(global.moment)
 	}(this, (function (moment) { 'use strict';
@@ -61284,7 +60315,7 @@
 
 
 /***/ },
-/* 299 */
+/* 141 */
 /***/ function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -61293,7 +60324,7 @@
 	//! Author : Menelion Elensúle : https://github.com/Oire
 	
 	;(function (global, factory) {
-	    true ? factory(__webpack_require__(197)) :
+	    true ? factory(__webpack_require__(38)) :
 	   typeof define === 'function' && define.amd ? define(['../moment'], factory) :
 	   factory(global.moment)
 	}(this, (function (moment) { 'use strict';
@@ -61435,7 +60466,7 @@
 
 
 /***/ },
-/* 300 */
+/* 142 */
 /***/ function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -61443,7 +60474,7 @@
 	//! author : Sardor Muminov : https://github.com/muminoff
 	
 	;(function (global, factory) {
-	    true ? factory(__webpack_require__(197)) :
+	    true ? factory(__webpack_require__(38)) :
 	   typeof define === 'function' && define.amd ? define(['../moment'], factory) :
 	   factory(global.moment)
 	}(this, (function (moment) { 'use strict';
@@ -61498,7 +60529,7 @@
 
 
 /***/ },
-/* 301 */
+/* 143 */
 /***/ function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -61506,7 +60537,7 @@
 	//! author : Bang Nguyen : https://github.com/bangnk
 	
 	;(function (global, factory) {
-	    true ? factory(__webpack_require__(197)) :
+	    true ? factory(__webpack_require__(38)) :
 	   typeof define === 'function' && define.amd ? define(['../moment'], factory) :
 	   factory(global.moment)
 	}(this, (function (moment) { 'use strict';
@@ -61582,7 +60613,7 @@
 
 
 /***/ },
-/* 302 */
+/* 144 */
 /***/ function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -61590,7 +60621,7 @@
 	//! author : Andrew Hood : https://github.com/andrewhood125
 	
 	;(function (global, factory) {
-	    true ? factory(__webpack_require__(197)) :
+	    true ? factory(__webpack_require__(38)) :
 	   typeof define === 'function' && define.amd ? define(['../moment'], factory) :
 	   factory(global.moment)
 	}(this, (function (moment) { 'use strict';
@@ -61655,7 +60686,7 @@
 
 
 /***/ },
-/* 303 */
+/* 145 */
 /***/ function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -61663,7 +60694,7 @@
 	//! author : Atolagbe Abisoye : https://github.com/andela-batolagbe
 	
 	;(function (global, factory) {
-	    true ? factory(__webpack_require__(197)) :
+	    true ? factory(__webpack_require__(38)) :
 	   typeof define === 'function' && define.amd ? define(['../moment'], factory) :
 	   factory(global.moment)
 	}(this, (function (moment) { 'use strict';
@@ -61720,7 +60751,7 @@
 
 
 /***/ },
-/* 304 */
+/* 146 */
 /***/ function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -61729,7 +60760,7 @@
 	//! author : Zeno Zeng : https://github.com/zenozeng
 	
 	;(function (global, factory) {
-	    true ? factory(__webpack_require__(197)) :
+	    true ? factory(__webpack_require__(38)) :
 	   typeof define === 'function' && define.amd ? define(['../moment'], factory) :
 	   factory(global.moment)
 	}(this, (function (moment) { 'use strict';
@@ -61852,7 +60883,7 @@
 
 
 /***/ },
-/* 305 */
+/* 147 */
 /***/ function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -61862,7 +60893,7 @@
 	//! author : Konstantin : https://github.com/skfd
 	
 	;(function (global, factory) {
-	    true ? factory(__webpack_require__(197)) :
+	    true ? factory(__webpack_require__(38)) :
 	   typeof define === 'function' && define.amd ? define(['../moment'], factory) :
 	   factory(global.moment)
 	}(this, (function (moment) { 'use strict';
@@ -61962,7 +60993,7 @@
 
 
 /***/ },
-/* 306 */
+/* 148 */
 /***/ function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -61971,7 +61002,7 @@
 	//! author : Chris Lam : https://github.com/hehachris
 	
 	;(function (global, factory) {
-	    true ? factory(__webpack_require__(197)) :
+	    true ? factory(__webpack_require__(38)) :
 	   typeof define === 'function' && define.amd ? define(['../moment'], factory) :
 	   factory(global.moment)
 	}(this, (function (moment) { 'use strict';
@@ -62071,7 +61102,7 @@
 
 
 /***/ },
-/* 307 */
+/* 149 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -62650,7 +61681,7 @@
 
 
 /***/ },
-/* 308 */
+/* 150 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -62778,7 +61809,7 @@
 
 
 /***/ },
-/* 309 */
+/* 151 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -63075,7 +62106,7 @@
 
 
 /***/ },
-/* 310 */
+/* 152 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -63431,7 +62462,7 @@
 
 
 /***/ },
-/* 311 */
+/* 153 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -63652,7 +62683,7 @@
 
 
 /***/ },
-/* 312 */
+/* 154 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -63846,7 +62877,7 @@
 
 
 /***/ },
-/* 313 */
+/* 155 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -63863,7 +62894,7 @@
 
 
 /***/ },
-/* 314 */
+/* 156 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -63879,7 +62910,7 @@
 
 
 /***/ },
-/* 315 */
+/* 157 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -63896,7 +62927,7 @@
 
 
 /***/ },
-/* 316 */
+/* 158 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -63913,7 +62944,7 @@
 
 
 /***/ },
-/* 317 */
+/* 159 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -63930,7 +62961,7 @@
 
 
 /***/ },
-/* 318 */
+/* 160 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -63948,7 +62979,7 @@
 
 
 /***/ },
-/* 319 */
+/* 161 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -63999,6 +63030,745 @@
 	
 	};
 
+
+/***/ },
+/* 162 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+	
+	/**
+	 * Création du module eligibilityApp
+	 */
+	angular.module('core', ['ui.router', 'ngCookies']);
+	
+	// fichiers requis par notre module
+	__webpack_require__(163);
+
+/***/ },
+/* 163 */
+/***/ function(module, exports) {
+
+	'use strict';
+	
+	/**
+	 * Déclaration des status pour le module ui-router
+	 */
+	
+	angular.module('core').config(['$stateProvider', '$urlRouterProvider', function ($stateProvider, $urlRouterProvider) {
+	
+	  // en cas de route non trouvée, rediriger sur la page d'accueil
+	  $urlRouterProvider.otherwise('/');
+	}]);
+
+/***/ },
+/* 164 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+	
+	/**
+	 * Création du module angular
+	 */
+	angular.module('calculator', ['core', 'chart.js']);
+	
+	// ajout des fichiers du module calculator
+	__webpack_require__(165);
+	__webpack_require__(166);
+	__webpack_require__(167);
+	__webpack_require__(168);
+	__webpack_require__(169);
+
+/***/ },
+/* 165 */
+/***/ function(module, exports) {
+
+	'use strict';
+	
+	function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+	
+	/**
+	 * Les objets "charges" d'une EURL à l'IS en PL
+	 * qui seront consommés par le service "chargesCalculator",
+	 * qui permettra de calculer le montant des cotisations et impots à payer.
+	 *
+	 * Une "charge" *DOIT* contenir les propriétés suivantes :
+	 *
+	 * // l'organisme qui doit recueillir la charge
+	 * organisme: 'urssaf',
+	 *
+	 * // label de la charge à afficher dans le tableau de résultats
+	 * label: 'Allocations familiales',
+	 *
+	 * // remarque supplémentaire concernant le calcul de la charge
+	 * commentaire: 'Pour les revenus compris entre 42 478 € et 54 062 €, taux progressif : entre 2,15 % et 5,25 %',
+	 *
+	 * // Chaque charge contient une à plusieurs tranches. Le type de tranche
+	 * // indique comment une tranche doit être calculée : en cumulant les cotisations
+	 * // pour chaque tranche existante, on sélectionnant uniquement une des tranches etc...
+	 * // il existe les types suivants :
+	 * // - tranche_exclusive : une seule tranche sera choisie pour effectuer le calcul
+	 * // - tranches_cumulatives : le montant de chaque tranque se cumule pour créer un total
+	 * type_tranches: 'tranche_exclusive',
+	 *
+	 * // un tableau des tranches est obligatoire, même si une seule tranche existe.
+	 * tranches: [
+	 *   {
+	 *     taux: 0.0215, // le taux à appliquer. "0.0215" définit un pourcentage de 2,15%
+	 *     plafond: 32000 // le plafond au delà duquel on passe à la tranche suivante
+	 *   }
+	 * ]
+	 *
+	 * SOURCES pour le calcul des cotisations:
+	 *   http://www.cnavpl.fr/les-chiffres-cles/principaux-parametres-du-regime-de-base/principaux-parametres-variables-du-regime-de-base/
+	 *   https://www.urssaf.fr/portail/home/taux-et-baremes/taux-de-cotisations/les-professions-liberales/bases-de-calcul-et-taux-des-coti.html
+	 *   https://www.rsi.fr/cotisations/professions-liberales/presentation-des-cotisations.html
+	 *
+	 * Le RSI gère uniquement votre protection santé maladie-maternité.
+	 * la retraite et l'invalidité décès sont assurées par la CNAVPL ou la CNBF
+	 * les cotisations d'allocations familiales, les contributions sociales (CSG/CRDS) et les contributions à la formation professionnelle sont à verser à l'Urssaf
+	 */
+	angular.module('calculator').service('chargesConfig2016', function () {
+	  var _parametres$charges$m;
+	
+	  var parametres = {
+	    general: {},
+	    charges: {},
+	    organismes: {}
+	  };
+	
+	  parametres.plafondMax = Number.MAX_SAFE_INTEGER;
+	
+	  // paramètres généraux pour le calcul des montants et charges
+	  parametres.plafond_securite_sociale = 38616;
+	  parametres.plafond_securite_sociale_precedent = 38040;
+	
+	  // URSSAF : MALADIE-MATERNITE
+	  parametres.charges.maladiesMaternite = (_parametres$charges$m = {
+	    organisme: 'URSSAF',
+	    type_tranches: 'tranche_exclusive',
+	    label: 'Maladie-maternité',
+	    commentaire: 'Base de calcul : totalité des revenus professionnels'
+	  }, _defineProperty(_parametres$charges$m, 'type_tranches', 'tranche_exclusive'), _defineProperty(_parametres$charges$m, 'tranches', [{
+	    label: "Tranche 1",
+	    taux: 6.50,
+	    plafond: parametres.plafondMax
+	  }]), _parametres$charges$m);
+	
+	  // URSSAF : ALLOCATIONS FAMILIALES
+	  parametres.charges.allocationsFamiliales = {
+	    organisme: 'URSSAF',
+	    label: 'Allocations familiales',
+	    commentaire: "Pour les revenus compris entre 42 478 € et 54 062 €, taux progressif : entre 2,15 % et 5,25 %. Faute de détails, le calculateur passe à 5.25 dès qu'on dépasse 42 478 €",
+	    type_tranches: 'tranche_exclusive',
+	    tranches: [{
+	      taux: 2.15,
+	      plafond: 42478
+	    },
+	    // en fait, le taux est progressif entre 2,15 % et 5,25 %
+	    // pour les revenus compris entre 42 478 € et 54 062 €. On tire l'estimation vers le haut.
+	    {
+	      taux: 5.25,
+	      plafond: parametres.plafondMax
+	    }]
+	  };
+	
+	  // URSSAF : CGS-CRDS
+	  parametres.charges.cgsCrds = {
+	    organisme: 'URSSAF',
+	    label: 'CGS-CRDS',
+	    commentaire: "Base de calcul : 	Totalité du revenu de l’activité non salariée + cotisations sociales obligatoires",
+	    type_tranches: 'exclusive',
+	    tranches: [{
+	      label: "Tranche 1",
+	      taux: 8,
+	      plafond: parametres.plafondMax
+	    }]
+	  };
+	
+	  // URSSAF : FORMATION PROFESSIONNELLE
+	  parametres.charges.formationProfessionnelle = {
+	    organisme: 'URSSAF',
+	    label: 'Formation professionnelle',
+	    commentaire: "Base de calcul : Sur la base de " + parametres.plafond_securite_sociale + " €  . Cotisation à verser en 2016. Si votre conjoint a opté pour le statut de conjoint collaborateur, le taux est de 0,34 %",
+	    type_tranches: 'exclusive',
+	    tranches: [{
+	      label: "Tranche 1",
+	      taux: 25,
+	      plafond: parametres.plafondMax
+	    }]
+	  };
+	
+	  // CIPAV - Retraite de base CNAVPL
+	  // http://service.cipav-retraite.fr/cipav/article-33-recapitulatif-des-options-de-montantmax04.htm
+	  // Voir le simulateur ici pour des exemples concrets : http://www.guide-tns.fr/simulateurs/chargesprofessionnelliberal.html
+	  parametres.charges.assuranceVieillesseBase = {
+	    label: 'Retraite de base',
+	    organisme: 'CIPAV',
+	    type_tranches: 'batarde',
+	    description: "Retraite de base CNAVPL",
+	    commentaire: "En cas de revenus non connus : 3 178 € (maximum de la tranche 1) ; 3 611 € (maximum de la tranche 2)",
+	    tranches: [
+	    // sous 4441, montant forfaitaire
+	    {
+	      label: "Tranche 1",
+	      plafond: 4441,
+	      montant_forfaitaire: 448
+	    },
+	    // d'abord on devra calcul le pourcentage sur cette tranche dans la limite du plafond,
+	    // puis on y ajoutera la seconde tranche en reprenant la base de calcul en entier.
+	    // WTF ?
+	    {
+	      label: "Tranche 2",
+	      plafond: parametres.plafond_securite_sociale,
+	      taux: 8.23
+	    }, {
+	      label: "Tranche 3",
+	      plafond: 193080,
+	      taux: 1.87
+	    }]
+	  };
+	
+	  // IMPOT
+	  parametres.charges.impotSurLesSocietes = {
+	    label: 'Impot sur les sociétés',
+	    organisme: "Impots",
+	    type_tranches: 'cumulatives',
+	    tranches: [{
+	      label: "tranche 1",
+	      plafond: 38120,
+	      taux: 15
+	    }, {
+	      label: "tranche 2",
+	      plafond: parametres.plafondMax,
+	      taux: 33
+	    }]
+	  };
+	
+	  // TVA 20%
+	  parametres.charges.tva20 = {
+	    label: "TVA",
+	    organisme: "Impots",
+	    type_tranches: "exclusive",
+	    tranches: [{
+	      label: "TVA 20%",
+	      plafond: parametres.plafondMax,
+	      taux: 20
+	    }]
+	  };
+	
+	  // La taxe foncière dont le montant forfaitaire dépend de la ville
+	  parametres.charges.cfe = {
+	    label: "CFE",
+	    organisme: "Impots locaux",
+	    type_tranches: "exclusive",
+	    tranches: [{
+	      label: "Tranche 1",
+	      plafond: parametres.plafondMax,
+	      montant_forfaitaire: null
+	    }]
+	  };
+	
+	  // CIPAV: Assurance vieillesse "complémentaire" ( mais obligatoire :-p )
+	  // http://service.cipav-retraite.fr/cipav/article-28-principes-de-calcul-des-cotisations-103.htm
+	  // http://service.cipav-retraite.fr/cipav/article-33-recapitulatif-des-options-de-montantmax04.htm
+	  parametres.charges.assuranceVieillesseComplementaire = {
+	    label: 'Retraite complémentaire',
+	    organisme: 'CIPAV',
+	    type_tranches: "exclusive",
+	    tranches: [{
+	      label: 'A',
+	      plafond: 26580,
+	      montant_forfaitaire: 1214,
+	      points_retraite: 36
+	    }, {
+	      label: 'B',
+	      plafond: 49280,
+	      montant_forfaitaire: 2427,
+	      points_retraite: 72
+	    }, {
+	      label: 'C',
+	      plafond: 57850,
+	      montant_forfaitaire: 3641,
+	      points_retraite: 108
+	    }, {
+	      label: 'D',
+	      plafond: 66400,
+	      montant_forfaitaire: 6068,
+	      points_retraite: 180
+	    }, {
+	      label: 'E',
+	      plafond: 83060,
+	      montant_forfaitaire: 8495,
+	      points_retraite: 252
+	    }, {
+	      label: 'F',
+	      plafond: 103180,
+	      montant_forfaitaire: 13349,
+	      points_retraite: 396
+	    }, {
+	      label: 'G',
+	      plafond: 123300,
+	      montant_forfaitaire: 14563,
+	      points_retraite: 432
+	    }, {
+	      label: 'H',
+	      plafond: parametres.plafondMax,
+	      montant_forfaitaire: 15776,
+	      points_retraite: 468
+	    }]
+	  };
+	
+	  // Réduction assurance vieillesse complémentaire
+	  // @pas appliquée dans le calculateur pour le moment
+	  parametres.charges.AssuranceVieillesseComplementaireReduction = {
+	    organisme: 'CIPAV',
+	    label: "Réduction assurance vieillesse complémentaire",
+	    type_tranches: "exclusive",
+	    tranches: [{
+	      label: "Tranche 1",
+	      plafond: 5792,
+	      taux: 100,
+	      points_retraite: 0,
+	      commentaire: "aucun point retraite"
+	    }, {
+	      label: "Tranche 2",
+	      plafond: 11585,
+	      taux: 75,
+	      points_retraite: 9,
+	      commentaire: "9 points retraite"
+	    }, {
+	      label: "Tranche 3",
+	      plafond: 17377,
+	      taux: 50,
+	      commentaire: "18 points retraite",
+	      points_retraite: 18
+	    }, {
+	      label: "Tranche 4",
+	      plafond: 23170,
+	      taux: 25,
+	      points_retraite: 27,
+	      commentaire: "27 points retraite"
+	    }]
+	  };
+	
+	  parametres.charges.invaliditeDeces = {
+	    organisme: 'CIPAV',
+	    label: "Invalidité Décès",
+	    type_tranches: 'exclusive',
+	    tranches: [{
+	      label: 'A',
+	      montant_forfaitaire: 76
+	    }, {
+	      label: 'B',
+	      montant_forfaitaire: 228
+	    }, {
+	      label: 'C',
+	      montant_forfaitaire: 380
+	    }]
+	  };
+	
+	  // les professions libérales ne cotisent pas pour les indemnités journalières
+	  // source : http://www.rsi.fr/baremes/charges.html
+	  //parametres.charges.indemnitesJournalieres = {};
+	
+	  return parametres;
+	});
+
+/***/ },
+/* 166 */
+/***/ function(module, exports) {
+
+	'use strict';
+	
+	/**
+	 * Augment les objets charges avec deux clefs :
+	 * - le montant global à payer en fonction de la base de calcul
+	 * - les "tranches actives" : le détail du montant par tranche
+	 */
+	angular.module('calculator').service('chargesTranchesCalculatorService', ['chargesConfig2016', function (chargesConfig2016) {
+	
+	  var service = {};
+	
+	  /**
+	   * Retourne le montant pour une tranche de charge.
+	   *
+	   * Une tranche est un objet qui peut contenir les clefs suivantes :
+	   * - montant : peut être déjà rempli pour les montants forfaitaires
+	   * - taux : le pourcentage à appliquer sur le montant
+	   * - montant_forfaitaire : si la tranche est un montant fixe en fonction du plafond.
+	   */
+	  service.calculerMontantTranche = function (tranche, baseCalcul) {
+	
+	    var montant = 0;
+	
+	    // si un montant forfaitaire est prédéfini pour cette tranche
+	    if (tranche.montant_forfaitaire) {
+	      montant = tranche.montant_forfaitaire;
+	    }
+	    // sinon on calcule le montant de la tranche en fonction du taux indiqué
+	    else if (tranche.taux) {
+	        montant = baseCalcul * (tranche.taux / 100);
+	      }
+	
+	    // on ajoute ou met à jour le montant à notre objet tranche
+	    tranche.montant = montant;
+	    tranche.baseCalcul = baseCalcul;
+	    return montant;
+	  };
+	
+	  /**
+	   * Calcul la tranche qui correspond à baseDeCalcul en fonction du tableau "tranches".
+	   * Pour les tranches exclusives, seule UNE tranche est conservé pour le calcul, les
+	   * tranches précédentes ou suivantes n'entrent donc en rien dans le calcul du montant
+	   * de la cotisation
+	   *
+	   * @param baseCalcul float | int :
+	   * @param charge array : tableau d'objet "charge"
+	   */
+	  service.calculerTrancheExclusive = function (baseCalcul, charge) {
+	
+	    charge.montant = 0;
+	
+	    // on recherche la tranche qui correspond à notre baseCalcul
+	    var trancheActive = null;
+	
+	    charge.tranches.forEach(function (tranche) {
+	      // tant que la base de calcul n'est pas supérieur au plafond en cours, on continue
+	      // d'itérer.
+	      if (!trancheActive && baseCalcul <= tranche.plafond) {
+	        // on a dépassé le plafond, on arrête de mettre à jour la variable trancheActive
+	        // qui contient maintenant notre réponse
+	        //tranche.baseCalcul = baseCalcul;
+	        trancheActive = tranche;
+	      }
+	    });
+	
+	    if (trancheActive) {
+	      charge.montant = service.calculerMontantTranche(trancheActive, baseCalcul);
+	      charge.tranchesActives = [trancheActive];
+	    }
+	
+	    return charge;
+	  };
+	
+	  /**
+	   * Calcul des charges à tranches cumulatives, tels que l'impot sur les bénéfices :
+	   * - 15% pour pour les 38120 premiers euros, puis 33,33% sur le reste des bénéfices
+	   *
+	   * @param baseCalcul float | int :
+	   * @param charge array : tableau d'objet "charges"
+	   */
+	  service.calculerTranchesCumulatives = function (baseCalcul, charge) {
+	
+	    charge.montant = 0;
+	
+	    // contiendra la liste des tranches qui seront appliquée
+	    // à notre base de calcul
+	    var tranches = [];
+	
+	    // montant total, toute tranches cumulées
+	    var montant = 0;
+	    var plancher = 0;
+	
+	    charge.tranches.forEach(function (tranche, index) {
+	
+	      // on calcule le "planger" de la tranche, qui est soit égal
+	      // au plafond précédent, soit à zéro si c'est la première tranche.
+	      if (typeof tranches[index - 1] !== 'undefined') {
+	        plancher = tranches[index - 1].plafond;
+	      }
+	      // on calcule la différence entre le plafond et le plancher
+	      tranche.intervalle = tranche.plafond - plancher;
+	
+	      // si la somme est supérieure ou égale au plafond de la tranche courante ...
+	      if (baseCalcul >= tranche.plafond) {
+	        // ... on calcule le montant dû pour la tranche courante
+	        tranche.baseCalcul = tranche.intervalle;
+	        tranche.montant = service.calculerMontantTranche(tranche, tranche.baseCalcul);
+	        // on ajoute le montant de la cotisation de cette tranche au total.
+	        montant += tranche.montant;
+	        // ajout à la liste des tranches qui s'applique à notre cas.
+	        tranches.push(tranche);
+	      }
+	
+	      // mais si la somme est inférieure au plafond courant, c'est que nous sommes à la dernière tranche
+	      else {
+	          // on calcule le montant pour cette derniere tranche
+	          var depassement_plancher = baseCalcul - plancher;
+	          if (depassement_plancher > 0) {
+	            tranche.baseCalcul = depassement_plancher;
+	            montant += tranche.montant = service.calculerMontantTranche(tranche, tranche.baseCalcul);
+	            // ajout à la liste des tranches qui s'appliquent à notre cas.
+	            tranches.push(tranche);
+	          }
+	        }
+	    });
+	
+	    charge.montant = montant;
+	    charge.tranchesActives = tranches;
+	
+	    return charge;
+	  };
+	
+	  return service;
+	}]);
+
+/***/ },
+/* 167 */
+/***/ function(module, exports) {
+
+	'use strict';
+	
+	/**
+	 * Calculs des charges d'une EULR en fonction des paramètres
+	 */
+	angular.module('calculator').service('chargesCalculatorService', ['chargesConfig2016', 'chargesTranchesCalculatorService', function (chargesConfig2016, chargesTranchesCalculatorService) {
+	
+	  /**
+	   * @param params object avec les propriétés suivantes:
+	   *
+	   * - chiffreAffaire
+	   * - remuneration
+	   * - frais
+	   * - cfe
+	   */
+	  return function (params) {
+	
+	    var service = {};
+	
+	    var chargesConfig = chargesConfig2016;
+	
+	    service.chiffreAffaireHt = params.chiffreAffaireHt;
+	    service.remuneration = params.remuneration;
+	    service.frais = params.frais;
+	    service.cfe = params.cfe;
+	    service.tva = params.tva;
+	
+	    service.getBaseCalculIs = function () {
+	      return service.chiffreAffaireHt - service.remuneration - service.frais;
+	    };
+	
+	    service.getTva = function () {
+	      return {
+	        label: 'TVA',
+	        montant: service.tva
+	      };
+	    };
+	
+	    /**
+	     * Pseudo charge
+	     */
+	    service.getCfe = function () {
+	      // pseudo calcul : on fait ça juste pour récupérer les meta-données déjà définies
+	      // dans la configuration des charges (l'objet charge avec son label, son commentaire etc ...)
+	      var charge = chargesTranchesCalculatorService.calculerTrancheExclusive(0, chargesConfig.charges.cfe);
+	      // on fixe le montant manuellement.
+	      charge.montant = service.cfe;
+	      return charge;
+	    };
+	
+	    /**
+	     * pseudo charge
+	     * @returns {{label: string, montant: (number|*)}}
+	     */
+	    service.getFrais = function () {
+	      return {
+	        label: 'Frais',
+	        montant: service.frais
+	      };
+	    };
+	
+	    service.getBenefice = function () {
+	      // comme on compte la TVA dans notre total à provisionner, on doit partir
+	      // du CA TTC pour calculer notre restant une fois retranché
+	      // la rémunération et le total à provisionner
+	      var montant = service.chiffreAffaireHt - service.getTotalAProvisionner().montant - service.remuneration - service.frais;
+	      return {
+	        label: "Bénéfice après provisions",
+	        montant: montant
+	      };
+	    };
+	
+	    service.getCotisationsSocialesArray = function () {
+	      return [service.getAssuranceVieillesseBase(service.remuneration), service.getAssuranceVieillesseComplementaire(service.remuneration), service.getFormationProfessionnelle(service.remuneration), service.getAllocationsFamiliales(service.remuneration), service.getMaladiesMaternite(service.remuneration)];
+	    };
+	
+	    service.caculerChiffreAffaireTtc = function () {
+	      return service.chiffreAffaireHt + service.tva;
+	    };
+	
+	    /**
+	     * Obtenir le montant total des cotisations sociales
+	     * @returns {number}
+	     */
+	    service.calculerTotalCotisationsSociales = function () {
+	      var total = 0;
+	      service.getCotisationsSocialesArray().forEach(function (item) {
+	        return total += item.montant;
+	      });
+	      return total;
+	    };
+	
+	    /**
+	     * Le total a provisionner, ce pour quoi j'ai créer l'application
+	     * c'est à dire ce qui sera payé à l'état
+	     * à un moement donné.
+	     * @returns {*}
+	     */
+	    service.getTotalAProvisionner = function () {
+	      var totalCotisationsSociales = service.calculerTotalCotisationsSociales();
+	      var total = service.cfe + service.tva + totalCotisationsSociales + service.getImpotSurLesSocietes().montant;
+	      return {
+	        id: 'totalAProvisionner',
+	        label: 'Total à provisionner',
+	        montant: total
+	      };
+	    };
+	
+	    service.getChiffreAffaireTtc = function () {
+	      return {
+	        label: "Chiffre d'affaire TTC",
+	        montant: service.chiffreAffaireHt + service.tva
+	      };
+	    };
+	
+	    service.getTotalCotisationsSociales = function () {
+	      return {
+	        label: 'Cotisations sociales',
+	        montant: service.calculerTotalCotisationsSociales()
+	      };
+	    };
+	
+	    /**
+	     * Calcul des cotisations maladie et maternité - URSSAF
+	     */
+	    service.getAssuranceVieillesseComplementaire = function (baseCalcul) {
+	      return chargesTranchesCalculatorService.calculerTrancheExclusive(baseCalcul, chargesConfig.charges.assuranceVieillesseComplementaire);
+	    };
+	
+	    /**
+	     * Calcul des cotisations pour la formation professionnelle
+	     */
+	    service.getFormationProfessionnelle = function (baseCalcul) {
+	      return chargesTranchesCalculatorService.calculerTrancheExclusive(baseCalcul, chargesConfig.charges.formationProfessionnelle);
+	    };
+	
+	    /**
+	     * Calcul des cotisations maladie et maternité - URSSAF
+	     */
+	    service.getAllocationsFamiliales = function (baseCalcul) {
+	      return chargesTranchesCalculatorService.calculerTrancheExclusive(baseCalcul, chargesConfig.charges.allocationsFamiliales);
+	    };
+	
+	    /**
+	     * Calcul des cotisations maladie et maternité - CIPAV
+	     * @FIXME calcul chelou, à vérifier
+	     */
+	    service.getAssuranceVieillesseBase = function (baseCalcul) {
+	      var assuranceVieillesseBase = angular.copy(chargesConfig.charges.assuranceVieillesseBase);
+	      if (baseCalcul > assuranceVieillesseBase.tranches[0].plafond) {
+	        delete assuranceVieillesseBase.tranches[0];
+	      }
+	      var result = chargesTranchesCalculatorService.calculerTranchesCumulatives(baseCalcul, assuranceVieillesseBase);
+	      return result;
+	    };
+	
+	    /**
+	     * Calcul des cotisations maladie et maternité - URSSAF
+	     */
+	    service.getMaladiesMaternite = function (baseCalcul) {
+	      return chargesTranchesCalculatorService.calculerTrancheExclusive(baseCalcul, chargesConfig.charges.maladiesMaternite);
+	    };
+	
+	    /**
+	     * Calcul de l'impot sur les bénéfices - Impots
+	     */
+	    service.getImpotSurLesSocietes = function () {
+	      return chargesTranchesCalculatorService.calculerTranchesCumulatives(service.getBaseCalculIs(), chargesConfig.charges.impotSurLesSocietes);
+	    };
+	
+	    return service;
+	  };
+	}]);
+
+/***/ },
+/* 168 */
+/***/ function(module, exports) {
+
+	'use strict';
+	
+	/**
+	 * Nos routes ui-router
+	 */
+	angular.module('calculator').config(['$stateProvider', '$urlRouterProvider', "ChartJsProvider", function ($stateProvider, $urlRouterProvider) {
+	
+	  $stateProvider.state('calculator', {
+	    url: '/',
+	    templateUrl: "modules/calculator/views/calculator.html",
+	    controller: 'chargesReportController'
+	  });
+	}]);
+
+/***/ },
+/* 169 */
+/***/ function(module, exports) {
+
+	'use strict';
+	
+	/**
+	 * @FIXME ajout CGS CRD, controle de toutes les charges
+	 *
+	 * Affichage du cout des charges d'une EURL à l'IS
+	 * Objet "charge" > objet "Resultat du calculator" > objet "ligne à afficher"
+	 */
+	angular.module('calculator').controller('chargesReportController', ['$scope', 'chargesCalculatorService', '$cookies', 'chargesConfig2016', function ($scope, chargesCalculatorService, $cookies, chargesConfig2016) {
+	
+	  $scope.totalAProvisionner = 0;
+	  $scope.benefice = 0;
+	  $scope.form = {
+	    chiffreAffaireHt: 35000,
+	    remuneration: 15000,
+	    tva: 0,
+	    frais: 0,
+	    cfe: 500
+	  };
+	  $scope.showDetails = 1;
+	
+	  $scope.plafondMax = chargesConfig2016.plafondMax;
+	
+	  // rafraichir les résultats
+	  $scope.refreshResults = function () {
+	    getResults();
+	  };
+	
+	  $scope.reportTvaHelper = function () {
+	    $scope.form.tva = $scope.form.chiffreAffaireHt * 0.20;
+	    getResults();
+	  };
+	
+	  getResults();
+	
+	  function getResults() {
+	
+	    var calculator = chargesCalculatorService($scope.form);
+	    $scope.calculator = calculator;
+	
+	    var charges = [];
+	    charges = charges.concat(calculator.getCotisationsSocialesArray()).concat(calculator.getImpotSurLesSocietes()).concat(calculator.getTva()).concat(calculator.getCfe()).concat(calculator.getFrais());
+	
+	    var aProvisionner = [];
+	    aProvisionner = aProvisionner.concat(calculator.getTotalAProvisionner()).concat(calculator.getTotalCotisationsSociales()).concat(calculator.getImpotSurLesSocietes()).concat(calculator.getCfe()).concat(calculator.getTva()).concat(calculator.getBenefice());
+	
+	    $scope.pie = { labels: [], data: [] };
+	    $scope.pie.labels = ["Bénéfice", "Chiffre d'affaire TTC"];
+	    $scope.pie.data = [calculator.getBenefice().montant, calculator.getChiffreAffaireTtc().montant];
+	
+	    // on rafraichit le scope avec les données retournées par le calculateur
+	    $scope.charges = charges;
+	    $scope.aProvisionner = aProvisionner;
+	  }
+	}]);
 
 /***/ }
 /******/ ]);
