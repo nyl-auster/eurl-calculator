@@ -59,7 +59,6 @@ angular.module('calculator').controller('chargesReportController', ['$scope', 'c
     charges.push(calculator.getTva());
     charges.push(calculator.getCfe());
 
-
     // textos
     // 1 - le chiffre d'affaire TTC, fruit des ventes de la société
     $scope.texto1Montant = calculator.chiffreAffaireTtc;
