@@ -9,12 +9,12 @@ angular.module('calculator').controller('chargesReportController', ['$scope', 'c
   $scope.totalAProvisionner = 0;
   $scope.benefice = 0;
   $scope.form = {
-    chiffreAffaireHt: 35000,
-    chiffreAffaireTtc: 42000,
-    remuneration: 10000,
-    frais: 4000,
-    tva:7000,
-    cfe: 500,
+    chiffreAffaireHt: 0,
+    chiffreAffaireTtc: 0,
+    remuneration: 0,
+    frais: 0,
+    tva:0,
+    cfe: 0,
     prevoyance:'B'
   };
   $scope.showDetails = 0;
