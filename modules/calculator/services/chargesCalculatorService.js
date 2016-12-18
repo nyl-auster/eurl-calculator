@@ -6,7 +6,8 @@ angular.module('calculator').service('chargesCalculatorService',['chargesConfig2
   /**
    * @param params object avec les propriétés suivantes:
    *
-   * - chiffreAffaire
+   * - chiffreAffaireHt
+   * - chiffreAffaireTtc
    * - remuneration
    * - frais
    * - cfe
@@ -17,6 +18,7 @@ angular.module('calculator').service('chargesCalculatorService',['chargesConfig2
 
     const chargesConfig = chargesConfig2016;
 
+    service.chiffreAffaireTtc = params.chiffreAffaireTtc;
     service.chiffreAffaireHt = params.chiffreAffaireHt;
     service.remuneration = params.remuneration;
     service.frais = params.frais;
@@ -24,6 +26,10 @@ angular.module('calculator').service('chargesCalculatorService',['chargesConfig2
     service.tva = params.tva;
     service.prevoyance = params.prevoyance;
 
+    /**
+     * @FIXME réecrire
+     * @returns {*}
+     */
     service.getPrevoyance = () => {
 
       let classeChoisie = null;

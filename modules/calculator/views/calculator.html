@@ -1,13 +1,13 @@
-<form name="calculatorForm" class="charges-form">
-  <div class="row">
 
-    <!-- Chiffres d'affaires HT -->
-    <div class="large-2 columns">
-      <label for="chiffre_affaire">Chiffre d'affaire HT</label>
+<div class="row">
+
+  <!-- Chiffres d'affaires TTC -->
+  <div class="small-12 large-4 columns">
+    <form name="calculatorForm" class="charges-form">
+      <label for="chiffre_affaire">Chiffre d'affaire TTC</label>
       <input
               ng-change="refreshResults()"
-              ng-model="form.chiffreAffaireHt"
-              ng-model-options="{ debounce: 300 }"
+              ng-model="form.chiffreAffaireTtc"
               type="number"
               class="form-control"
               placeholder="Chiffre d'affaire"
@@ -15,16 +15,29 @@
       <div ng-show="showFormHelp" class="charges-form__field__descripton show-for-large">
         Votre chiffre d'affaire <strong>Hors Taxe</strong>
       </div>
-    </div>
 
-    <!-- TVA a reverser -->
-    <div class="large-2 columns">
+
+      <!-- Chiffres d'affaires HT -->
+
+      <label for="chiffre_affaire">Chiffre d'affaire HT</label>
+      <input
+              ng-change="refreshResults()"
+              ng-model="form.chiffreAffaireHt"
+              type="number"
+              class="form-control"
+              placeholder="Chiffre d'affaire"
+      >
+      <div ng-show="showFormHelp" class="charges-form__field__descripton show-for-large">
+        Votre chiffre d'affaire <strong>Hors Taxe</strong>
+      </div>
+
+
+      <!-- TVA a reverser -->
       <label for="chiffre_affaire"> TVA à reverser</label>
       <input
               ng-change="refreshResults()"
               ng-model="form.tva"
               id="chiffre_affaire"
-              ng-model-options="{ debounce: 300 }"
               type="number"
               class="form-control"
               placeholder="Chiffre d'affaire"
@@ -35,31 +48,29 @@
         {{form.chiffreAffaireHt * 0.20 | currency }}
       </a>
       </div>
-    </div>
 
-    <!-- Rémunération -->
-    <div class="large-2 columns">
+
+      <!-- Rémunération -->
+
       <label for="remuneration"> Rémunération versée </label>
       <input
               ng-change="refreshResults()"
               ng-model="form.remuneration"
               id="remuneration"
-              ng-model-options="{ debounce: 300 }"
               type="number" class="form-control"
               placeholder="Rémunération"
       >
       <div ng-show="showFormHelp"  class="charges-form__field__descripton show-for-large">
-        Votre rémunération de gérant. Les cotisations sociales sont calculées sur cette base.
+        Mon salaire en tant que dirigeant majoritaire de l'EURL
       </div>
-    </div>
 
-    <!-- frais -->
-    <div class="large-2 columns">
+
+      <!-- frais -->
+
       <label for="frais"> Frais dépensés HT </label>
       <input
               ng-change="refreshResults()"
               ng-model="form.frais"
-              ng-model-options="{ debounce: 300 }"
               type="number"
               id="frais"
               class="form-control"
@@ -68,15 +79,14 @@
       <div ng-show="showFormHelp"  class="charges-form__field__descripton show-for-large">
         Vos achats et frais de sociétés <strong>Hors taxe</strong> : expertise comtpables, achats, déplacements etc ...
       </div>
-    </div>
 
-    <!-- CFE -->
-    <div class="large-2 columns">
+
+      <!-- CFE -->
+
       <label for="cfe"> CFE à verser </label>
       <input
               ng-change="refreshResults()"
               ng-model="form.cfe"
-              ng-model-options="{ debounce: 300 }"
               type="number"
               class="form-control"
               id="cfe"
@@ -85,9 +95,9 @@
       <div ng-show="showFormHelp"  class="charges-form__field__descripton show-for-large">
         Le montant de la cotisation foncière des entreprises dépend de votre commune
       </div>
-    </div>
 
-    <div class="large-2 columns">
+
+
       <label> Prévoyance </label>
       <select
               ng-change="refreshResults()"
@@ -100,107 +110,164 @@
       </select>
       <div ng-show="showFormHelp"  class="charges-form__field__descripton show-for-large">
       </div>
-    </div>
+
+    </form>
 
   </div>
-</form>
 
-<div style="padding-top:2rem" class="row">
-  <div class="small-6 medium-6 columns callout text-center">
-    <h4>A provisionner :</h4>
-    <h3>{{calculator.getTotalAProvisionner().montant | currency}}</h3>
-  </div>
-  <div ng-class="{'alert':calculator.getBenefice().montant <= 0, 'success':calculator.getBenefice().montant > 0}" class="small-6 medium-6 columns callout text-center">
-    <h4>Bénéfices après provisions </h4>
-    <h3>{{calculator.getBenefice().montant | currency}}</h3>
-  </div>
-</div>
+  <div class="small-12 large-8 columns">
 
-<div class="row">
 
-  <div class="small-12 medium-3 columns">
-    <div class="report-charts">
 
-      <h5 class="report-charts__title">Chiffre d'affaire HT / rému / bénéfice </h5>
-      <div class="text-center" ng-show="calculator.getBenefice().montant < 0">
-        <em>
-          impossible de représenter ce graphique avec un
-          déficit
-        </em>
-      </div>
+    <div class="messages-wrapper">
 
-      <div ng-if="calculator.getBenefice().montant >= 0">
-        <canvas id="pie" class="chart chart-pie"
-                chart-data="pie.data" chart-labels="pie.labels" chart-options="pie.options">
-        </canvas>
-      </div>
-
-    </div>
-  </div>
-
-  <div class="small-12 medium-3 columns">
-    <div class="report-charts">
-      <h5 class="report-charts__title">Rémunération / cotisations sociales</h5>
-      <canvas id="pieCotisations" class="chart chart-pie"
-              chart-data="pieCotisations.data" chart-labels="pieCotisations.labels" chart-options="pieCotisations.options">
-      </canvas>
-    </div>
-  </div>
-
-  <div class="small-12 medium-3 columns"></div>
-  <div class="small-12 medium-3 columns"></div>
-</div>
-
-<div class="row">
-  <div class="small-12 columns">
-
-    <table class="charges-results">
-      <caption>
-        Détails des charges
-        <div class="show-details show-for-large">
-          <a ng-show="!showDetails" href="" ng-click="showDetails=!showDetails">
-            Montrer les détails
-          </a>
-          <a ng-show="showDetails" href="" ng-click="showDetails=!showDetails">
-            Masquer les détails
-          </a>
+      <div class="message from">
+        <div class="label">
+          banque dit :
         </div>
-      </caption>
-      <thead>
-      <tr>
-        <th> Nom </th>
-        <th class="show-for-large"> Organisme </th>
-        <th class="show-for-large"> Tranche </th>
-        <th class="show-for-large"> Tranche Base de calcul </th>
-        <th class="show-for-large"> Tranche taux </th>
-        <th class="show-for-large"> Tranche forfait </th>
-        <th class="show-for-large"> tranche plafond </th>
-        <th> Montant </th>
-      </tr>
-      </thead>
+        <div>Total de vos ventes TTC</div>
+        <div class="messages__message__montant">{{texto1Montant | currency}}</div>
+      </div>
 
-      <tbody class="charges-results__result" ng-repeat="charge in charges">
+      <div class="message to society">
+        <div class="label">
+          Société dit:
+        </div>
+        <div>Achats</div>
+        <div class="messages__message__montant">{{ texto2Montant | currency}}</div>
+        <div class="messages__message__montant__description">
+          Mes achats pour mon activité
+        </div>
+      </div>
 
-      <tr class="charges-results__result__total">
-        <td> {{charge.label}} </td>
-        <td class="show-for-large" colspan="6"> {{charge.organisme}} </td>
-        <td> {{charge.montant | currency }} </td>
-      </tr>
+      <div class="message from">
+        <div class="label">
+          banque dit :
+        </div>
+        <div>
+          Il reste
+        </div>
+        <div class="messages__message__montant">{{texto3Montant | currency}}</div>
+      </div>
 
-      <tr class="show-for-large" ng-show="showDetails" class="charges-results__result__details" ng-repeat="tranche in charge.tranchesActives">
+      <div class="message to etat">
+        <div class="label">
+          Vous
+        </div>
+        <div>TVA à reverser</div>
+        <div class="messages__message__montant">{{ texto4Montant| currency }}</div>
+        <div class="messages__message__montant__description">
+          la TVA de vos ventes - la TVA de vos achats
+        </div>
+      </div>
 
-        <td colspan="2"></td>
-        <td> {{$index + 1}} </td>
-        <td> {{tranche.baseCalcul | currency}} </td>
-        <td> {{tranche.taux}} <span ng-show="tranche.taux">%</span> </td>
-        <td> {{tranche.montant_forfaitaire | currency}}</td>
-        <td> {{tranche.plafond == plafondMax ? ' - ' : (tranche.plafond | currency) }} </td>
-        <td> {{tranche.montant | currency}} </td>
-      </tr>
+      <div class="message from">
+        <div class="label">
+          Banque
+        </div>
+        <div>il vous reste</div>
+        <div class="messages__message__montant">{{ texto5Montant| currency }}</div>
+        <div class="messages__message__montant__description">
+        </div>
+      </div>
 
-      </tbody>
+      <div class="message to you">
+        <div class="label">
+          Vous
+        </div>
+        <div>Rémunération</div>
+        <div class="messages__message__montant">{{ texto6Montant| currency }}</div>
+        <div class="messages__message__montant__description">
+          Mon salaire en tant que dirigeant majoritaire de l'EURL
+        </div>
+      </div>
+
+      <div class="message from">
+        <div class="label">
+          Banque
+        </div>
+        <div>il vous reste</div>
+        <div class="messages__message__montant">{{ texto7Montant| currency }}</div>
+        <div class="messages__message__montant__description">
+        </div>
+      </div>
+
+      <div class="message to etat">
+        <div class="label">
+          Etat
+        </div>
+        <div>Cotisations sociales</div>
+        <div class="messages__message__montant">{{ texto8Montant| currency }}</div>
+        <div class="messages__message__montant__description">
+          Cotisations sociales à l'URSSAF, RSI et CIPAV calculé sur la base de votre rémunération de dirigeant majoritaire
+        </div>
+      </div>
+
+      <div class="message from">
+        <div class="label">
+          Banque
+        </div>
+        <div>il vous reste</div>
+        <div class="messages__message__montant">{{ texto9Montant| currency }}</div>
+        <div class="messages__message__montant__description">
+        </div>
+      </div>
+
+      <div class="message to etat">
+        <div class="label">
+          Etat
+        </div>
+        <div>CFE</div>
+        <div class="messages__message__montant">{{ texto10Montant| currency }}</div>
+        <div class="messages__message__montant__description">
+          La cotisation foncière des entreprises qui dépend de votre commune
+        </div>
+      </div>
+
+      <div class="message from">
+        <div class="label">
+          Banque
+        </div>
+        <div>il vous reste</div>
+        <div class="messages__message__montant">{{ texto11Montant| currency }}</div>
+        <div class="messages__message__montant__description">
+        </div>
+      </div>
+
+      <div class="message to etat">
+        <div class="label">
+          Etat
+        </div>
+        <div>Impôt sur les sociétés</div>
+        <div class="messages__message__montant">{{ texto12Montant| currency }}</div>
+        <div class="messages__message__montant__description">
+          Imposition du bénéfice à 15% puis 33%
+        </div>
+      </div>
+
+      <div class="message from">
+        <div class="label">
+          Banque
+        </div>
+        <div>il vous reste</div>
+        <div class="messages__message__montant">{{ texto13Montant| currency }}</div>
+        <div class="messages__message__montant__description">
+        </div>
+      </div>
 
 
-    </table>
+
+    </div>
+
+
   </div>
+
 </div>
+
+
+
+
+
+
+
+

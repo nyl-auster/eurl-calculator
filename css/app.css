@@ -46,8 +46,7 @@ table thead tr {
 }
 
 .charges-form input {
-    font-size:1.5rem;
-    padding:1.5rem;
+    font-size:1rem;
 }
 
 .charges-results__result__details {
@@ -82,3 +81,4 @@ canvas#pie {
     margin:auto;
     */
 }
+

@@ -1,0 +1,49 @@
+.message {
+    border-radius: 20px 20px 20px 20px;
+    margin: 0 15px 10px;
+    padding: 15px 20px;
+    position: relative;
+}
+
+.message.to {
+    background-color: #2095FE;
+    color: #fff;
+    margin-left: 80px;
+}
+
+.message.from {
+    background-color: #E5E4E9;
+    color: #363636;
+    margin-right: 80px;
+}
+
+.message.to + .message.to,
+.message.from + .message.from {
+    margin-top: -7px;
+}
+
+.message.to.you {
+    background-color: limegreen;
+}
+
+.message.to.society {
+    background-color:lightsteelblue;
+}
+
+.message.from:before {
+    border-color: #E5E4E9;
+    left: -50px;
+    transform: rotateY(180deg);
+}
+
+/*
+ TEXTOS
+ */
+
+.messages__message__montant {
+    font-weight: bold;
+}
+
+.messages__message__montant__description {
+    font-style: italic;
+}
