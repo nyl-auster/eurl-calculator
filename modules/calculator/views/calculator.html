@@ -33,7 +33,7 @@
 
 
       <!-- TVA a reverser -->
-      <label for="chiffre_affaire"> TVA à reverser</label>
+      <label for="chiffre_affaire"> TVA due (TVA ventes - TVA achats)</label>
       <input
               ng-change="refreshResults()"
               ng-model="form.tva"
@@ -123,49 +123,52 @@
 
       <div class="message from">
         <div class="label">
-          banque dit :
+          Votre banque dit :
         </div>
-        <div>Total de vos ventes TTC</div>
+        <div>Le solde de votre compte est :</div>
         <div class="messages__message__montant">{{texto1Montant | currency}}</div>
+        <div class="messages__message__montant__description">
+          Votre chiffres d'affaire TTC
+        </div>
       </div>
 
       <div class="message to society">
         <div class="label">
-          Société dit:
+          Votre société dit:
         </div>
         <div>Achats</div>
         <div class="messages__message__montant">{{ texto2Montant | currency}}</div>
         <div class="messages__message__montant__description">
-          Mes achats pour mon activité
+          Les achats pour effectuer mon activité
         </div>
       </div>
 
       <div class="message from">
         <div class="label">
-          banque dit :
+          Votre banque dit :
         </div>
         <div>
-          Il reste
+          Solde de votre compte
         </div>
         <div class="messages__message__montant">{{texto3Montant | currency}}</div>
       </div>
 
       <div class="message to etat">
         <div class="label">
-          Vous
+          L'état dit :
         </div>
-        <div>TVA à reverser</div>
+        <div>Merci de reverser la TVA dûe</div>
         <div class="messages__message__montant">{{ texto4Montant| currency }}</div>
         <div class="messages__message__montant__description">
-          la TVA de vos ventes - la TVA de vos achats
+          Il s'agit de la TVA de vos ventes - la TVA de vos achats
         </div>
       </div>
 
       <div class="message from">
         <div class="label">
-          Banque
+          Votre banque dit:
         </div>
-        <div>il vous reste</div>
+        <div>Solde de votre compte </div>
         <div class="messages__message__montant">{{ texto5Montant| currency }}</div>
         <div class="messages__message__montant__description">
         </div>
@@ -173,20 +176,20 @@
 
       <div class="message to you">
         <div class="label">
-          Vous
+          Vous dites :
         </div>
-        <div>Rémunération</div>
+        <div>Je dois me verser un salaire de </div>
         <div class="messages__message__montant">{{ texto6Montant| currency }}</div>
         <div class="messages__message__montant__description">
-          Mon salaire en tant que dirigeant majoritaire de l'EURL
+          Il s'agit de mon salaire en tant que dirigeant majoritaire de l'EURL
         </div>
       </div>
 
       <div class="message from">
         <div class="label">
-          Banque
+          Votre banque dit
         </div>
-        <div>il vous reste</div>
+        <div>Solde de votre compte</div>
         <div class="messages__message__montant">{{ texto7Montant| currency }}</div>
         <div class="messages__message__montant__description">
         </div>
@@ -194,9 +197,9 @@
 
       <div class="message to etat">
         <div class="label">
-          Etat
+          L'état dit:
         </div>
-        <div>Cotisations sociales</div>
+        <div>Coucou, vous devez des cotisations sociales sur votre rémunération.</div>
         <div class="messages__message__montant">{{ texto8Montant| currency }}</div>
         <div class="messages__message__montant__description">
           Cotisations sociales à l'URSSAF, RSI et CIPAV calculé sur la base de votre rémunération de dirigeant majoritaire
@@ -205,9 +208,9 @@
 
       <div class="message from">
         <div class="label">
-          Banque
+          La banque dit:
         </div>
-        <div>il vous reste</div>
+        <div>Solde de votre compte</div>
         <div class="messages__message__montant">{{ texto9Montant| currency }}</div>
         <div class="messages__message__montant__description">
         </div>
@@ -215,20 +218,20 @@
 
       <div class="message to etat">
         <div class="label">
-          Etat
+          Votre commune dit :
         </div>
-        <div>CFE</div>
+        <div>N'oubliez pas votre taxe foncière pour les entreprises !</div>
         <div class="messages__message__montant">{{ texto10Montant| currency }}</div>
         <div class="messages__message__montant__description">
-          La cotisation foncière des entreprises qui dépend de votre commune
+          La CFE : La cotisation foncière des entreprises qui dépend de votre commune.
         </div>
       </div>
 
       <div class="message from">
         <div class="label">
-          Banque
+          Votre banque dit:
         </div>
-        <div>il vous reste</div>
+        <div>Solde de votre compte </div>
         <div class="messages__message__montant">{{ texto11Montant| currency }}</div>
         <div class="messages__message__montant__description">
         </div>
@@ -236,18 +239,18 @@
 
       <div class="message to etat">
         <div class="label">
-          Etat
+          L'état dit:
         </div>
-        <div>Impôt sur les sociétés</div>
+        <div>Il vous rester des bénéfices ? </div>
         <div class="messages__message__montant">{{ texto12Montant| currency }}</div>
         <div class="messages__message__montant__description">
-          Imposition du bénéfice à 15% puis 33%
+          Vos bénéfices sont imposés de 15% à 33%
         </div>
       </div>
 
       <div class="message from">
         <div class="label">
-          Banque
+          Votre banque conclut:
         </div>
         <div>il vous reste</div>
         <div class="messages__message__montant">{{ texto13Montant| currency }}</div>

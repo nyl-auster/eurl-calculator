@@ -14,7 +14,7 @@ angular.module('calculator').controller('chargesReportController', ['$scope', 'c
     remuneration: 0,
     frais: 0,
     tva:0,
-    cfe: 0,
+    cfe: 500,
     prevoyance:'B'
   };
   $scope.showDetails = 0;
