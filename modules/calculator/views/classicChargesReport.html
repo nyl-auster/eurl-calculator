@@ -1,0 +1,206 @@
+<form name="calculatorForm" class="charges-form">
+  <div class="row">
+
+    <!-- Chiffres d'affaires HT -->
+    <div class="large-2 columns">
+      <label for="chiffre_affaire">Chiffre d'affaire HT</label>
+      <input
+              ng-change="refreshResults()"
+              ng-model="form.chiffreAffaireHt"
+              ng-model-options="{ debounce: 300 }"
+              type="number"
+              class="form-control"
+              placeholder="Chiffre d'affaire"
+      >
+      <div ng-show="showFormHelp" class="charges-form__field__descripton show-for-large">
+        Votre chiffre d'affaire <strong>Hors Taxe</strong>
+      </div>
+    </div>
+
+    <!-- TVA a reverser -->
+    <div class="large-2 columns">
+      <label for="chiffre_affaire"> TVA à reverser</label>
+      <input
+              ng-change="refreshResults()"
+              ng-model="form.tva"
+              id="chiffre_affaire"
+              ng-model-options="{ debounce: 300 }"
+              type="number"
+              class="form-control"
+              placeholder="Chiffre d'affaire"
+      >
+      <div ng-show="showFormHelp" class="charges-form__field__descripton show-for-large">
+        La TVA à reverser à l'état moins la TVA des achats.
+        <br />préremplir avec 20% du Chiffre d'affaire HT : <a title="cliquer pour reporter ce chiffre dans le champ TVA" ng-click="reportTvaHelper()">
+        {{form.chiffreAffaireHt * 0.20 | currency }}
+      </a>
+      </div>
+    </div>
+
+    <!-- Rémunération -->
+    <div class="large-2 columns">
+      <label for="remuneration"> Rémunération versée </label>
+      <input
+              ng-change="refreshResults()"
+              ng-model="form.remuneration"
+              id="remuneration"
+              ng-model-options="{ debounce: 300 }"
+              type="number" class="form-control"
+              placeholder="Rémunération"
+      >
+      <div ng-show="showFormHelp"  class="charges-form__field__descripton show-for-large">
+        Votre rémunération de gérant. Les cotisations sociales sont calculées sur cette base.
+      </div>
+    </div>
+
+    <!-- frais -->
+    <div class="large-2 columns">
+      <label for="frais"> Frais dépensés HT </label>
+      <input
+              ng-change="refreshResults()"
+              ng-model="form.frais"
+              ng-model-options="{ debounce: 300 }"
+              type="number"
+              id="frais"
+              class="form-control"
+              placeholder="Frais"
+      >
+      <div ng-show="showFormHelp"  class="charges-form__field__descripton show-for-large">
+        Vos achats et frais de sociétés <strong>Hors taxe</strong> : expertise comtpables, achats, déplacements etc ...
+      </div>
+    </div>
+
+    <!-- CFE -->
+    <div class="large-2 columns">
+      <label for="cfe"> CFE à verser </label>
+      <input
+              ng-change="refreshResults()"
+              ng-model="form.cfe"
+              ng-model-options="{ debounce: 300 }"
+              type="number"
+              class="form-control"
+              id="cfe"
+              placeholder="CFE"
+      >
+      <div ng-show="showFormHelp"  class="charges-form__field__descripton show-for-large">
+        Le montant de la cotisation foncière des entreprises dépend de votre commune
+      </div>
+    </div>
+
+    <div class="large-2 columns">
+      <label> Prévoyance </label>
+      <select
+              ng-change="refreshResults()"
+              ng-model="form.prevoyance"
+              type="number"
+              class="form-control"
+              placeholder="Prévoyance"
+      >
+        <option ng-value="tranche.classe" ng-selected="tranche.classe === form.prevoyance" ng-repeat="tranche in chargesConfig.charges.prevoyance.classes">{{tranche.label}}</option>
+      </select>
+      <div ng-show="showFormHelp"  class="charges-form__field__descripton show-for-large">
+      </div>
+    </div>
+
+  </div>
+</form>
+
+<div style="padding-top:2rem" class="row">
+  <div class="small-6 medium-6 columns callout text-center">
+    <h4>A provisionner :</h4>
+    <h3>{{calculator.getTotalAProvisionner().montant | currency}}</h3>
+  </div>
+  <div ng-class="{'alert':calculator.getBenefice().montant <= 0, 'success':calculator.getBenefice().montant > 0}" class="small-6 medium-6 columns callout text-center">
+    <h4>Bénéfices après provisions </h4>
+    <h3>{{calculator.getBenefice().montant | currency}}</h3>
+  </div>
+</div>
+
+<div class="row">
+
+  <div class="small-12 medium-3 columns">
+    <div class="report-charts">
+
+      <h5 class="report-charts__title">Chiffre d'affaire HT / rému / bénéfice </h5>
+      <div class="text-center" ng-show="calculator.getBenefice().montant < 0">
+        <em>
+          impossible de représenter ce graphique avec un
+          déficit
+        </em>
+      </div>
+
+      <div ng-if="calculator.getBenefice().montant >= 0">
+        <canvas id="pie" class="chart chart-pie"
+                chart-data="pie.data" chart-labels="pie.labels" chart-options="pie.options">
+        </canvas>
+      </div>
+
+    </div>
+  </div>
+
+  <div class="small-12 medium-3 columns">
+    <div class="report-charts">
+      <h5 class="report-charts__title">Rémunération / cotisations sociales</h5>
+      <canvas id="pieCotisations" class="chart chart-pie"
+              chart-data="pieCotisations.data" chart-labels="pieCotisations.labels" chart-options="pieCotisations.options">
+      </canvas>
+    </div>
+  </div>
+
+  <div class="small-12 medium-3 columns"></div>
+  <div class="small-12 medium-3 columns"></div>
+</div>
+
+<div class="row">
+  <div class="small-12 columns">
+
+    <table class="charges-results">
+      <caption>
+        Détails des charges
+        <div class="show-details show-for-large">
+          <a ng-show="!showDetails" href="" ng-click="showDetails=!showDetails">
+            Montrer les détails
+          </a>
+          <a ng-show="showDetails" href="" ng-click="showDetails=!showDetails">
+            Masquer les détails
+          </a>
+        </div>
+      </caption>
+      <thead>
+      <tr>
+        <th> Nom </th>
+        <th class="show-for-large"> Organisme </th>
+        <th class="show-for-large"> Tranche </th>
+        <th class="show-for-large"> Tranche Base de calcul </th>
+        <th class="show-for-large"> Tranche taux </th>
+        <th class="show-for-large"> Tranche forfait </th>
+        <th class="show-for-large"> tranche plafond </th>
+        <th> Montant </th>
+      </tr>
+      </thead>
+
+      <tbody class="charges-results__result" ng-repeat="charge in charges">
+
+      <tr class="charges-results__result__total">
+        <td> {{charge.label}} </td>
+        <td class="show-for-large" colspan="6"> {{charge.organisme}} </td>
+        <td> {{charge.montant | currency }} </td>
+      </tr>
+
+      <tr class="show-for-large" ng-show="showDetails" class="charges-results__result__details" ng-repeat="tranche in charge.tranchesActives">
+
+        <td colspan="2"></td>
+        <td> {{$index + 1}} </td>
+        <td> {{tranche.baseCalcul | currency}} </td>
+        <td> {{tranche.taux}} <span ng-show="tranche.taux">%</span> </td>
+        <td> {{tranche.montant_forfaitaire | currency}}</td>
+        <td> {{tranche.plafond == plafondMax ? ' - ' : (tranche.plafond | currency) }} </td>
+        <td> {{tranche.montant | currency}} </td>
+      </tr>
+
+      </tbody>
+
+
+    </table>
+  </div>
+</div>

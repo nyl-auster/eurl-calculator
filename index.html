@@ -17,9 +17,26 @@
 
 <body ng-app="calculator">
 
+<div class="top-bar">
+  <div class="top-bar-left">
+    <ul class="dropdown menu" data-dropdown-menu>
+      <li class="menu-text">TNS app - Simulateur de charges pour TNS - EURL IS PL</li>
+    </ul>
+  </div>
+  <div class="top-bar-right">
+    <ul class="menutext">
+      <ul class="dropdown menu" data-dropdown-menu>
+        <li><a ui-sref="classic">Rapport classique</a></li>
+        <li><a ui-sref="simple">Rapport simplifié</a></li>
+      </ul>
+
+    </ul>
+  </div>
+</div>
+
 <div class="row header">
   <div class="small-12 columns">
-    <h1>Indicateur de charges d'EURL
+    <h1>Simulateur de charges d'EURL
       <span class="label warning">Version Alpha</span>
     </h1>
     <h5>Gérant majoritaire - Impôt sur les sociétés - Professions libérales </h5>

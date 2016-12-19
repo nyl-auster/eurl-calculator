@@ -63912,7 +63912,16 @@
 	 * Déclaration des status pour le module ui-router
 	 */
 	
-	angular.module('core').config(['$stateProvider', '$urlRouterProvider', function ($stateProvider, $urlRouterProvider) {
+	angular.module('core').config(['$stateProvider', '$urlRouterProvider', '$locationProvider', '$urlMatcherFactoryProvider', function ($stateProvider, $urlRouterProvider, $locationProvider, $urlMatcherFactoryProvider) {
+	
+	  // activer le mode html 5
+	  if (window.history && window.history.pushState) {
+	    $locationProvider.html5Mode({
+	      enabled: true, requireBase: false
+	    });
+	  }
+	
+	  $urlMatcherFactoryProvider.strictMode(false);
 	
 	  // en cas de route non trouvée, rediriger sur la page d'accueil
 	  $urlRouterProvider.otherwise('/');
@@ -63935,6 +63944,7 @@
 	__webpack_require__(169);
 	__webpack_require__(170);
 	__webpack_require__(171);
+	__webpack_require__(172);
 
 /***/ },
 /* 167 */
@@ -64591,18 +64601,20 @@
 	/**
 	 * Nos routes ui-router
 	 */
-	angular.module('calculator').config(['$stateProvider', '$urlRouterProvider', "$locationProvider", function ($stateProvider, $urlRouterProvider, $locationProvider) {
+	angular.module('calculator').config(['$stateProvider', '$urlRouterProvider', "$locationProvider", '$urlMatcherFactoryProvider', function ($stateProvider, $urlRouterProvider, $locationProvider, $urlMatcherFactoryProvider) {
 	
-	  if (window.history && window.history.pushState) {
-	    $locationProvider.html5Mode({
-	      enabled: true, requireBase: false
-	    });
-	  }
+	  $urlMatcherFactoryProvider.strictMode(false);
 	
-	  $stateProvider.state('calculator', {
+	  $stateProvider.state('simple', {
 	    url: '/',
 	    templateUrl: "modules/calculator/views/calculator.html",
 	    controller: 'chargesReportController'
+	  });
+	
+	  $stateProvider.state('classic', {
+	    url: '/classic',
+	    templateUrl: "modules/calculator/views/classicChargesReport.html",
+	    controller: 'classicChargesReportController'
 	  });
 	}]);
 
@@ -64712,6 +64724,90 @@
 	
 	    // on met à jour le reste en banque
 	    $scope.texto13Montant = $scope.texto11Montant - $scope.texto12Montant;
+	
+	    // ajout du total à provisionner
+	    charges.push(getChargesTotal(charges));
+	
+	    // on rafraichit le scope avec les données retournées par le calculateur
+	    $scope.charges = charges;
+	
+	    // graphique 1
+	    $scope.pie = { labels: [], data: [] };
+	    $scope.pie.labels = ["Bénéfice", "Rémunération", "Chiffre d'affaire HT"];
+	    $scope.pie.data = [calculator.getBenefice().montant, calculator.remuneration, calculator.chiffreAffaireHt];
+	
+	    // graphique 2
+	    $scope.pieCotisations = { labels: [], data: [] };
+	    $scope.pieCotisations.labels = ["Rémunération", "Cotisations sociales"];
+	    $scope.pieCotisations.data = [calculator.remuneration, calculator.getTotalCotisationsSociales().montant];
+	  }
+	}]);
+
+/***/ },
+/* 172 */
+/***/ function(module, exports) {
+
+	'use strict';
+	
+	/**
+	 * @FIXME ajout CGS CRD, controle de toutes les charges
+	 *
+	 * Affichage du cout des charges d'une EURL à l'IS
+	 * Objet "charge" > objet "Resultat du calculator" > objet "ligne à afficher"
+	 */
+	angular.module('calculator').controller('classicChargesReportController', ['$scope', 'chargesCalculatorService', '$cookies', 'chargesConfig2016', function ($scope, chargesCalculatorService, $cookies, chargesConfig2016) {
+	
+	  $scope.totalAProvisionner = 0;
+	  $scope.benefice = 0;
+	  $scope.form = {
+	    chiffreAffaireHt: 0,
+	    remuneration: 0,
+	    tva: 0,
+	    frais: 0,
+	    cfe: 500,
+	    prevoyance: 'B'
+	  };
+	  $scope.showDetails = 0;
+	  $scope.showFormHelp = 1;
+	
+	  $scope.plafondMax = chargesConfig2016.plafondMax;
+	  $scope.chargesConfig = chargesConfig2016;
+	
+	  // rafraichir les résultats
+	  $scope.refreshResults = function () {
+	    getResults();
+	  };
+	
+	  $scope.reportTvaHelper = function () {
+	    $scope.form.tva = $scope.form.chiffreAffaireHt * 0.20;
+	    getResults();
+	  };
+	
+	  getResults();
+	
+	  function getChargesTotal(lines) {
+	    var total = 0;
+	    lines.forEach(function (line) {
+	      total += line.montant;
+	    });
+	    return {
+	      label: "TOTAL A PROVISIONNER",
+	      montant: total
+	    };
+	  }
+	
+	  function getResults() {
+	
+	    var calculator = chargesCalculatorService($scope.form);
+	    $scope.calculator = calculator;
+	
+	    var charges = [];
+	    charges = charges.concat(calculator.getCotisationsSocialesArray());
+	    charges.push(calculator.getCgsCrds());
+	    charges.push(calculator.getPrevoyance());
+	    charges.push(calculator.getImpotSurLesSocietes());
+	    charges.push(calculator.getTva());
+	    charges.push(calculator.getCfe());
 	
 	    // ajout du total à provisionner
 	    charges.push(getChargesTotal(charges));
