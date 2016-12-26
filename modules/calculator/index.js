@@ -8,5 +8,5 @@ require('./config/chargesConfig2016');
 require('./services/chargesTranchesCalculatorService');
 require('./services/chargesCalculatorService');
 require('./states');
-require('./controllers/chargesReportController');
+require('./controllers/storyChargesReportController');
 require('./controllers/classicChargesReportController');

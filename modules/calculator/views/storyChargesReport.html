@@ -43,7 +43,7 @@
               placeholder="Chiffre d'affaire"
       >
       <div ng-show="showFormHelp" class="charges-form__field__descripton show-for-large">
-        La TVA à reverser à l'état moins la TVA des achats.
+        La TVA de vos ventes moins la TVA de vos achats.
         <br />préremplir avec 20% du Chiffre d'affaire HT : <a title="cliquer pour reporter ce chiffre dans le champ TVA" ng-click="reportTvaHelper()">
         {{form.chiffreAffaireHt * 0.20 | currency }}
       </a>
@@ -67,7 +67,7 @@
 
       <!-- frais -->
 
-      <label for="frais"> Frais dépensés HT </label>
+      <label for="frais"> Achats TTC </label>
       <input
               ng-change="refreshResults()"
               ng-model="form.frais"
@@ -77,7 +77,7 @@
               placeholder="Frais"
       >
       <div ng-show="showFormHelp"  class="charges-form__field__descripton show-for-large">
-        Vos achats et frais de sociétés <strong>Hors taxe</strong> : expertise comtpables, achats, déplacements etc ...
+        Vos achats et frais de sociétés, avec la TVA : expertise comtpables, achats, déplacements etc ...
       </div>
 
 

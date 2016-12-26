@@ -27,8 +27,8 @@ table thead tr {
  Resultats des calculs de charges
  =================================*/
 
-.charges-form {
-
+.charges-form .row {
+  padding-bottom: 1rem;
 }
 
 .charges-form__help {
@@ -52,15 +52,14 @@ table thead tr {
 .charges-results__result__details {
     font-style: italic;
     font-size:0.9em;
+    background-color: #f1f1f1;
 }
 
 .charges-results__total {
     font-weight: bold;
-    background-color: #f1f1f1;
 }
 
 table tbody tr.charges-results__result__total {
-    background-color: #f1f1f1;
     font-weight: bold;
 }
 

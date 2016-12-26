@@ -1,9 +1,25 @@
 <form name="calculatorForm" class="charges-form">
+
   <div class="row">
 
+    <!-- Chiffre d'affaire TTC -->
+    <div class="large-3 small-12 columns">
+      <label for="chiffre_affaire">Chiffre d'affaire TTC</label>
+      <input
+              ng-change="refreshResults()"
+              ng-model="form.chiffreAffaireTtc"
+              type="number"
+              class="form-control"
+              placeholder="Chiffre d'affaire"
+      >
+      <div ng-show="showFormHelp" class="charges-form__field__descripton show-for-large">
+        Le total des ventes de la société en incluant la TVA.
+      </div>
+    </div>
+
     <!-- Chiffres d'affaires HT -->
-    <div class="large-2 columns">
-      <label for="chiffre_affaire">Chiffre d'affaire HT</label>
+    <div class="large-3 small-12 columns">
+      <label for="chiffre_affaire">Chiffre d'affaire hors taxes</label>
       <input
               ng-change="refreshResults()"
               ng-model="form.chiffreAffaireHt"
@@ -13,33 +29,13 @@
               placeholder="Chiffre d'affaire"
       >
       <div ng-show="showFormHelp" class="charges-form__field__descripton show-for-large">
-        Votre chiffre d'affaire <strong>Hors Taxe</strong>
-      </div>
-    </div>
-
-    <!-- TVA a reverser -->
-    <div class="large-2 columns">
-      <label for="chiffre_affaire"> TVA à reverser</label>
-      <input
-              ng-change="refreshResults()"
-              ng-model="form.tva"
-              id="chiffre_affaire"
-              ng-model-options="{ debounce: 300 }"
-              type="number"
-              class="form-control"
-              placeholder="Chiffre d'affaire"
-      >
-      <div ng-show="showFormHelp" class="charges-form__field__descripton show-for-large">
-        La TVA à reverser à l'état moins la TVA des achats.
-        <br />préremplir avec 20% du Chiffre d'affaire HT : <a title="cliquer pour reporter ce chiffre dans le champ TVA" ng-click="reportTvaHelper()">
-        {{form.chiffreAffaireHt * 0.20 | currency }}
-      </a>
+        Votre chiffre d'affaire sans la TVA de vos ventes. C'est une base de calcul pour certaines des charges.
       </div>
     </div>
 
     <!-- Rémunération -->
-    <div class="large-2 columns">
-      <label for="remuneration"> Rémunération versée </label>
+    <div class="large-3 small-12 columns">
+      <label for="remuneration"> Rémunération </label>
       <input
               ng-change="refreshResults()"
               ng-model="form.remuneration"
@@ -49,29 +45,16 @@
               placeholder="Rémunération"
       >
       <div ng-show="showFormHelp"  class="charges-form__field__descripton show-for-large">
-        Votre rémunération de gérant. Les cotisations sociales sont calculées sur cette base.
+        Votre rémunération en tant que gérant. Les cotisations sociales sont calculées sur cette base.
       </div>
     </div>
 
-    <!-- frais -->
-    <div class="large-2 columns">
-      <label for="frais"> Frais dépensés HT </label>
-      <input
-              ng-change="refreshResults()"
-              ng-model="form.frais"
-              ng-model-options="{ debounce: 300 }"
-              type="number"
-              id="frais"
-              class="form-control"
-              placeholder="Frais"
-      >
-      <div ng-show="showFormHelp"  class="charges-form__field__descripton show-for-large">
-        Vos achats et frais de sociétés <strong>Hors taxe</strong> : expertise comtpables, achats, déplacements etc ...
-      </div>
-    </div>
+  </div>
+
+  <div class="row">
 
     <!-- CFE -->
-    <div class="large-2 columns">
+    <div class="large-3 small-12 columns">
       <label for="cfe"> CFE à verser </label>
       <input
               ng-change="refreshResults()"
@@ -83,11 +66,45 @@
               placeholder="CFE"
       >
       <div ng-show="showFormHelp"  class="charges-form__field__descripton show-for-large">
-        Le montant de la cotisation foncière des entreprises dépend de votre commune
+        Vous devez verser une cotisation foncière des entreprises, dont le montant dépend de votre commune.
       </div>
     </div>
 
-    <div class="large-2 columns">
+    <!-- frais -->
+    <div class="large-3 small-12 columns">
+      <label for="fraisTtc"> Frais TTC </label>
+      <input
+              ng-change="refreshResults()"
+              ng-model="form.fraisTtc"
+              ng-model-options="{ debounce: 300 }"
+              type="number"
+              id="fraisTtc"
+              class="form-control"
+              placeholder="Frais TTC"
+      >
+      <div ng-show="showFormHelp"  class="charges-form__field__descripton show-for-large">
+        Vos dépenses de sociétés <strong>hors taxe</strong> : expertise comtpable, achats, fournisseurs etc ...
+      </div>
+    </div>
+
+    <!-- frais HT -->
+    <div class="large-3 small-12 columns">
+      <label for="fraisTtc"> Frais HT </label>
+      <input
+              ng-change="refreshResults()"
+              ng-model="form.fraisHt"
+              ng-model-options="{ debounce: 300 }"
+              type="number"
+              id="fraisHt"
+              class="form-control"
+              placeholder="Frais HT"
+      >
+      <div ng-show="showFormHelp"  class="charges-form__field__descripton show-for-large">
+        Vos dépenses de sociétés <strong>hors taxe</strong> : expertise comtpable, achats, fournisseurs etc ...
+      </div>
+    </div>
+
+    <div class="large-3 small-12 columns">
       <label> Prévoyance </label>
       <select
               ng-change="refreshResults()"
@@ -114,41 +131,6 @@
     <h4>Bénéfices après provisions </h4>
     <h3>{{calculator.getBenefice().montant | currency}}</h3>
   </div>
-</div>
-
-<div class="row">
-
-  <div class="small-12 medium-3 columns">
-    <div class="report-charts">
-
-      <h5 class="report-charts__title">Chiffre d'affaire HT / rému / bénéfice </h5>
-      <div class="text-center" ng-show="calculator.getBenefice().montant < 0">
-        <em>
-          impossible de représenter ce graphique avec un
-          déficit
-        </em>
-      </div>
-
-      <div ng-if="calculator.getBenefice().montant >= 0">
-        <canvas id="pie" class="chart chart-pie"
-                chart-data="pie.data" chart-labels="pie.labels" chart-options="pie.options">
-        </canvas>
-      </div>
-
-    </div>
-  </div>
-
-  <div class="small-12 medium-3 columns">
-    <div class="report-charts">
-      <h5 class="report-charts__title">Rémunération / cotisations sociales</h5>
-      <canvas id="pieCotisations" class="chart chart-pie"
-              chart-data="pieCotisations.data" chart-labels="pieCotisations.labels" chart-options="pieCotisations.options">
-      </canvas>
-    </div>
-  </div>
-
-  <div class="small-12 medium-3 columns"></div>
-  <div class="small-12 medium-3 columns"></div>
 </div>
 
 <div class="row">

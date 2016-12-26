@@ -10,9 +10,11 @@ angular.module('calculator').controller('classicChargesReportController', ['$sco
   $scope.benefice = 0;
   $scope.form = {
     chiffreAffaireHt: 0,
+    chiffreAffaireTtc: 0,
     remuneration: 0,
     tva:0,
-    frais: 0,
+    fraisTtc: 0,
+    fraisHt: 0,
     cfe: 500,
     prevoyance:'B'
   };
@@ -24,11 +26,6 @@ angular.module('calculator').controller('classicChargesReportController', ['$sco
 
   // rafraichir les résultats
   $scope.refreshResults = () => {
-    getResults();
-  };
-
-  $scope.reportTvaHelper = () => {
-    $scope.form.tva = $scope.form.chiffreAffaireHt * 0.20;
     getResults();
   };
 
@@ -58,36 +55,11 @@ angular.module('calculator').controller('classicChargesReportController', ['$sco
     charges.push(calculator.getTva());
     charges.push(calculator.getCfe());
 
-
     // ajout du total à provisionner
     charges.push(getChargesTotal(charges));
 
     // on rafraichit le scope avec les données retournées par le calculateur
     $scope.charges = charges;
-
-    // graphique 1
-    $scope.pie = {labels:[], data:[]};
-    $scope.pie.labels = [
-      "Bénéfice",
-      "Rémunération",
-      "Chiffre d'affaire HT"
-    ];
-    $scope.pie.data = [
-      calculator.getBenefice().montant,
-      calculator.remuneration,
-      calculator.chiffreAffaireHt
-    ];
-
-    // graphique 2
-    $scope.pieCotisations = {labels:[], data:[]};
-    $scope.pieCotisations.labels = [
-      "Rémunération",
-      "Cotisations sociales"
-    ];
-    $scope.pieCotisations.data = [
-      calculator.remuneration,
-      calculator.getTotalCotisationsSociales().montant
-    ];
 
   }
 

@@ -1,5 +1,5 @@
 /**
- * Calculs des charges d'une EULR en fonction des paramètres
+ * Calculs des charges d'une EURL en fonction des paramètres
  */
 angular.module('calculator').service('chargesCalculatorService',['chargesConfig2016', 'chargesTranchesCalculatorService', function(chargesConfig2016, chargesTranchesCalculatorService){
 
@@ -9,8 +9,10 @@ angular.module('calculator').service('chargesCalculatorService',['chargesConfig2
    * - chiffreAffaireHt
    * - chiffreAffaireTtc
    * - remuneration
-   * - frais
+   * - fraisTtc
    * - cfe
+   * - tva à reverser
+   * - prevoyance
    */
   return (params) => {
 
@@ -21,13 +23,14 @@ angular.module('calculator').service('chargesCalculatorService',['chargesConfig2
     service.chiffreAffaireTtc = params.chiffreAffaireTtc;
     service.chiffreAffaireHt = params.chiffreAffaireHt;
     service.remuneration = params.remuneration;
-    service.frais = params.frais;
+    service.fraisTtc = params.fraisTtc;
+    service.fraisHt = params.fraisHt;
     service.cfe = params.cfe;
     service.tva = params.tva;
     service.prevoyance = params.prevoyance;
 
     /**
-     * @FIXME réecrire
+     * @FIXME à réecrire clean
      * @returns {*}
      */
     service.getPrevoyance = () => {
@@ -51,8 +54,14 @@ angular.module('calculator').service('chargesCalculatorService',['chargesConfig2
       return charge;
     };
 
+    /**
+     * Otenir la base de calcul pour l'impot sur les sociétés.
+     * La base de calcul est le résultat fiscal (résultat comptable + charges non déductibles)
+     * Le résultat comptable, ce sont les produits moins les charges
+     * @returns {number}
+     */
     service.getBaseCalculIs = () => {
-      return service.chiffreAffaireHt - service.remuneration - service.frais;
+      return service.chiffreAffaireHt - service.remuneration - service.fraisHt;
     };
 
     service.getTva = () => {
@@ -79,23 +88,30 @@ angular.module('calculator').service('chargesCalculatorService',['chargesConfig2
      * pseudo charge
      * @returns {{label: string, montant: (number|*)}}
      */
-    service.getFrais = () => {
+    service.getfraisTtc = () => {
       return {
-        label: 'Frais',
-        montant: service.frais
+        label: 'fraisTtc',
+        montant: service.fraisTtc
       };
     };
 
+    /**
+     * Les bénéfices de la société : ce qu'il reste après avoir
+     * - payé la rémunération
+     * - payé les cotisations sociales
+     * - retiré les achats
+     * @returns {{label: string, montant: number}}
+     */
     service.getBenefice = () => {
 
       // comme on compte la TVA dans ce que nous devons provisionner,
       // il faut l'ajouter ici pour avoir un bénéfice juste
       // @FIXME il faudrait compter le chiffre d'affaire TTC,
       // puis que la tva dûe + chiffreAffaireHT != CA TTC
-      let montant = service.chiffreAffaireHt + service.tva
+      let montant = service.chiffreAffaireTtc - service.tva
         - service.getTotalAProvisionner().montant
         - service.remuneration
-        - service.frais;
+        - service.fraisTtc;
 
       return {
         label: "Bénéfice après provisions",

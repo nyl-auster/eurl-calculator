@@ -5,16 +5,16 @@ angular.module('calculator').config(['$stateProvider', '$urlRouterProvider', "$l
 
   $urlMatcherFactoryProvider.strictMode(false);
 
-  $stateProvider.state('simple', {
-    url: '/',
-    templateUrl: "modules/calculator/views/calculator.html",
-    controller:'chargesReportController'
-  });
-
   $stateProvider.state('classic', {
-    url: '/classic',
+    url: '/',
     templateUrl: "modules/calculator/views/classicChargesReport.html",
     controller:'classicChargesReportController'
+  });
+
+  $stateProvider.state('story', {
+    url: '/story',
+    templateUrl: "modules/calculator/views/storyChargesReport.html",
+    controller:'storyChargesReportController'
   });
 
 }]);
