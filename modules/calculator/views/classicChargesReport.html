@@ -158,6 +158,13 @@
   <div class="small-6 medium-6 columns callout text-center">
     <h4>A provisionner :</h4>
     <h3>{{calculator.getTotalAProvisionner().montant | currency}}</h3>
+    <p>
+    <ul class="text-left">
+      <li>{{(calculator.getTotalAProvisionner().montant * 100) / calculator.chiffreAffaireHt}} % du chiffre d'affaire HT</li>
+      <li>{{(calculator.getTotalAProvisionner().montant * 100) / calculator.chiffreAffaireTtc}} % du chiffre d'affaire TTC</li>
+      <li>{{(calculator.getTotalAProvisionner().montant * 100) / calculator.remuneration}} % de la rémunération</li>
+    </ul>
+    </p>
   </div>
   <div ng-class="{'alert':calculator.getBenefice().montant <= 0, 'success':calculator.getBenefice().montant > 0}" class="small-6 medium-6 columns callout text-center">
     <h4>Bénéfices après provisions </h4>
