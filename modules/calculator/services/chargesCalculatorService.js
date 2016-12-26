@@ -136,13 +136,17 @@ angular.module('calculator').service('chargesCalculatorService',['chargesConfig2
       };
     };
 
+    /**
+     * Toute les cotisations sociales à l'exception de la CGS-CRDS
+     * @returns {[*,*,*,*,*]}
+     */
     self.getCotisationsSocialesArray = () => {
       return [
         self.getAssuranceVieillesseBase(self.remuneration),
         self.getAssuranceVieillesseComplementaire(self.remuneration),
+        self.getMaladiesMaternite(self.remuneration),
         self.getFormationProfessionnelle(self.remuneration),
-        self.getAllocationsFamiliales(self.remuneration),
-        self.getMaladiesMaternite(self.remuneration)
+        self.getAllocationsFamiliales(self.remuneration)
       ];
     };
 
@@ -194,7 +198,8 @@ angular.module('calculator').service('chargesCalculatorService',['chargesConfig2
     /**
      * Calcul des cotisations pour la formation professionnelle
      */
-    self.getFormationProfessionnelle = (baseCalcul) => {
+    self.getFormationProfessionnelle = () => {
+      const baseCalcul = chargesConfig.plafond_securite_sociale;
       return chargesTranchesCalculatorService.calculerTrancheExclusive(baseCalcul, chargesConfig.charges.formationProfessionnelle);
     };
 
@@ -233,11 +238,11 @@ angular.module('calculator').service('chargesCalculatorService',['chargesConfig2
     };
 
     /**
-     * Calcul de l'impot sur les bénéfices - Impots
+     * la CGS-CRDS se calcul sur la rému augmenté des autre cotisatiions sociales hors CSG-CRDS
      */
     self.getCgsCrds= () => {
       const baseCalcul = self.remuneration + self.getTotalCotisationsSociales().montant;
-      return chargesTranchesCalculatorService.calculerTranchesCumulatives(self.getBaseCalculIs(), chargesConfig.charges.cgsCrds);
+      return chargesTranchesCalculatorService.calculerTranchesCumulatives(baseCalcul, chargesConfig.charges.cgsCrds);
     };
 
     return self;

@@ -34,6 +34,7 @@
  *   http://www.cnavpl.fr/les-chiffres-cles/principaux-parametres-du-regime-de-base/principaux-parametres-variables-du-regime-de-base/
  *   https://www.urssaf.fr/portail/home/taux-et-baremes/taux-de-cotisations/les-professions-liberales/bases-de-calcul-et-taux-des-coti.html
  *   https://www.rsi.fr/cotisations/professions-liberales/presentation-des-cotisations.html
+ *   http://www.leblogdudirigeant.com/tns-base-de-calcul-cotisations-25022015albddlau/
  *
  * Le RSI gère uniquement votre protection santé maladie-maternité.
  * la retraite et l'invalidité décès sont assurées par la CNAVPL ou la CNBF
@@ -55,7 +56,7 @@ angular.module('calculator').service('chargesConfig2016', function(){
 
   // URSSAF : MALADIE-MATERNITE
   parametres.charges.maladiesMaternite = {
-    organisme:'URSSAF',
+    organisme:'RSI',
     type_tranches: 'tranche_exclusive',
     label:'Maladie-maternité',
     commentaire:'Base de calcul : totalité des revenus professionnels',
@@ -104,16 +105,31 @@ angular.module('calculator').service('chargesConfig2016', function(){
     ]
   };
 
+  // URSSAF : CSG-CRDS (la distinction déductible n'est pas faite)
+  parametres.charges.csgNonDeductible = {
+    organisme:'URSSAF',
+    label:'CSG-CRDS Non déductible',
+    commentaire:"Base de calcul : 	Totalité du revenu de l’activité non salariée + cotisations sociales obligatoires hors CSG-CRDS",
+    type_tranches: 'exclusive',
+    tranches: [
+      {
+        label:"Tranche 1",
+        taux: 2.9,
+        plafond: parametres.plafondMax
+      }
+    ]
+  };
+
   // URSSAF : FORMATION PROFESSIONNELLE
   parametres.charges.formationProfessionnelle = {
     organisme: 'URSSAF',
     label: 'Formation professionnelle',
-    commentaire: "Base de calcul : Sur la base de " + parametres.plafond_securite_sociale + " €  . Cotisation à verser en 2016. Si votre conjoint a opté pour le statut de conjoint collaborateur, le taux est de 0,34 %",
+    commentaire: "Base de calcul forfaitaire (fixe): plafond de la sécurité sociale",
     type_tranches: 'exclusive',
     tranches: [
       {
         label: "Tranche 1",
-        taux: 25,
+        taux: 0.25,
         plafond: parametres.plafondMax
       }
     ]
