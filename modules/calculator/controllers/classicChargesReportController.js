@@ -9,13 +9,15 @@ angular.module('calculator').controller('classicChargesReportController', ['$sco
   $scope.totalAProvisionner = 0;
   $scope.benefice = 0;
   $scope.form = {
-    chiffreAffaireHt: 35000,
-    chiffreAffaireTtc: 42000,
-    remuneration: 20000,
-    fraisTtc: 5000,
-    fraisHt: 6000,
+    chiffreAffaireHt: 0,
+    chiffreAffaireTtc: 0,
+    remuneration: 0,
+    fraisHt: 0,
+    fraisTtc: 0,
     cfe: 500,
-    prevoyance:'B'
+    prevoyance:'B',
+    bindToCaHt: true,
+    bindToFraisHt: true
   };
   $scope.showDetails = 0;
   $scope.showFormHelp = 1;
@@ -26,6 +28,14 @@ angular.module('calculator').controller('classicChargesReportController', ['$sco
   // rafraichir les résultats
   $scope.refreshResults = () => {
     getResults();
+  };
+
+  $scope.bindToCaHt = () => {
+    $scope.form.chiffreAffaireTtc = $scope.form.chiffreAffaireHt + ($scope.form.chiffreAffaireHt * 0.20);
+  };
+
+  $scope.bindToFraisHt = () => {
+    $scope.form.fraisTtc = $scope.form.fraisHt + ($scope.form.fraisHt * 0.20);
   };
 
   getResults();
@@ -42,6 +52,14 @@ angular.module('calculator').controller('classicChargesReportController', ['$sco
   }
 
   function getResults() {
+
+    if ($scope.form.bindToCaHt) {
+      $scope.bindToCaHt();
+    }
+
+    if ($scope.form.bindToFraisHt) {
+      $scope.bindToFraisHt();
+    }
 
     let calculator = chargesCalculatorService($scope.form);
     $scope.calculator = calculator;
@@ -62,6 +80,8 @@ angular.module('calculator').controller('classicChargesReportController', ['$sco
     $scope.tvaCollectee = calculator.getTvaCollectee().montant;
     $scope.tvaDeductible = calculator.getTvaDeductible().montant;
     $scope.tva = calculator.getTva().montant;
+
+
 
   }
 
