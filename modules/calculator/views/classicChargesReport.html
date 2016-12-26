@@ -160,9 +160,9 @@
     <h3>{{calculator.getTotalAProvisionner().montant | currency}}</h3>
     <p>
     <ul class="text-left">
-      <li>{{(calculator.getTotalAProvisionner().montant * 100) / calculator.chiffreAffaireHt}} % du chiffre d'affaire HT</li>
-      <li>{{(calculator.getTotalAProvisionner().montant * 100) / calculator.chiffreAffaireTtc}} % du chiffre d'affaire TTC</li>
-      <li>{{(calculator.getTotalAProvisionner().montant * 100) / calculator.remuneration}} % de la rémunération</li>
+      <li>{{(calculator.getTotalAProvisionner().montant * 100) / calculator.chiffreAffaireHt | number : 2}} % du chiffre d'affaire HT</li>
+      <li>{{(calculator.getTotalAProvisionner().montant * 100) / calculator.chiffreAffaireTtc | number : 2}} % du chiffre d'affaire TTC</li>
+      <li>{{(calculator.getTotalAProvisionner().montant * 100) / calculator.remuneration | number : 2}} % de la rémunération</li>
     </ul>
     </p>
   </div>
