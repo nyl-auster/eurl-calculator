@@ -64409,28 +64409,28 @@
 	   */
 	  return function (params) {
 	
-	    var service = {};
+	    var self = {};
 	
 	    var chargesConfig = chargesConfig2016;
 	
-	    service.chiffreAffaireTtc = params.chiffreAffaireTtc;
-	    service.chiffreAffaireHt = params.chiffreAffaireHt;
-	    service.remuneration = params.remuneration;
-	    service.fraisTtc = params.fraisTtc;
-	    service.fraisHt = params.fraisHt;
-	    service.cfe = params.cfe;
-	    service.tva = params.tva;
-	    service.prevoyance = params.prevoyance;
+	    self.chiffreAffaireTtc = params.chiffreAffaireTtc;
+	    self.chiffreAffaireHt = params.chiffreAffaireHt;
+	    self.remuneration = params.remuneration;
+	    self.fraisTtc = params.fraisTtc;
+	    self.fraisHt = params.fraisHt;
+	    self.cfe = params.cfe;
+	    self.tva = params.tva;
+	    self.prevoyance = params.prevoyance;
 	
 	    /**
 	     * @FIXME à réecrire clean
 	     * @returns {*}
 	     */
-	    service.getPrevoyance = function () {
+	    self.getPrevoyance = function () {
 	
 	      var classeChoisie = null;
 	      chargesConfig2016.charges.prevoyance.classes.forEach(function (classe) {
-	        if (classe.classe == service.prevoyance) {
+	        if (classe.classe == self.prevoyance) {
 	          classeChoisie = classe;
 	        }
 	      });
@@ -64447,32 +64447,52 @@
 	    };
 	
 	    /**
+	     * La tva collectée pour le compte de l'état, c'est à dire la tva des ventes
+	     * @returns {number}
+	     */
+	    self.getTvaCollectee = function () {
+	      return {
+	        montant: self.chiffreAffaireTtc - self.chiffreAffaireHt
+	      };
+	    };
+	
+	    /**
+	     * La tva sur les achats, à déduire de la TVA "collectée" (celle des ventes)
+	     * @returns {number}
+	     */
+	    self.getTvaDeductible = function () {
+	      return {
+	        montant: self.fraisTtc - self.fraisHt
+	      };
+	    };
+	
+	    /**
 	     * Otenir la base de calcul pour l'impot sur les sociétés.
 	     * La base de calcul est le résultat fiscal (résultat comptable + charges non déductibles)
 	     * Le résultat comptable, ce sont les produits moins les charges
 	     * @returns {number}
 	     */
-	    service.getBaseCalculIs = function () {
-	      return service.chiffreAffaireHt - service.remuneration - service.fraisHt;
+	    self.getBaseCalculIs = function () {
+	      return self.chiffreAffaireHt - self.remuneration - self.fraisHt;
 	    };
 	
-	    service.getTva = function () {
+	    self.getTva = function () {
 	      return {
 	        label: 'TVA',
 	        organisme: 'Impots',
-	        montant: service.tva
+	        montant: self.getTvaCollectee().montant - self.getTvaDeductible().montant
 	      };
 	    };
 	
 	    /**
 	     * Pseudo charge
 	     */
-	    service.getCfe = function () {
+	    self.getCfe = function () {
 	      // pseudo calcul : on fait ça juste pour récupérer les meta-données déjà définies
 	      // dans la configuration des charges (l'objet charge avec son label, son commentaire etc ...)
 	      var charge = chargesTranchesCalculatorService.calculerTrancheExclusive(0, chargesConfig.charges.cfe);
 	      // on fixe le montant manuellement.
-	      charge.montant = service.cfe;
+	      charge.montant = self.cfe;
 	      return charge;
 	    };
 	
@@ -64480,10 +64500,10 @@
 	     * pseudo charge
 	     * @returns {{label: string, montant: (number|*)}}
 	     */
-	    service.getfraisTtc = function () {
+	    self.getfraisTtc = function () {
 	      return {
 	        label: 'fraisTtc',
-	        montant: service.fraisTtc
+	        montant: self.fraisTtc
 	      };
 	    };
 	
@@ -64494,13 +64514,13 @@
 	     * - retiré les achats
 	     * @returns {{label: string, montant: number}}
 	     */
-	    service.getBenefice = function () {
+	    self.getBenefice = function () {
 	
 	      // comme on compte la TVA dans ce que nous devons provisionner,
 	      // il faut l'ajouter ici pour avoir un bénéfice juste
 	      // @FIXME il faudrait compter le chiffre d'affaire TTC,
 	      // puis que la tva dûe + chiffreAffaireHT != CA TTC
-	      var montant = service.chiffreAffaireTtc - service.tva - service.getTotalAProvisionner().montant - service.remuneration - service.fraisTtc;
+	      var montant = self.chiffreAffaireTtc - self.tva - self.getTotalAProvisionner().montant - self.remuneration - self.fraisTtc;
 	
 	      return {
 	        label: "Bénéfice après provisions",
@@ -64508,17 +64528,17 @@
 	      };
 	    };
 	
-	    service.getCotisationsSocialesArray = function () {
-	      return [service.getAssuranceVieillesseBase(service.remuneration), service.getAssuranceVieillesseComplementaire(service.remuneration), service.getFormationProfessionnelle(service.remuneration), service.getAllocationsFamiliales(service.remuneration), service.getMaladiesMaternite(service.remuneration)];
+	    self.getCotisationsSocialesArray = function () {
+	      return [self.getAssuranceVieillesseBase(self.remuneration), self.getAssuranceVieillesseComplementaire(self.remuneration), self.getFormationProfessionnelle(self.remuneration), self.getAllocationsFamiliales(self.remuneration), self.getMaladiesMaternite(self.remuneration)];
 	    };
 	
 	    /**
 	     * Obtenir le montant total des cotisations sociales
 	     * @returns {number}
 	     */
-	    service.calculerTotalCotisationsSociales = function () {
+	    self.calculerTotalCotisationsSociales = function () {
 	      var total = 0;
-	      service.getCotisationsSocialesArray().forEach(function (item) {
+	      self.getCotisationsSocialesArray().forEach(function (item) {
 	        return total += item.montant;
 	      });
 	      return total;
@@ -64531,9 +64551,9 @@
 	     * à un moement donné.
 	     * @returns {*}
 	     */
-	    service.getTotalAProvisionner = function () {
-	      var totalCotisationsSociales = service.calculerTotalCotisationsSociales();
-	      var total = service.cfe + service.tva + totalCotisationsSociales + service.getCgsCrds().montant + service.getPrevoyance().montant + service.getImpotSurLesSocietes().montant;
+	    self.getTotalAProvisionner = function () {
+	      var totalCotisationsSociales = self.calculerTotalCotisationsSociales();
+	      var total = self.cfe + self.tva + totalCotisationsSociales + self.getCgsCrds().montant + self.getPrevoyance().montant + self.getImpotSurLesSocietes().montant;
 	      return {
 	        id: 'totalAProvisionner',
 	        label: 'Total à provisionner',
@@ -64541,31 +64561,31 @@
 	      };
 	    };
 	
-	    service.getTotalCotisationsSociales = function () {
+	    self.getTotalCotisationsSociales = function () {
 	      return {
 	        label: 'Cotisations sociales',
-	        montant: service.calculerTotalCotisationsSociales()
+	        montant: self.calculerTotalCotisationsSociales()
 	      };
 	    };
 	
 	    /**
 	     * Calcul des cotisations maladie et maternité - URSSAF
 	     */
-	    service.getAssuranceVieillesseComplementaire = function (baseCalcul) {
+	    self.getAssuranceVieillesseComplementaire = function (baseCalcul) {
 	      return chargesTranchesCalculatorService.calculerTrancheExclusive(baseCalcul, chargesConfig.charges.assuranceVieillesseComplementaire);
 	    };
 	
 	    /**
 	     * Calcul des cotisations pour la formation professionnelle
 	     */
-	    service.getFormationProfessionnelle = function (baseCalcul) {
+	    self.getFormationProfessionnelle = function (baseCalcul) {
 	      return chargesTranchesCalculatorService.calculerTrancheExclusive(baseCalcul, chargesConfig.charges.formationProfessionnelle);
 	    };
 	
 	    /**
 	     * Calcul des cotisations maladie et maternité - URSSAF
 	     */
-	    service.getAllocationsFamiliales = function (baseCalcul) {
+	    self.getAllocationsFamiliales = function (baseCalcul) {
 	      return chargesTranchesCalculatorService.calculerTrancheExclusive(baseCalcul, chargesConfig.charges.allocationsFamiliales);
 	    };
 	
@@ -64573,7 +64593,7 @@
 	     * Calcul des cotisations maladie et maternité - CIPAV
 	     * @FIXME calcul chelou, à vérifier
 	     */
-	    service.getAssuranceVieillesseBase = function (baseCalcul) {
+	    self.getAssuranceVieillesseBase = function (baseCalcul) {
 	      var assuranceVieillesseBase = angular.copy(chargesConfig.charges.assuranceVieillesseBase);
 	      if (baseCalcul > assuranceVieillesseBase.tranches[0].plafond) {
 	        delete assuranceVieillesseBase.tranches[0];
@@ -64585,26 +64605,26 @@
 	    /**
 	     * Calcul des cotisations maladie et maternité - URSSAF
 	     */
-	    service.getMaladiesMaternite = function (baseCalcul) {
+	    self.getMaladiesMaternite = function (baseCalcul) {
 	      return chargesTranchesCalculatorService.calculerTrancheExclusive(baseCalcul, chargesConfig.charges.maladiesMaternite);
 	    };
 	
 	    /**
 	     * Calcul de l'impot sur les bénéfices - Impots
 	     */
-	    service.getImpotSurLesSocietes = function () {
-	      return chargesTranchesCalculatorService.calculerTranchesCumulatives(service.getBaseCalculIs(), chargesConfig.charges.impotSurLesSocietes);
+	    self.getImpotSurLesSocietes = function () {
+	      return chargesTranchesCalculatorService.calculerTranchesCumulatives(self.getBaseCalculIs(), chargesConfig.charges.impotSurLesSocietes);
 	    };
 	
 	    /**
 	     * Calcul de l'impot sur les bénéfices - Impots
 	     */
-	    service.getCgsCrds = function () {
-	      var baseCalcul = service.remuneration + service.getTotalCotisationsSociales().montant;
-	      return chargesTranchesCalculatorService.calculerTranchesCumulatives(service.getBaseCalculIs(), chargesConfig.charges.cgsCrds);
+	    self.getCgsCrds = function () {
+	      var baseCalcul = self.remuneration + self.getTotalCotisationsSociales().montant;
+	      return chargesTranchesCalculatorService.calculerTranchesCumulatives(self.getBaseCalculIs(), chargesConfig.charges.cgsCrds);
 	    };
 	
-	    return service;
+	    return self;
 	  };
 	}]);
 
@@ -64703,6 +64723,9 @@
 	
 	    // on rafraichit le scope avec les données retournées par le calculateur
 	    $scope.charges = charges;
+	    $scope.tvaCollectee = calculator.getTvaCollectee().montant;
+	    $scope.tvaDeductible = calculator.getTvaDeductible().montant;
+	    $scope.tva = calculator.getTva().montant;
 	  }
 	}]);
 

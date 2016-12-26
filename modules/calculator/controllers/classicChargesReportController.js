@@ -60,6 +60,9 @@ angular.module('calculator').controller('classicChargesReportController', ['$sco
 
     // on rafraichit le scope avec les données retournées par le calculateur
     $scope.charges = charges;
+    $scope.tvaCollectee = calculator.getTvaCollectee().montant;
+    $scope.tvaDeductible = calculator.getTvaDeductible().montant;
+    $scope.tva = calculator.getTva().montant;
 
   }
 
