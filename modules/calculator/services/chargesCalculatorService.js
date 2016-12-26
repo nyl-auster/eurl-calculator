@@ -124,14 +124,11 @@ angular.module('calculator').service('chargesCalculatorService',['chargesConfig2
      */
     self.getBenefice = () => {
 
-      // comme on compte la TVA dans ce que nous devons provisionner,
-      // il faut l'ajouter ici pour avoir un bénéfice juste
-      // @FIXME il faudrait compter le chiffre d'affaire TTC,
-      // puis que la tva dûe + chiffreAffaireHT != CA TTC
-      let montant = self.chiffreAffaireTtc - self.tva
-        - self.getTotalAProvisionner().montant
+      const montant = self.chiffreAffaireTtc
+        - self.fraisTtc
         - self.remuneration
-        - self.fraisTtc;
+        - self.getTotalAProvisionner().montant;
+
 
       return {
         label: "Bénéfice après provisions",
@@ -154,7 +151,7 @@ angular.module('calculator').service('chargesCalculatorService',['chargesConfig2
      * @returns {number}
      */
     self.calculerTotalCotisationsSociales = () => {
-      var total = 0;
+      let total = 0;
       self.getCotisationsSocialesArray().forEach(item => total += item.montant);
       return total;
     };
@@ -167,10 +164,9 @@ angular.module('calculator').service('chargesCalculatorService',['chargesConfig2
      * @returns {*}
      */
     self.getTotalAProvisionner = () => {
-      let totalCotisationsSociales = self.calculerTotalCotisationsSociales();
-      let total = self.cfe
-        + self.tva
-        + totalCotisationsSociales
+      let total = self.getCfe().montant
+        + self.getTva().montant
+        + self.getTotalCotisationsSociales().montant
         + self.getCgsCrds().montant
         + self.getPrevoyance().montant
         + self.getImpotSurLesSocietes().montant;

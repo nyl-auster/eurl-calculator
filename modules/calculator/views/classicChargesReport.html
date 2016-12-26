@@ -4,9 +4,10 @@
 
     <!-- Chiffres d'affaires HT -->
     <div class="large-3 small-12 columns">
-      <label for="chiffre_affaire">Chiffre d'affaire HT</label>
+      <label for="chiffre_affaire_ht">Chiffre d'affaire HT</label>
       <input
               ng-change="refreshResults()"
+              id="chiffre_affaire_ht"
               ng-model="form.chiffreAffaireHt"
               ng-model-options="{ debounce: 300 }"
               type="number"
@@ -20,19 +21,22 @@
 
     <!-- Chiffre d'affaire TTC -->
     <div class="large-3 small-12 columns">
-      <label for="chiffre_affaire">Chiffre d'affaire TTC</label>
+      <label for="chiffre_affaire_ttc">Chiffre d'affaire TTC</label>
       <input
               ng-change="refreshResults()"
               ng-model="form.chiffreAffaireTtc"
               type="number"
+              id = "chiffre_affaire_ttc"
               class="form-control"
               placeholder="Chiffre d'affaire"
       >
       <div ng-show="showFormHelp" class="charges-form__field__descripton show-for-large ">
         Le total des ventes de la société en incluant la TVA.
+        <!--
         <a class="button secondary small" ng-click="form.chiffreAffaireTtc = form.chiffreAffaireHt + (form.chiffreAffaireHt * 0.20) && refreshResults()">
           Remplir avec 0.20% du CA HT
         </a>
+        -->
       </div>
     </div>
 
@@ -68,9 +72,11 @@
       >
       <div ng-show="showFormHelp"  class="charges-form__field__descripton show-for-large">
         Vos dépenses de sociétés <strong>hors taxe</strong> : expertise comptable, achats, fournisseurs etc ...
-        <a class="button secondary small" ng-click="form.fraisTtc = form.fraisHt + (form.FraisHt * 0.20)">
+        <!--
+        <a class="button secondary small" ng-click="updateFieldFrais()">
           Remplir avec 0.20% des frais HT
         </a>
+        -->
 
       </div>
     </div>

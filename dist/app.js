@@ -64516,11 +64516,7 @@
 	     */
 	    self.getBenefice = function () {
 	
-	      // comme on compte la TVA dans ce que nous devons provisionner,
-	      // il faut l'ajouter ici pour avoir un bénéfice juste
-	      // @FIXME il faudrait compter le chiffre d'affaire TTC,
-	      // puis que la tva dûe + chiffreAffaireHT != CA TTC
-	      var montant = self.chiffreAffaireTtc - self.tva - self.getTotalAProvisionner().montant - self.remuneration - self.fraisTtc;
+	      var montant = self.chiffreAffaireTtc - self.fraisTtc - self.remuneration - self.getTotalAProvisionner().montant;
 	
 	      return {
 	        label: "Bénéfice après provisions",
@@ -64552,8 +64548,7 @@
 	     * @returns {*}
 	     */
 	    self.getTotalAProvisionner = function () {
-	      var totalCotisationsSociales = self.calculerTotalCotisationsSociales();
-	      var total = self.cfe + self.tva + totalCotisationsSociales + self.getCgsCrds().montant + self.getPrevoyance().montant + self.getImpotSurLesSocietes().montant;
+	      var total = self.getCfe().montant + self.getTva().montant + self.getTotalCotisationsSociales().montant + self.getCgsCrds().montant + self.getPrevoyance().montant + self.getImpotSurLesSocietes().montant;
 	      return {
 	        id: 'totalAProvisionner',
 	        label: 'Total à provisionner',
@@ -64672,12 +64667,11 @@
 	  $scope.totalAProvisionner = 0;
 	  $scope.benefice = 0;
 	  $scope.form = {
-	    chiffreAffaireHt: 0,
-	    chiffreAffaireTtc: 0,
-	    remuneration: 0,
-	    tva: 0,
-	    fraisTtc: 0,
-	    fraisHt: 0,
+	    chiffreAffaireHt: 35000,
+	    chiffreAffaireTtc: 42000,
+	    remuneration: 20000,
+	    fraisTtc: 5000,
+	    fraisHt: 6000,
 	    cfe: 500,
 	    prevoyance: 'B'
 	  };
