@@ -15,8 +15,12 @@ require('./modules/core');
 require('./modules/site');
 require('./modules/calculator');
 
-// nos css
-require('./css/foundation.min.css');
+// foundation
+require('jquery');
+require('foundation-sites/dist/js/foundation.js');
+require('foundation-sites/dist/css/foundation-flex.css');
+
+// nos css custom
 require('./css/app.css');
 require('./css/app-mobile.css');
 

@@ -23,23 +23,13 @@
 
 <body ng-app="site">
 
-<div class="top-bar">
-  <div class="top-bar-left">
-    <ul class="dropdown menu" data-dropdown-menu>
-      <li class="menu-text"> TNS app - Simulateur de charges pour TNS en EURL</li>
-    </ul>
-  </div>
-  <div class="top-bar-right">
-    <ul class="menutext">
-      <ul class="dropdown menu" data-dropdown-menu>
-        <li><a ui-sref="classic">Simulateur</a></li>
-        <li><a ui-sref="apropos"> A Propos </a></li>
-        <li><a ui-sref="aide"> Comment ça marche ? </a></li>
-        <li><a ui-sref="contact">Contact & feedback</a></li>
-      </ul>
-
-    </ul>
-  </div>
+<div class="row">
+  <ul class="vertical medium-horizontal menu"">
+    <li ui-sref-active="active"><a  ui-sref="classic">Simulateur</a></li>
+    <li ui-sref-active="active"><a  ui-sref="apropos"> A Propos </a></li>
+    <li ui-sref-active="active"><a  ui-sref="aide"> Comment ça marche ? </a></li>
+    <li ui-sref-active="active"><a  ui-sref="contact">Contact & feedback</a></li>
+  </ul>
 </div>
 
 <header>
