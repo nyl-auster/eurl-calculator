@@ -146,7 +146,7 @@
 </form>
 
 <div style="padding-top:2rem" class="row">
-  <div class="small-6 medium-6 columns callout text-center">
+  <div class="small-12 medium-6 columns callout text-center">
     <h4>A provisionner :</h4>
     <h3>{{calculator.getTotalAProvisionner().montant | currency}}</h3>
     <p>
@@ -157,7 +157,7 @@
     </ul>
     </p>
   </div>
-  <div ng-class="{'alert':calculator.getBenefice().montant <= 0, 'success':calculator.getBenefice().montant > 0}" class="small-6 medium-6 columns callout text-center">
+  <div ng-class="{'alert':calculator.getBenefice().montant <= 0, 'success':calculator.getBenefice().montant > 0}" class="small-12 medium-6 columns callout text-center">
     <h4>Bénéfices après provisions </h4>
     <h3>{{calculator.getBenefice().montant | currency}}</h3>
   </div>
