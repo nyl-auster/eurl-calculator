@@ -13,7 +13,7 @@
               class="form-control"
               placeholder="Chiffre d'affaire"
       >
-      <div ng-show="showFormHelp" class="charges-form__field__descripton show-for-large">
+      <div ng-show="showFormHelp" class="charges-form__field__descripton">
         Votre chiffre d'affaire sans la TVA de vos ventes. C'est une base de calcul pour certaines des charges.
       </div>
     </div>
@@ -31,15 +31,10 @@
               ng-disabled="form.bindToCaHt"
       >
 
-      <div ng-show="showFormHelp" class="charges-form__field__descripton show-for-large ">
+      <div ng-show="showFormHelp" class="charges-form__field__descripton">
 
-        <input type="checkbox" ng-model="form.bindToCaHt" ng-change="bindToCaHt()"/>        <em>20% du CA HT</em> <br>
+        <input type="checkbox" ng-model="form.bindToCaHt" ng-change="bindToCaHt()"/>  <em>automatiquement à 20% du CA HT</em> <br>
         Le total des ventes de la société en incluant la TVA.
-        <!--
-        <a class="button secondary small" ng-click="form.chiffreAffaireTtc = form.chiffreAffaireHt + (form.chiffreAffaireHt * 0.20) && refreshResults()">
-          Remplir avec 0.20% du CA HT
-        </a>
-        -->
       </div>
     </div>
 
@@ -54,9 +49,8 @@
               class="form-control"
               placeholder="Frais HT"
       >
-      <div ng-show="showFormHelp"  class="charges-form__field__descripton show-for-large">
+      <div ng-show="showFormHelp" class="charges-form__field__descripton">
         Vos dépenses de sociétés <strong>hors taxe</strong> : expertise comtpable, achats, fournisseurs etc ...
-
       </div>
     </div>
 
@@ -72,23 +66,18 @@
               placeholder="Frais TTC"
               ng-disabled="form.bindToFraisHt"
       >
-      <div ng-show="showFormHelp"  class="charges-form__field__descripton show-for-large">
+      <div ng-show="showFormHelp"  class="charges-form__field__descripton">
 
-        <input type="checkbox" ng-model="form.bindToFraisHt" ng-change="bindToFraisHt()"/> <em> 20% des frais HT</em> <br>
-
-        Vos dépenses de sociétés avec la TVA : expertise comptable, achats, fournisseurs etc ...
-
-        <!--
-        <a class="button secondary small" ng-click="updateFieldFrais()">
-          Remplir avec 0.20% des frais HT
-        </a>
-        -->
-
+        <input type="checkbox" ng-model="form.bindToFraisHt" ng-change="bindToFraisHt()"/> <em>automatiquement 20% des frais HT</em> <br>
+        <div class="">
+          Vos dépenses de sociétés avec la TVA : expertise comptable, achats, fournisseurs etc ...
+        </div>
       </div>
     </div>
 
   </div>
 
+  <!--
   <div class="row">
     <div class="large-3 columns">
       TVA ventes : {{tvaCollectee | currency}}
@@ -100,6 +89,7 @@
       TVA dûe à l'état : {{tva | currency}}
     </div>
   </div>
+  -->
 
   <div class="row">
 
@@ -115,7 +105,7 @@
               id="cfe"
               placeholder="CFE"
       >
-      <div ng-show="showFormHelp"  class="charges-form__field__descripton show-for-large">
+      <div ng-show="showFormHelp"  class="charges-form__field__descripton">
         Vous devez verser une cotisation foncière des entreprises, dont le montant dépend de votre commune.
       </div>
     </div>
@@ -131,7 +121,7 @@
               type="number" class="form-control"
               placeholder="Rémunération"
       >
-      <div ng-show="showFormHelp"  class="charges-form__field__descripton show-for-large">
+      <div ng-show="showFormHelp"  class="charges-form__field__descripton">
         Votre rémunération en tant que gérant. Les cotisations sociales sont calculées sur cette base.
       </div>
     </div>
@@ -147,7 +137,8 @@
       >
         <option ng-value="tranche.classe" ng-selected="tranche.classe === form.prevoyance" ng-repeat="tranche in chargesConfig.charges.prevoyance.classes">{{tranche.label}}</option>
       </select>
-      <div ng-show="showFormHelp"  class="charges-form__field__descripton show-for-large">
+      <div ng-show="showFormHelp"  class="charges-form__field__descripton">
+        Assurance vie.
       </div>
     </div>
 

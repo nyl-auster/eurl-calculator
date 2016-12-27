@@ -86,7 +86,7 @@ angular.module('calculator').service('chargesCalculatorService',['chargesConfig2
 
     self.getTva = () => {
       return {
-        label: 'TVA',
+        label: 'TVA à reverser',
         organisme: 'Impots',
         montant: self.getTvaCollectee().montant - self.getTvaDeductible().montant
       }

@@ -64492,7 +64492,7 @@
 	
 	    self.getTva = function () {
 	      return {
-	        label: 'TVA',
+	        label: 'TVA à reverser',
 	        organisme: 'Impots',
 	        montant: self.getTvaCollectee().montant - self.getTvaDeductible().montant
 	      };
