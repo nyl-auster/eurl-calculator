@@ -2,9 +2,9 @@
 
     input[type=checkbox] {
         /* All browsers except webkit*/
-        transform: scale(2);
+        transform: scale(1.5);
         /* Webkit browsers*/
-        -webkit-transform: scale(2);
+        -webkit-transform: scale(1.5);
         margin-right: 0.5rem;
         marfin-left: 0.5rem;
     }
