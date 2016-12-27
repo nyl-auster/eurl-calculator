@@ -6,7 +6,7 @@
  * suppression de la couleur grise de foundation
  */
 table tbody tr:nth-child(even) {
-    background-color:inherit;
+    /*background-color:inherit;*/
 }
 
 table thead tr {

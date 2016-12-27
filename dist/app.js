@@ -61,6 +61,7 @@
 	// nos modules custom angular
 	__webpack_require__(164);
 	__webpack_require__(166);
+	__webpack_require__(169);
 
 /***/ },
 /* 1 */
@@ -63890,7 +63891,7 @@
 
 /***/ },
 /* 164 */
-/***/ function(module, exports, __webpack_require__) {
+/***/ function(module, exports) {
 
 	'use strict';
 	
@@ -63898,12 +63899,27 @@
 	 * Création du module eligibilityApp
 	 */
 	angular.module('core', ['ui.router', 'ngCookies', '720kb.tooltips']);
-	
-	// fichiers requis par notre module
-	__webpack_require__(165);
 
 /***/ },
-/* 165 */
+/* 165 */,
+/* 166 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+	
+	/**
+	 * Création du module eligibilityApp
+	 */
+	angular.module('site', ['core', 'calculator']);
+	
+	// fichiers requis par notre module
+	__webpack_require__(167);
+	__webpack_require__(168);
+	__webpack_require__(176);
+	__webpack_require__(177);
+
+/***/ },
+/* 167 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -63912,7 +63928,10 @@
 	 * Déclaration des status pour le module ui-router
 	 */
 	
-	angular.module('core').config(['$stateProvider', '$urlRouterProvider', '$locationProvider', '$urlMatcherFactoryProvider', function ($stateProvider, $urlRouterProvider, $locationProvider, $urlMatcherFactoryProvider) {
+	angular.module('site').config(['$stateProvider', '$urlRouterProvider', '$locationProvider', function ($stateProvider, $urlRouterProvider, $locationProvider) {
+	
+	  // en cas de route non trouvée, rediriger sur la page d'accueil
+	  $urlRouterProvider.otherwise('/');
 	
 	  // activer le mode html 5
 	  if (window.history && window.history.pushState) {
@@ -63921,14 +63940,38 @@
 	    });
 	  }
 	
-	  $urlMatcherFactoryProvider.strictMode(false);
+	  $stateProvider.state('contact', {
+	    url: '/contact',
+	    templateUrl: "/modules/site/views/contact.html",
+	    controller: 'contactController'
+	  });
 	
-	  // en cas de route non trouvée, rediriger sur la page d'accueil
-	  $urlRouterProvider.otherwise('/');
+	  $stateProvider.state('apropos', {
+	    url: '/apropos',
+	    templateUrl: "/modules/site/views/apropos.html",
+	    controller: 'aproposController'
+	  });
+	
+	  $stateProvider.state('aide', {
+	    url: '/aide',
+	    templateUrl: "/modules/site/views/aide.html",
+	    controller: 'aideController'
+	  });
 	}]);
 
 /***/ },
-/* 166 */
+/* 168 */
+/***/ function(module, exports) {
+
+	'use strict';
+	
+	/**
+	 * Page contact du site
+	 */
+	angular.module('site').controller('contactController', ['$scope', function ($scope) {}]);
+
+/***/ },
+/* 169 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -63939,15 +63982,15 @@
 	angular.module('calculator', ['core', 'chart.js']);
 	
 	// ajout des fichiers du module calculator
-	__webpack_require__(167);
-	__webpack_require__(168);
-	__webpack_require__(169);
 	__webpack_require__(170);
-	__webpack_require__(173);
+	__webpack_require__(171);
 	__webpack_require__(172);
+	__webpack_require__(173);
+	__webpack_require__(174);
+	__webpack_require__(175);
 
 /***/ },
-/* 167 */
+/* 170 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -64261,7 +64304,7 @@
 	});
 
 /***/ },
-/* 168 */
+/* 171 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -64400,7 +64443,7 @@
 	}]);
 
 /***/ },
-/* 169 */
+/* 172 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -64643,7 +64686,7 @@
 	}]);
 
 /***/ },
-/* 170 */
+/* 173 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -64653,115 +64696,21 @@
 	 */
 	angular.module('calculator').config(['$stateProvider', '$urlRouterProvider', "$locationProvider", '$urlMatcherFactoryProvider', function ($stateProvider, $urlRouterProvider, $locationProvider, $urlMatcherFactoryProvider) {
 	
-	  $urlMatcherFactoryProvider.strictMode(false);
-	
 	  $stateProvider.state('classic', {
 	    url: '/',
-	    templateUrl: "modules/calculator/views/classicChargesReport.html",
+	    templateUrl: "/modules/calculator/views/classicChargesReport.html",
 	    controller: 'classicChargesReportController'
 	  });
 	
 	  $stateProvider.state('story', {
 	    url: '/story',
-	    templateUrl: "modules/calculator/views/storyChargesReport.html",
+	    templateUrl: "/modules/calculator/views/storyChargesReport.html",
 	    controller: 'storyChargesReportController'
 	  });
 	}]);
 
 /***/ },
-/* 171 */,
-/* 172 */
-/***/ function(module, exports) {
-
-	'use strict';
-	
-	/**
-	 * @FIXME ajout CGS CRD, controle de toutes les charges
-	 *
-	 * Affichage du cout des charges d'une EURL à l'IS
-	 * Objet "charge" > objet "Resultat du calculator" > objet "ligne à afficher"
-	 */
-	angular.module('calculator').controller('classicChargesReportController', ['$scope', 'chargesCalculatorService', '$cookies', 'chargesConfig2016', function ($scope, chargesCalculatorService, $cookies, chargesConfig2016) {
-	
-	  $scope.totalAProvisionner = 0;
-	  $scope.benefice = 0;
-	  $scope.form = {
-	    chiffreAffaireHt: 0,
-	    chiffreAffaireTtc: 0,
-	    remuneration: 0,
-	    fraisHt: 0,
-	    fraisTtc: 0,
-	    cfe: 500,
-	    prevoyance: 'B',
-	    bindToCaHt: true,
-	    bindToFraisHt: true
-	  };
-	  $scope.showDetails = 0;
-	  $scope.showFormHelp = 1;
-	
-	  $scope.plafondMax = chargesConfig2016.plafondMax;
-	  $scope.chargesConfig = chargesConfig2016;
-	
-	  // rafraichir les résultats
-	  $scope.refreshResults = function () {
-	    getResults();
-	  };
-	
-	  $scope.bindToCaHt = function () {
-	    $scope.form.chiffreAffaireTtc = $scope.form.chiffreAffaireHt + $scope.form.chiffreAffaireHt * 0.20;
-	  };
-	
-	  $scope.bindToFraisHt = function () {
-	    $scope.form.fraisTtc = $scope.form.fraisHt + $scope.form.fraisHt * 0.20;
-	  };
-	
-	  getResults();
-	
-	  function getChargesTotal(lines) {
-	    var total = 0;
-	    lines.forEach(function (line) {
-	      total += line.montant;
-	    });
-	    return {
-	      label: "TOTAL A PROVISIONNER",
-	      montant: total
-	    };
-	  }
-	
-	  function getResults() {
-	
-	    if ($scope.form.bindToCaHt) {
-	      $scope.bindToCaHt();
-	    }
-	
-	    if ($scope.form.bindToFraisHt) {
-	      $scope.bindToFraisHt();
-	    }
-	
-	    var calculator = chargesCalculatorService($scope.form);
-	    $scope.calculator = calculator;
-	
-	    var charges = [];
-	    charges = charges.concat(calculator.getCotisationsSocialesArray());
-	    charges.push(calculator.getCgsCrds());
-	    charges.push(calculator.getPrevoyance());
-	    charges.push(calculator.getImpotSurLesSocietes());
-	    charges.push(calculator.getTva());
-	    charges.push(calculator.getCfe());
-	
-	    // ajout du total à provisionner
-	    charges.push(getChargesTotal(charges));
-	
-	    // on rafraichit le scope avec les données retournées par le calculateur
-	    $scope.charges = charges;
-	    $scope.tvaCollectee = calculator.getTvaCollectee().montant;
-	    $scope.tvaDeductible = calculator.getTvaDeductible().montant;
-	    $scope.tva = calculator.getTva().montant;
-	  }
-	}]);
-
-/***/ },
-/* 173 */
+/* 174 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -64884,6 +64833,119 @@
 	    $scope.pieCotisations.data = [calculator.remuneration, calculator.getTotalCotisationsSociales().montant];
 	  }
 	}]);
+
+/***/ },
+/* 175 */
+/***/ function(module, exports) {
+
+	'use strict';
+	
+	/**
+	 * @FIXME ajout CGS CRD, controle de toutes les charges
+	 *
+	 * Affichage du cout des charges d'une EURL à l'IS
+	 * Objet "charge" > objet "Resultat du calculator" > objet "ligne à afficher"
+	 */
+	angular.module('calculator').controller('classicChargesReportController', ['$scope', 'chargesCalculatorService', '$cookies', 'chargesConfig2016', function ($scope, chargesCalculatorService, $cookies, chargesConfig2016) {
+	
+	  $scope.totalAProvisionner = 0;
+	  $scope.benefice = 0;
+	  $scope.form = {
+	    chiffreAffaireHt: 0,
+	    chiffreAffaireTtc: 0,
+	    remuneration: 0,
+	    fraisHt: 0,
+	    fraisTtc: 0,
+	    cfe: 500,
+	    prevoyance: 'B',
+	    bindToCaHt: true,
+	    bindToFraisHt: true
+	  };
+	  $scope.showDetails = 0;
+	  $scope.showFormHelp = 1;
+	
+	  $scope.plafondMax = chargesConfig2016.plafondMax;
+	  $scope.chargesConfig = chargesConfig2016;
+	
+	  // rafraichir les résultats
+	  $scope.refreshResults = function () {
+	    getResults();
+	  };
+	
+	  $scope.bindToCaHt = function () {
+	    $scope.form.chiffreAffaireTtc = $scope.form.chiffreAffaireHt + $scope.form.chiffreAffaireHt * 0.20;
+	  };
+	
+	  $scope.bindToFraisHt = function () {
+	    $scope.form.fraisTtc = $scope.form.fraisHt + $scope.form.fraisHt * 0.20;
+	  };
+	
+	  getResults();
+	
+	  function getChargesTotal(lines) {
+	    var total = 0;
+	    lines.forEach(function (line) {
+	      total += line.montant;
+	    });
+	    return {
+	      label: "TOTAL A PROVISIONNER",
+	      montant: total
+	    };
+	  }
+	
+	  function getResults() {
+	
+	    if ($scope.form.bindToCaHt) {
+	      $scope.bindToCaHt();
+	    }
+	
+	    if ($scope.form.bindToFraisHt) {
+	      $scope.bindToFraisHt();
+	    }
+	
+	    var calculator = chargesCalculatorService($scope.form);
+	    $scope.calculator = calculator;
+	
+	    var charges = [];
+	    charges = charges.concat(calculator.getCotisationsSocialesArray());
+	    charges.push(calculator.getCgsCrds());
+	    charges.push(calculator.getPrevoyance());
+	    charges.push(calculator.getImpotSurLesSocietes());
+	    charges.push(calculator.getTva());
+	    charges.push(calculator.getCfe());
+	
+	    // ajout du total à provisionner
+	    charges.push(getChargesTotal(charges));
+	
+	    // on rafraichit le scope avec les données retournées par le calculateur
+	    $scope.charges = charges;
+	    $scope.tvaCollectee = calculator.getTvaCollectee().montant;
+	    $scope.tvaDeductible = calculator.getTvaDeductible().montant;
+	    $scope.tva = calculator.getTva().montant;
+	  }
+	}]);
+
+/***/ },
+/* 176 */
+/***/ function(module, exports) {
+
+	'use strict';
+	
+	/**
+	 * Page contact du site
+	 */
+	angular.module('site').controller('aproposController', ['$scope', function ($scope) {}]);
+
+/***/ },
+/* 177 */
+/***/ function(module, exports) {
+
+	'use strict';
+	
+	/**
+	 * Page contact du site
+	 */
+	angular.module('site').controller('aideController', ['$scope', function ($scope) {}]);
 
 /***/ }
 /******/ ]);

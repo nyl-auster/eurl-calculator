@@ -12,5 +12,8 @@ require('angular-tooltips');
 
 // nos modules custom angular
 require('./modules/core');
+require('./modules/site');
 require('./modules/calculator');
+
+
 
