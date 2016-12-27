@@ -81,7 +81,13 @@ angular.module('calculator').service('chargesCalculatorService',['chargesConfig2
      * @returns {number}
      */
     self.getBaseCalculIs = () => {
-      return self.chiffreAffaireHt - self.remuneration - self.fraisHt;
+      return self.chiffreAffaireHt
+        - self.remuneration
+        - self.fraisHt
+        - self.getTotalCotisationsSociales().montant
+        - self.getCfe().montant
+        - self.getCgsCrds().montant
+        - self.getPrevoyance().montant;
     };
 
     self.getTva = () => {
@@ -137,7 +143,7 @@ angular.module('calculator').service('chargesCalculatorService',['chargesConfig2
     };
 
     /**
-     * Toute les cotisations sociales à l'exception de la CGS-CRDS
+     * Toute les cotisations sociales à l'exception de la CGS-CRDS et de la prévoyance
      * @returns {[*,*,*,*,*]}
      */
     self.getCotisationsSocialesArray = () => {
