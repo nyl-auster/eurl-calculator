@@ -15,5 +15,10 @@ require('./modules/core');
 require('./modules/site');
 require('./modules/calculator');
 
+// nos css
+require('./css/foundation.min.css');
+require('./css/app.css');
+require('./css/app-mobile.css');
+
 
 

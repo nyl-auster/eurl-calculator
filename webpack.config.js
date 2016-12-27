@@ -1,5 +1,5 @@
 module.exports = {
-  entry: "./entry.js",
+  entry: "./index.js",
   output: {
     path: './dist',
     filename: 'app.js'
@@ -14,6 +14,14 @@ module.exports = {
         query: {
           presets: ['es2015']
         }
+      },
+      {
+        test: /\.css$/,
+        loaders: [
+          'style-loader',
+          'css-loader?importLoaders=1',
+          'postcss-loader'
+        ]
       }
     ]
   }
