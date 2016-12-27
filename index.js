@@ -18,7 +18,7 @@ require('./modules/calculator');
 // foundation
 require('jquery');
 require('foundation-sites/dist/js/foundation.js');
-require('foundation-sites/dist/css/foundation-flex.css');
+require('foundation-sites/dist/css/foundation.css');
 
 // nos css custom
 require('./css/app.css');
