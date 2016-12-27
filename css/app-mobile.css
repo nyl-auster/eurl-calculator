@@ -1,0 +1,11 @@
+@media screen and (max-width: 39.9375em) {
+
+    input[type=checkbox] {
+        /* All browsers except webkit*/
+        transform: scale(2);
+        /* Webkit browsers*/
+        -webkit-transform: scale(2);
+        margin-right: 0.5rem;
+        marfin-left: 0.5rem;
+    }
+}
