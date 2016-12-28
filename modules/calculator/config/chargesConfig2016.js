@@ -31,14 +31,24 @@
  * ]
  *
  * SOURCES pour le calcul des cotisations:
+ *
+ *   CIPAV
  *   http://www.cnavpl.fr/les-chiffres-cles/principaux-parametres-du-regime-de-base/principaux-parametres-variables-du-regime-de-base/
+ *
+ *   URSSAF
  *   https://www.urssaf.fr/portail/home/taux-et-baremes/taux-de-cotisations/les-professions-liberales/bases-de-calcul-et-taux-des-coti.html
+ *
+ *   RSI
  *   https://www.rsi.fr/cotisations/professions-liberales/presentation-des-cotisations.html
  *   http://www.leblogdudirigeant.com/tns-base-de-calcul-cotisations-25022015albddlau/
  *
- * Le RSI gère uniquement votre protection santé maladie-maternité.
- * la retraite et l'invalidité décès sont assurées par la CNAVPL ou la CNBF
- * les cotisations d'allocations familiales, les contributions sociales (CSG/CRDS) et les contributions à la formation professionnelle sont à verser à l'Urssaf
+ * Le RSI gère votre protection santé maladie-maternité.
+ *
+ * La retraite et l'invalidité décès sont assurées par la CNAVPL ou la CNBF
+ *
+ * Les autres cotisations sociales sont à verser à l'URSSAF :
+ * allocations familiales, les contributions sociales (CSG/CRDS),
+ * formation professionnelle
  */
 angular.module('calculator').service('chargesConfig2016', function(){
 
@@ -75,15 +85,24 @@ angular.module('calculator').service('chargesConfig2016', function(){
     organisme:'URSSAF',
     label:'Allocations familiales',
     commentaire:"Pour les revenus compris entre 42 478 € et 54 062 €, taux progressif : entre 2,15 % et 5,25 %. Faute de détails, le calculateur passe à 5.25 dès qu'on dépasse 42 478 €",
-    type_tranches: 'tranche_exclusive',
+    type_tranches: 'exclusive',
     tranches: [
       {
-        taux: 2.15,
-        plafond: 42478
+        label: "Tranche 1",
+        plafond:42478,
+        commentaire:"Le plafond de cette tranche est égal à 110% du PASS",
+        taux:2.15
       },
-      // en fait, le taux est progressif entre 2,15 % et 5,25 %
-      // pour les revenus compris entre 42 478 € et 54 062 €. On tire l'estimation vers le haut.
+      // la clef taux de cette tranche sera calculée dynamiquement
       {
+        label:'Tranche 2',
+        commentaire:"Taux progressif de 2.15% à 5.25% entre 110% du PASS et 140% du PASS",
+        taux_reduit:2.15,
+        taux_plein:5.25,
+        plafond: 54062
+      },
+      {
+        label:'Tranche 3',
         taux: 5.25,
         plafond: parametres.plafondMax
       }
@@ -141,13 +160,13 @@ angular.module('calculator').service('chargesConfig2016', function(){
   parametres.charges.assuranceVieillesseBase = {
     label: 'Retraite de base',
     organisme: 'CIPAV',
-    type_tranches: 'batarde',
+    type_tranches: 'custom',
     description: "Retraite de base CNAVPL",
     commentaire: "En cas de revenus non connus : 3 178 € (maximum de la tranche 1) ; 3 611 € (maximum de la tranche 2)",
     tranches: [
-      // sous 4441, montant forfaitaire
       {
         label:"Tranche 1",
+        commentaire:"Sous 4441, le montant est forfaitaire",
         plafond:  4441,
         montant_forfaitaire: 448
       },
@@ -182,20 +201,6 @@ angular.module('calculator').service('chargesConfig2016', function(){
         label: "tranche 2",
         plafond: parametres.plafondMax,
         taux: 33
-      }
-    ]
-  };
-
-  // TVA 20%
-  parametres.charges.tva20 = {
-    label: "TVA",
-    organisme: "Impots",
-    type_tranches: "exclusive",
-    tranches: [
-      {
-        label:"TVA 20%",
-        plafond:parametres.plafondMax,
-        taux:20
       }
     ]
   };

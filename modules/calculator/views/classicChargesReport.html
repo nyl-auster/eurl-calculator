@@ -219,7 +219,7 @@
         <td colspan="2"></td>
         <td> {{$index + 1}} </td>
         <td> {{tranche.baseCalcul | currency}} </td>
-        <td> {{tranche.taux}} <span ng-show="tranche.taux">%</span> </td>
+        <td> {{tranche.taux | number : 2}} <span ng-show="tranche.taux">%</span> </td>
         <td> {{tranche.montant_forfaitaire | currency}}</td>
         <td> {{tranche.plafond == plafondMax ? ' - ' : (tranche.plafond | currency) }} </td>
         <td> {{tranche.montant | currency}} </td>

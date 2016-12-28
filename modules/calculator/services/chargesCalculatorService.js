@@ -1,5 +1,20 @@
 /**
  * Calculs des charges d'une EURL en fonction des paramètres
+ *
+ * Les méthodes de ce services enrichit les objets de type charges
+ * tels que définit dans le fichier de configuration des charges, avec commes clefs obligatoires.
+ * La clef "tranchesActives" indique les tranches qui sont appliquées à notre base de calcul
+ *
+ * return {
+ *   label:"nom de la charge"
+ *   montant:7,
+ *   tranchesActives: [
+ *     {
+ *       label: "Tranche 1",
+ *       montant: 8,
+ *     }
+ *   ]
+ * }
  */
 angular.module('calculator').service('chargesCalculatorService',['chargesConfig2016', 'chargesTranchesCalculatorService', function(chargesConfig2016, chargesTranchesCalculatorService){
 
@@ -211,9 +226,18 @@ angular.module('calculator').service('chargesCalculatorService',['chargesConfig2
 
     /**
      * Calcul des cotisations maladie et maternité - URSSAF
+     * https://www.urssaf.fr/portail/home/independant/je-beneficie-dexonerations/modulation-de-la-cotisation-dall.html
      */
     self.getAllocationsFamiliales = (baseCalcul) => {
-      return chargesTranchesCalculatorService.calculerTrancheExclusive(baseCalcul, chargesConfig.charges.allocationsFamiliales);
+      const config = chargesConfig.charges.allocationsFamiliales;
+      // le taux de la tranche 2 est progressif
+      const tauxReduit = config.tranches[1].taux_reduit;
+      const tauxPlein = config.tranches[1].taux_plein;
+      const PASS = chargesConfig2016.plafond_securite_sociale;
+      const tauxProgressif = ((tauxPlein - tauxReduit) / (0.3 * PASS)) * (baseCalcul - 1.1 * PASS) + tauxReduit;
+      // voilà notre taux à appliquer pour les base de calcul comprises entre 110% et 140% du passe
+      config.tranches[1]['taux'] = tauxProgressif;
+      return chargesTranchesCalculatorService.calculerTrancheExclusive(baseCalcul, config);
     };
 
     /**
