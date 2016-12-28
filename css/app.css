@@ -14,11 +14,11 @@ header img {
  * suppression de la couleur grise de foundation
  */
 table tbody tr:nth-child(even) {
-    /*background-color:inherit;*/
+    background-color:inherit;
 }
 
 table thead tr {
-    background-color: lightsteelblue;
+    /*background-color: lightsteelblue;*/
 }
 
 /*=================================
@@ -57,18 +57,23 @@ table thead tr {
     font-size:1rem;
 }
 
+table.charges-results {
+    border-collapse: collapse;
+}
+
 .charges-results__result__details {
     font-style: italic;
+    color:#777;
     font-size:0.9em;
-    background-color: #f1f1f1;
 }
 
 .charges-results__total {
 
 }
 
-table tbody tr.charges-results__result__total {
-
+.charges-results__result__total td{
+  border-top:solid silver 1px;
+ /* border-bottom:solid black 1px;*/
 }
 
 .report-charts {

@@ -214,7 +214,7 @@
         <td> {{charge.montant | currency }} </td>
       </tr>
 
-      <tr class="show-for-large" ng-show="showDetails" class="charges-results__result__details" ng-repeat="tranche in charge.tranchesActives">
+      <tr ng-show="showDetails" class="charges-results__result__details show-for-large" ng-repeat="tranche in charge.tranchesActives">
 
         <td colspan="2"></td>
         <td> {{$index + 1}} </td>
