@@ -19,7 +19,7 @@
 
     <!-- Chiffres d'affaires HT -->
     <div class="large-3 small-12 columns">
-      <label for="chiffre_affaire_ht">Chiffre d'affaire HT</label>
+      <label for="chiffre_affaire_ht">Chiffre d'affaires HT</label>
       <input
               ng-change="refreshResults()"
               id="chiffre_affaire_ht"
@@ -29,13 +29,13 @@
               placeholder="Chiffre d'affaire"
       >
       <div ng-show="showFormHelp" class="charges-form__field__descripton">
-        Votre chiffre d'affaire sans la TVA de vos ventes. C'est une base de calcul pour certaines des charges.
+        Votre chiffre d'affaires sans la TVA de vos ventes. C'est une base de calcul pour certaines des charges.
       </div>
     </div>
 
     <!-- Chiffre d'affaire TTC -->
     <div class="large-3 small-12 columns">
-      <label for="chiffre_affaire_ttc">Chiffre d'affaire TTC</label>
+      <label for="chiffre_affaire_ttc">Chiffre d'affaires TTC</label>
       <input
               ng-change="refreshResults()"
               ng-model="form.chiffreAffaireTtc"
@@ -166,8 +166,8 @@
     <h3>{{calculator.getTotalAProvisionner().montant | currency}}</h3>
     <p>
     <ul class="text-left">
-      <li>{{(calculator.getTotalAProvisionner().montant * 100) / calculator.chiffreAffaireHt | number : 2}} % du chiffre d'affaire HT</li>
-      <li>{{(calculator.getTotalAProvisionner().montant * 100) / calculator.chiffreAffaireTtc | number : 2}} % du chiffre d'affaire TTC</li>
+      <li>{{(calculator.getTotalAProvisionner().montant * 100) / calculator.chiffreAffaireHt | number : 2}} % du chiffre d'affaires HT</li>
+      <li>{{(calculator.getTotalAProvisionner().montant * 100) / calculator.chiffreAffaireTtc | number : 2}} % du chiffre d'affaires TTC</li>
       <li>{{(calculator.getTotalAProvisionner().montant * 100) / calculator.remuneration | number : 2}} % de la rémunération</li>
     </ul>
     </p>
@@ -219,7 +219,7 @@
         <td colspan="2"></td>
         <td> {{$index + 1}} </td>
         <td> {{tranche.baseCalcul | currency}} </td>
-        <td> {{tranche.taux }} <span ng-show="tranche.taux">%</span> </td>
+        <td> {{tranche.taux | number : 2}} <span ng-show="tranche.taux">%</span> </td>
         <td> {{tranche.montant_forfaitaire | currency}}</td>
         <td> {{tranche.plafond == plafondMax ? ' - ' : (tranche.plafond | currency) }} </td>
         <td> {{tranche.montant | currency}} </td>
