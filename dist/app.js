@@ -64009,6 +64009,14 @@
 	/**
 	 * Création du module angular
 	 */
+	
+	// ajout d'une nouvelle méthode au prototype pour arrondir à
+	// 2 chiffres après la virgule
+	Number.prototype.toFixedNumber = function (x, base) {
+	  var pow = Math.pow(base || 10, x);
+	  return +(Math.round(this * pow) / pow);
+	};
+	
 	angular.module('calculator', ['core', 'chart.js']);
 	
 	// ajout des fichiers du module calculator
@@ -64375,7 +64383,7 @@
 	      }
 	
 	    // on ajoute ou met à jour le montant à notre objet tranche
-	    tranche.montant = montant;
+	    tranche.montant = montant.toFixedNumber(2);
 	    tranche.baseCalcul = baseCalcul;
 	    return montant;
 	  };
@@ -64408,7 +64416,7 @@
 	    });
 	
 	    if (trancheActive) {
-	      charge.montant = service.calculerMontantTranche(trancheActive, baseCalcul);
+	      charge.montant = service.calculerMontantTranche(trancheActive, baseCalcul).toFixedNumber(2);
 	      charge.tranchesActives = [trancheActive];
 	    }
 	
@@ -64448,7 +64456,7 @@
 	      if (baseCalcul >= tranche.plafond) {
 	        // ... on calcule le montant dû pour la tranche courante
 	        tranche.baseCalcul = tranche.intervalle;
-	        tranche.montant = service.calculerMontantTranche(tranche, tranche.baseCalcul);
+	        tranche.montant = service.calculerMontantTranche(tranche, tranche.baseCalcul).toFixedNumber(2);
 	        // on ajoute le montant de la cotisation de cette tranche au total.
 	        montant += tranche.montant;
 	        // ajout à la liste des tranches qui s'applique à notre cas.
@@ -64461,7 +64469,7 @@
 	          var depassement_plancher = baseCalcul - plancher;
 	          if (depassement_plancher > 0) {
 	            tranche.baseCalcul = depassement_plancher;
-	            montant += tranche.montant = service.calculerMontantTranche(tranche, tranche.baseCalcul);
+	            montant += tranche.montant = service.calculerMontantTranche(tranche, tranche.baseCalcul).toFixedNumber(2);
 	            // ajout à la liste des tranches qui s'appliquent à notre cas.
 	            tranches.push(tranche);
 	          }
@@ -64526,7 +64534,6 @@
 	    self.fraisTtc = params.fraisTtc;
 	    self.fraisHt = params.fraisHt;
 	    self.cfe = params.cfe;
-	    self.tva = params.tva;
 	    self.prevoyance = params.prevoyance;
 	
 	    /**

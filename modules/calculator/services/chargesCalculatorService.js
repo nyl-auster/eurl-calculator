@@ -41,7 +41,6 @@ angular.module('calculator').service('chargesCalculatorService',['chargesConfig2
     self.fraisTtc = params.fraisTtc;
     self.fraisHt = params.fraisHt;
     self.cfe = params.cfe;
-    self.tva = params.tva;
     self.prevoyance = params.prevoyance;
 
     /**

@@ -29,7 +29,7 @@ angular.module('calculator').service('chargesTranchesCalculatorService',['charge
     }
 
     // on ajoute ou met à jour le montant à notre objet tranche
-    tranche.montant = montant;
+    tranche.montant = montant.toFixedNumber(2);
     tranche.baseCalcul = baseCalcul;
     return montant;
   };
@@ -62,7 +62,7 @@ angular.module('calculator').service('chargesTranchesCalculatorService',['charge
     });
 
     if (trancheActive) {
-      charge.montant = service.calculerMontantTranche(trancheActive, baseCalcul);
+      charge.montant = service.calculerMontantTranche(trancheActive, baseCalcul).toFixedNumber(2);
       charge.tranchesActives= [trancheActive];
     }
 
@@ -103,7 +103,7 @@ angular.module('calculator').service('chargesTranchesCalculatorService',['charge
       {
         // ... on calcule le montant dû pour la tranche courante
         tranche.baseCalcul = tranche.intervalle;
-        tranche.montant = service.calculerMontantTranche(tranche, tranche.baseCalcul);
+        tranche.montant = service.calculerMontantTranche(tranche, tranche.baseCalcul).toFixedNumber(2);
         // on ajoute le montant de la cotisation de cette tranche au total.
         montant += tranche.montant;
         // ajout à la liste des tranches qui s'applique à notre cas.
@@ -118,7 +118,7 @@ angular.module('calculator').service('chargesTranchesCalculatorService',['charge
         if (depassement_plancher > 0)
         {
           tranche.baseCalcul = depassement_plancher;
-          montant += tranche.montant = service.calculerMontantTranche(tranche, tranche.baseCalcul);
+          montant += tranche.montant = service.calculerMontantTranche(tranche, tranche.baseCalcul).toFixedNumber(2);
           // ajout à la liste des tranches qui s'appliquent à notre cas.
           tranches.push(tranche);
         }
