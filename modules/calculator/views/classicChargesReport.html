@@ -92,20 +92,6 @@
 
   </div>
 
-  <!--
-  <div class="row">
-    <div class="large-3 columns">
-      TVA ventes : {{tvaCollectee | currency}}
-    </div>
-    <div class="large-3 columns">
-      TVA achats : {{tvaDeductible | currency}}
-    </div>
-    <div class="large-3 columns">
-      TVA dûe à l'état : {{tva | currency}}
-    </div>
-  </div>
-  -->
-
   <div class="row">
 
     <!-- CFE -->
@@ -160,23 +146,34 @@
   </div>
 </form>
 
-<div style="padding-top:2rem" class="row">
-  <div class="small-12 medium-6 columns callout text-center">
-    <h4>A provisionner :</h4>
-    <h3>{{calculator.getTotalAProvisionner().montant | currency}}</h3>
-    <p>
-    <ul class="text-left">
-      <li>{{(calculator.getTotalAProvisionner().montant * 100) / calculator.chiffreAffaireHt | number : 2}} % du chiffre d'affaires HT</li>
-      <li>{{(calculator.getTotalAProvisionner().montant * 100) / calculator.chiffreAffaireTtc | number : 2}} % du chiffre d'affaires TTC</li>
-      <li>{{(calculator.getTotalAProvisionner().montant * 100) / calculator.remuneration | number : 2}} % de la rémunération</li>
-    </ul>
-    </p>
-  </div>
-  <div ng-class="{'alert':calculator.getBenefice().montant <= 0, 'success':calculator.getBenefice().montant > 0}" class="small-12 medium-6 columns callout text-center">
-    <h4>Bénéfices après provisions </h4>
-    <h3>{{calculator.getBenefice().montant | currency}}</h3>
+<div class="row">
+  <div class="small-12 columns">
+    <table class="synthese">
+      <tr>
+        <td>
+
+          <h4 class="synthese__subtitle">A provisionner :</h4>
+          <h3>{{calculator.getTotalAProvisionner().montant | currency}}</h3>
+          <p>
+          <ul class="text-left">
+            <li>{{(calculator.getTotalAProvisionner().montant * 100) / calculator.chiffreAffaireHt | number : 2}} % du chiffre d'affaires HT</li>
+            <li>{{(calculator.getTotalAProvisionner().montant * 100) / calculator.chiffreAffaireTtc | number : 2}} % du chiffre d'affaires TTC</li>
+            <li>{{(calculator.getTotalAProvisionner().montant * 100) / calculator.remuneration | number : 2}} % de la rémunération</li>
+          </ul>
+          </p>
+
+        </td>
+        <td ng-class="{'synthese__benefice--alert':calculator.getBenefice().montant <= 0, 'synthese__benefice--success':calculator.getBenefice().montant > 0}">
+
+          <h4 class="synthese__subtitle">Bénéfices après provisions </h4>
+          <h3>{{calculator.getBenefice().montant | currency}}</h3>
+
+        </td>
+      </tr>
+    </table>
   </div>
 </div>
+
 
 <div class="row">
   <div class="small-12 columns">
