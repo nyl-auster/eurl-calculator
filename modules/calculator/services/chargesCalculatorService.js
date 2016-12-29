@@ -116,12 +116,11 @@ angular.module('calculator').service('chargesCalculatorService',['chargesConfig2
      * Pseudo charge
      */
     self.getCfe = () => {
-      // pseudo calcul : on fait ça juste pour récupérer les meta-données déjà définies
-      // dans la configuration des charges (l'objet charge avec son label, son commentaire etc ...)
-      const charge = chargesTranchesCalculatorService.calculerTrancheExclusive(0, chargesConfig.charges.cfe);
-      // on fixe le montant manuellement.
-      charge.montant = self.cfe;
-      return charge;
+      return {
+        label: "CFE",
+        commentaire: "Cotisation foncière des entreprises",
+        montant: self.cfe
+      };
     };
 
     /**
@@ -136,22 +135,19 @@ angular.module('calculator').service('chargesCalculatorService',['chargesConfig2
     };
 
     /**
-     * Les bénéfices de la société : ce qu'il reste après avoir
-     * - payé la rémunération
-     * - payé les cotisations sociales
-     * - retiré les achats
+     * Ce qu'il nous reste en banque à partir de notre TTC après avoir
+     * - payé tout ce que l'on devait
+     * - payé notre rémunération
+     * - payé nos frais TTC
      * @returns {{label: string, montant: number}}
      */
-    self.getBenefice = () => {
-
+    self.getResteEnBanque = () => {
       const montant = self.chiffreAffaireTtc
         - self.fraisTtc
         - self.remuneration
         - self.getTotalAProvisionner().montant;
-
-
       return {
-        label: "Bénéfice après provisions",
+        label: "Reste en Banque",
         montant: montant
       };
     };

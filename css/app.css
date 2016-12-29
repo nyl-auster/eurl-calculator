@@ -4,7 +4,7 @@ header {
 }
 
 header img {
-    max-width:300px;
+    max-width:190px;
 }
 
 /*=================================
@@ -36,23 +36,34 @@ table thead tr {
   =================================*/
 
 table.synthese {
-  border: solid silver 1px;
+    border: solid silver 1px;
+}
+
+.synthese ul li {
+    list-style-type: none;
 }
 
 .synthese tr {
     vertical-align: top;
 }
 
+.synthese h3 {
+    font-weight: bold;
+}
+
 .synthese td {
-width: 50%;
+    width: 50%;
+    text-align:center;
 }
 
 .synthese__benefice--alert {
     background: #ffae00;
+    transition: background 2s;
 }
 
 .synthese__benefice--success {
-    background: #3adb76;
+    background: lightgreen;
+    transition: background 2s;
 }
 
 .synthese__subtitle {

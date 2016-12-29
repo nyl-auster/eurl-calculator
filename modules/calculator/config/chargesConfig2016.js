@@ -37,6 +37,7 @@
  *
  *   URSSAF
  *   https://www.urssaf.fr/portail/home/taux-et-baremes/taux-de-cotisations/les-professions-liberales/bases-de-calcul-et-taux-des-coti.html
+ *   https://www.urssaf.fr/portail/home/independant/mes-cotisations/quelles-cotisations/les-contributions-csg-crds/taux-de-la-csg-crds.html
  *
  *   RSI
  *   https://www.rsi.fr/cotisations/professions-liberales/presentation-des-cotisations.html
@@ -62,7 +63,6 @@ angular.module('calculator').service('chargesConfig2016', function(){
 
   // paramètres généraux pour le calcul des montants et charges
   parametres.plafond_securite_sociale = 38616;
-  parametres.plafond_securite_sociale_precedent = 38040;
 
   // URSSAF : MALADIE-MATERNITE
   parametres.charges.maladiesMaternite = {
@@ -201,20 +201,6 @@ angular.module('calculator').service('chargesConfig2016', function(){
         label: "tranche 2",
         plafond: parametres.plafondMax,
         taux: 33
-      }
-    ]
-  };
-
-  // La taxe foncière dont le montant forfaitaire dépend de la ville
-  parametres.charges.cfe = {
-    label: "CFE",
-    organisme: "Impots locaux",
-    type_tranches: "exclusive",
-    tranches: [
-      {
-        label: "Tranche 1",
-        plafond:parametres.plafondMax,
-        montant_forfaitaire: null
       }
     ]
   };

@@ -1,10 +1,12 @@
 <div class="row">
 
   <div class="small-12 columns">
-    <h1>Simulateur de charges pour EURL
-      <span class="label warning" style="color:white">Version Alpha - 0.9.4</span>
+    <h1>Simulateur de trésorerie pour EURL
+      <span class="label warning" style="color:white">Version Alpha - 0.9.5</span>
     </h1>
+    <h4> Estimez ce qu'il vous restera une fois payé tout ce que vous devez</h4>
     <h5>pour gérant majoritaire - impôt sur les sociétés - profession libérale </h5>
+
     <div class="callout small warning">
       <p>Je ne suis pas expert comptable, les montants obtenus ne sont que des indicateurs pour enrichir votre réflexion en fonction des informations que j'ai pu réunir.</p>
     </div>
@@ -152,21 +154,27 @@
       <tr>
         <td>
 
-          <h4 class="synthese__subtitle">A provisionner :</h4>
+          <h4 class="synthese__subtitle">A provisionner</h4>
+          <h5>C'est ce que vous devez mettre de côté pour pouvoir payer ce que vous devez aux différents organismes</h5>
           <h3>{{calculator.getTotalAProvisionner().montant | currency}}</h3>
           <p>
-          <ul class="text-left">
+          <ul>
             <li>{{(calculator.getTotalAProvisionner().montant * 100) / calculator.chiffreAffaireHt | number : 2}} % du chiffre d'affaires HT</li>
-            <li>{{(calculator.getTotalAProvisionner().montant * 100) / calculator.chiffreAffaireTtc | number : 2}} % du chiffre d'affaires TTC</li>
             <li>{{(calculator.getTotalAProvisionner().montant * 100) / calculator.remuneration | number : 2}} % de la rémunération</li>
           </ul>
           </p>
 
         </td>
-        <td ng-class="{'synthese__benefice--alert':calculator.getBenefice().montant <= 0, 'synthese__benefice--success':calculator.getBenefice().montant > 0}">
+        <td ng-class="{'synthese__benefice--alert':calculator.getResteEnBanque().montant <= 0, 'synthese__benefice--success':calculator.getResteEnBanque().montant > 0}">
 
-          <h4 class="synthese__subtitle">Bénéfices après provisions </h4>
-          <h3>{{calculator.getBenefice().montant | currency}}</h3>
+          <h4 class="synthese__subtitle"> Restera en banque </h4>
+          <h5>Ce qu'il restera sur le compte de votre société une fois payé tout ce que vous devez</h5>
+          <h3>{{calculator.getResteEnBanque().montant | currency}}</h3>
+          <p>
+          <ul>
+            <li>{{(calculator.getResteEnBanque().montant * 100) / calculator.chiffreAffaireHt | number : 2}} % du chiffre d'affaires HT</li>
+          </ul>
+          </p>
 
         </td>
       </tr>

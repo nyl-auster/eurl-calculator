@@ -7,7 +7,6 @@
 angular.module('calculator').controller('classicChargesReportController', ['$scope', 'chargesCalculatorService', '$cookies','chargesConfig2016', function ($scope, chargesCalculatorService, $cookies, chargesConfig2016) {
 
   $scope.totalAProvisionner = 0;
-  $scope.benefice = 0;
   $scope.form = {
     chiffreAffaireHt: 0,
     chiffreAffaireTtc: 0,

@@ -25,7 +25,6 @@ describe('chargesConfig', function() {
 
   it("Les plafonds de la sécurité sociale doivent être définis avec les bonnes valeurs", function() {
     expect(chargesConfig.plafond_securite_sociale).toEqual(38616);
-    expect(chargesConfig.plafond_securite_sociale_precedent).toEqual(38040);
   });
 
 });
