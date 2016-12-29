@@ -155,8 +155,9 @@
         <td>
 
           <h4 class="synthese__subtitle">A provisionner</h4>
-          <h5>C'est ce que vous devez mettre de côté pour pouvoir payer ce que vous devez aux différents organismes</h5>
+          <h5>C'est ce que vous devez mettre de côté pour pouvoir payer ce que vous devez aux différents organismes *</h5>
           <h3>{{calculator.getTotalAProvisionner().montant | currency}}</h3>
+          <em>* Ce montant n'inclut pas votre rémunération</em>
           <p>
           <ul>
             <li>{{(calculator.getTotalAProvisionner().montant * 100) / calculator.chiffreAffaireHt | number : 2}} % du chiffre d'affaires HT</li>
@@ -168,7 +169,7 @@
         <td ng-class="{'synthese__benefice--alert':calculator.getResteEnBanque().montant <= 0, 'synthese__benefice--success':calculator.getResteEnBanque().montant > 0}">
 
           <h4 class="synthese__subtitle"> Restera en banque </h4>
-          <h5>Ce qu'il restera sur le compte de votre société une fois payé tout ce que vous devez</h5>
+          <h5>Ce qu'il restera sur le compte de votre société une fois payé tout ce que vous devez et versé votre rémunération</h5>
           <h3>{{calculator.getResteEnBanque().montant | currency}}</h3>
           <p>
           <ul>
